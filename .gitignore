@@ -166,3 +166,4 @@ Config/secrets
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.gitignore.io/api/vapor,xcode,swift,swiftpm,carthage,cocoapods,objective-c,swiftpackagemanager
+.DS_Store
