@@ -155,7 +155,7 @@ Temporary Items
 
 ## Xcode Patch
 #*.xcodeproj/*
-#*.xcodeproj/project.pbxproj
+*.xcodeproj/project.xcworkspace
 *.xcodeproj/xcshareddata/
 *.xcworkspace/contents.xcworkspacedata
 /*.gcno
