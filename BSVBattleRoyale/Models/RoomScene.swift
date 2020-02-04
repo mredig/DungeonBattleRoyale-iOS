@@ -10,14 +10,18 @@ import SpriteKit
 
 class RoomScene: SKScene {
 
+	let background = RoomSprite()
+
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
 		setupScene()
 	}
 
 	func setupScene() {
-		let background = RoomSprite()
 		addChild(background)
+		// FIXME: For testing
+		background.position = CGPoint(x: 128, y: 128)
+		addChild(SKSpriteNode(color: .red, size: CGSize(width: 5, height: 5)))
 	}
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

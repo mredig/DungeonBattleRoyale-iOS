@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapImage {
+class MapController {
 	let jsonData: Data
 	let rooms: RoomCollection
 	var scale: CGFloat
