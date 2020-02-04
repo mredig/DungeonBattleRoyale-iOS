@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB123EA265C00953583 /* LiveConnectionController.swift */; };
+		3366ECB423EA284900953583 /* WSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB323EA284900953583 /* WSPacket.swift */; };
 		DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE536E23E9F4610098464D /* AppDelegate.swift */; };
 		DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537023E9F4610098464D /* SceneDelegate.swift */; };
 		DCCE537323E9F4610098464D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537223E9F4610098464D /* ViewController.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
+		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
 		DCCE536B23E9F4610098464D /* BSVBattleRoyale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSVBattleRoyale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE536E23E9F4610098464D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCCE537023E9F4610098464D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */,
+				3366ECB323EA284900953583 /* WSPacket.swift */,
+				3366ECB123EA265C00953583 /* LiveConnectionController.swift */,
 			);
 			path = WebSockets;
 			sourceTree = "<group>";
@@ -326,8 +332,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCCE537323E9F4610098464D /* ViewController.swift in Sources */,
+				3366ECB423EA284900953583 /* WSPacket.swift in Sources */,
 				DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */,
 				DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */,
+				3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */,
 				DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
