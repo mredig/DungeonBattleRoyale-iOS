@@ -10,6 +10,11 @@
 		3366ECB023EA22EF00953583 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3366ECAF23EA22EF00953583 /* Login.storyboard */; };
 		3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB123EA265C00953583 /* LiveConnectionController.swift */; };
 		3366ECB423EA284900953583 /* WSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB323EA284900953583 /* WSPacket.swift */; };
+		3366ECB623EA2BB400953583 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB523EA2BB400953583 /* Player.swift */; };
+		3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB923EA2BDC00953583 /* RoomScene.swift */; };
+		3366ECBD23EA2CDC00953583 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBC23EA2CDC00953583 /* Room.swift */; };
+		33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBB23EA2C6700953583 /* RoomSprite.swift */; };
+		33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */; };
 		DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE536E23E9F4610098464D /* AppDelegate.swift */; };
 		DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537023E9F4610098464D /* SceneDelegate.swift */; };
 		DCCE537323E9F4610098464D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537223E9F4610098464D /* ViewController.swift */; };
@@ -48,6 +53,11 @@
 		3366ECAF23EA22EF00953583 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
 		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
+		3366ECB523EA2BB400953583 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = BSVBattleRoyale/Models/Player.swift; sourceTree = SOURCE_ROOT; };
+		3366ECB923EA2BDC00953583 /* RoomScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScene.swift; sourceTree = "<group>"; };
+		3366ECBB23EA2C6700953583 /* RoomSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSprite.swift; sourceTree = "<group>"; };
+		3366ECBC23EA2CDC00953583 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorSprite.swift; sourceTree = "<group>"; };
 		DCCE536B23E9F4610098464D /* BSVBattleRoyale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSVBattleRoyale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE536E23E9F4610098464D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCCE537023E9F4610098464D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -181,6 +191,9 @@
 		DCCE53B223E9FA3A0098464D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3366ECB523EA2BB400953583 /* Player.swift */,
+				3366ECBC23EA2CDC00953583 /* Room.swift */,
+				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,6 +201,8 @@
 		DCCE53B323E9FA600098464D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3366ECBB23EA2C6700953583 /* RoomSprite.swift */,
+				33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -337,10 +352,15 @@
 			files = (
 				DCCE537323E9F4610098464D /* ViewController.swift in Sources */,
 				3366ECB423EA284900953583 /* WSPacket.swift in Sources */,
+				3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */,
 				DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */,
 				DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */,
+				3366ECBD23EA2CDC00953583 /* Room.swift in Sources */,
+				33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */,
+				3366ECB623EA2BB400953583 /* Player.swift in Sources */,
 				3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */,
 				DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */,
+				33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

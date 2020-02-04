@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import SpriteKit
 
 class ViewController: UIViewController {
+
+	@IBOutlet weak var gameView: SKView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-    }
 
-
+		let scene = RoomScene(size: gameView.frame.size)
+		scene.scaleMode = .aspectFit
+		gameView.presentScene(scene)
+		gameView.showsFPS = true
+		gameView.showsPhysics = true
+	}
 }
-

@@ -24,6 +24,7 @@ struct WSPacket {
 			jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: [])
 		} catch {
 			NSLog("Error encoding new position: \(error)")
+			return nil
 		}
 		return String(data: jsonData, encoding: .utf8)
 	}
