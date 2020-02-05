@@ -22,6 +22,7 @@
 		33FB437D23EA35C800D1DDC8 /* CGPoint+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */; };
 		33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437E23EA35D000D1DDC8 /* MapController.swift */; };
 		33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB438023EA362100D1DDC8 /* RoomCollection.swift */; };
+		DC07B4AD23EB186000A4755D /* SignInWithAppleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC07B4AC23EB186000A4755D /* SignInWithAppleViewController.swift */; };
 		DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE536E23E9F4610098464D /* AppDelegate.swift */; };
 		DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537023E9F4610098464D /* SceneDelegate.swift */; };
 		DCCE537323E9F4610098464D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537223E9F4610098464D /* ViewController.swift */; };
@@ -72,6 +73,7 @@
 		33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Hashable.swift"; sourceTree = "<group>"; };
 		33FB437E23EA35D000D1DDC8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		33FB438023EA362100D1DDC8 /* RoomCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomCollection.swift; sourceTree = "<group>"; };
+		DC07B4AC23EB186000A4755D /* SignInWithAppleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleViewController.swift; sourceTree = "<group>"; };
 		DCCE536B23E9F4610098464D /* BSVBattleRoyale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSVBattleRoyale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE536E23E9F4610098464D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCCE537023E9F4610098464D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +140,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		DC07B4AB23EB17F500A4755D /* SignIn With Apple Scene */ = {
+			isa = PBXGroup;
+			children = (
+				3366ECAF23EA22EF00953583 /* Login.storyboard */,
+				DC07B4AC23EB186000A4755D /* SignInWithAppleViewController.swift */,
+			);
+			path = "SignIn With Apple Scene";
+			sourceTree = "<group>";
+		};
 		DCCE536223E9F4610098464D = {
 			isa = PBXGroup;
 			children = (
@@ -171,7 +182,7 @@
 				33FB437723EA355500D1DDC8 /* rooms10.json */,
 				DCCE537923E9F4630098464D /* LaunchScreen.storyboard */,
 				DCCE537423E9F4610098464D /* Main.storyboard */,
-				3366ECAF23EA22EF00953583 /* Login.storyboard */,
+				DC07B4AB23EB17F500A4755D /* SignIn With Apple Scene */,
 				33D2806023EA44C400DE0E4C /* Atlases */,
 				DCCE537023E9F4610098464D /* SceneDelegate.swift */,
 				DCCE537C23E9F4630098464D /* Info.plist */,
@@ -400,6 +411,7 @@
 				DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */,
 				3366ECBD23EA2CDC00953583 /* Room.swift in Sources */,
 				33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */,
+				DC07B4AD23EB186000A4755D /* SignInWithAppleViewController.swift in Sources */,
 				3366ECB623EA2BB400953583 /* Player.swift in Sources */,
 				3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */,
 				DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */,
@@ -577,8 +589,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				INFOPLIST_FILE = BSVBattleRoyale/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -587,7 +600,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyale;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "CS25BW BSVBattleRoyale - aka LambdaMUD";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -597,8 +610,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				INFOPLIST_FILE = BSVBattleRoyale/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -607,7 +621,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyale;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "CS25BW BSVBattleRoyale aka LambdaMUD";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

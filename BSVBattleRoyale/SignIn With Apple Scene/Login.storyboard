@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Sign In With Apple View Controller-->
         <scene sceneID="fng-uD-0yU">
             <objects>
-                <viewController id="HqL-B6-ywn" sceneMemberID="viewController">
+                <viewController id="HqL-B6-ywn" customClass="SignInWithAppleViewController" customModule="BSVBattleRoyale" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n1H-KT-EoJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

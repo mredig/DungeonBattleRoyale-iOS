@@ -40,7 +40,7 @@
                     </view>
                     <connections>
                         <outlet property="gameView" destination="hdR-J4-3VW" id="aLG-Ix-uQp"/>
-                        <segue destination="ofB-zD-XsO" kind="show" id="C3u-Q1-9M4"/>
+                        <segue destination="ofB-zD-XsO" kind="presentation" identifier="ModalSegueToLogin" id="C3u-Q1-9M4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
