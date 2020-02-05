@@ -14,6 +14,8 @@ class RoomScene: SKScene {
 
 	var currentPlayer: Player?
 
+	var liveController: LiveConnectionController?
+
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
 		setupScene()
@@ -35,6 +37,11 @@ class RoomScene: SKScene {
 		physicsWorld.contactDelegate = self
 	}
 
+	func loadRoom(room: Room?, playerPosition: CGPoint) {
+		background.room = room
+		currentPlayer?.position = playerPosition
+	}
+
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesEnded(touches, with: event)
 		for touch in touches {
@@ -48,6 +55,8 @@ class RoomScene: SKScene {
 		super.update(currentTime)
 
 		// send player position
+		guard let player = currentPlayer else { return }
+		liveController?.updatePlayerPosition(player.position)
 	}
 }
 
