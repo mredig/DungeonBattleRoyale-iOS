@@ -17,7 +17,7 @@ enum Avatar {
 	case yellowMonster
 }
 
-enum AnimationTitle: String {
+enum AnimationTitle: String, CaseIterable {
 	case idle = "Idle"
 	case attack = "Attack"
 	case die = "Die"
@@ -36,14 +36,35 @@ class Player: SKNode {
 	let playerSprite: SKSpriteNode
 	let avatar: Avatar
 
+	let animationPriority: Stack<AnimationTitle> = {
+		let stack = Stack<AnimationTitle>()
+		stack.push(.walk)
+		return stack
+	}()
+
 	init(avatar: Avatar) {
 		self.avatar = avatar
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
 		playerSprite = SKSpriteNode(texture: idleAnimation.first)
-		playerSprite.run(Player.animationAction(with: idleAnimation))
 
 		super.init()
 		addChild(playerSprite)
+
+		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
+
+		// crappy animation priority system - probably scrap this
+		let animationPriorityRunner = SKAction.customAction(withDuration: 1/15) { [weak self] node, elapsed in
+			guard let self = self else { return }
+			guard let currentAnimationPriority = self.animationPriority.peek() else { return }
+			if node.action(forKey: "animation\(currentAnimationPriority.rawValue)") == nil {
+				for animation in AnimationTitle.allCases {
+					node.removeAction(forKey: "animation\(animation.rawValue)")
+				}
+				node.run(Player.animationAction(for: avatar, animationTitle: currentAnimationPriority), withKey: "animation\(currentAnimationPriority.rawValue)")
+			}
+		}
+		let forever = SKAction.repeatForever(animationPriorityRunner)
+		playerSprite.run(forever, withKey: "animationPriority")
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -68,11 +89,15 @@ class Player: SKNode {
 			time = distance / -duration
 		}
 		let moveAction = SKAction.move(to: location, duration: Double(time))
-		run(moveAction, withKey: "move")
+
+		run(moveAction, withKey: Player.moveKey)
 	}
 }
 
 extension Player {
+	private static let animationKey = "animation"
+	private static let moveKey = "move"
+
 	static let character1Atlas = SKTextureAtlas(named: "YellowMonster")
 
 	static func animationTextures(for avatar: Avatar, animationTitle: AnimationTitle) -> [SKTexture] {

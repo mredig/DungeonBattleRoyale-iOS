@@ -30,6 +30,8 @@ class RoomScene: SKScene {
 		let playerCamera = SKCameraNode()
 		currentPlayer?.addChild(playerCamera)
 		camera = playerCamera
+
+		physicsWorld.gravity = CGVector.zero
 	}
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

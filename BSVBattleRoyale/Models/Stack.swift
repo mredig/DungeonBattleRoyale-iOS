@@ -20,7 +20,7 @@ class Stack<T> {
 		storage.addToHead(value: item)
 	}
 
-	func pop() -> T? {
+	@discardableResult func pop() -> T? {
 		storage.removeFromHead()
 	}
 
