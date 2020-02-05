@@ -18,18 +18,56 @@
                             <skView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdR-J4-3VW">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                             </skView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bB5-Jp-Yw5">
+                                <rect key="frame" x="354" y="10" width="30" height="30"/>
+                                <state key="normal" title="Map"/>
+                                <connections>
+                                    <action selector="mapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dnY-ij-M1K"/>
+                                </connections>
+                            </button>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E8G-Au-edL">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r9A-6E-UFe">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.30000001192092896" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3pp-q0-uRX">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="r9A-6E-UFe" firstAttribute="leading" secondItem="E8G-Au-edL" secondAttribute="leading" id="D8a-Dt-ZlT"/>
+                                    <constraint firstAttribute="trailing" secondItem="r9A-6E-UFe" secondAttribute="trailing" id="JkN-XK-zc7"/>
+                                    <constraint firstItem="3pp-q0-uRX" firstAttribute="leading" secondItem="E8G-Au-edL" secondAttribute="leading" id="Sdf-RC-bcL"/>
+                                    <constraint firstAttribute="bottom" secondItem="3pp-q0-uRX" secondAttribute="bottom" id="Wjq-fj-FqW"/>
+                                    <constraint firstItem="r9A-6E-UFe" firstAttribute="top" secondItem="E8G-Au-edL" secondAttribute="top" id="cgz-fg-YLK"/>
+                                    <constraint firstItem="3pp-q0-uRX" firstAttribute="top" secondItem="E8G-Au-edL" secondAttribute="top" id="kTL-i5-8wo"/>
+                                    <constraint firstAttribute="trailing" secondItem="3pp-q0-uRX" secondAttribute="trailing" id="lsD-NE-XM0"/>
+                                    <constraint firstAttribute="bottom" secondItem="r9A-6E-UFe" secondAttribute="bottom" id="uYT-Yv-Qaj"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="E8G-Au-edL" secondAttribute="trailing" id="3WB-hK-vKY"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="A0r-1F-rEZ"/>
+                            <constraint firstItem="E8G-Au-edL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="KBJ-VQ-EYz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bB5-Jp-Yw5" secondAttribute="trailing" constant="30" id="Qjq-mg-GYA"/>
+                            <constraint firstAttribute="bottom" secondItem="E8G-Au-edL" secondAttribute="bottom" id="X6f-Wq-eau"/>
                             <constraint firstAttribute="trailing" secondItem="hdR-J4-3VW" secondAttribute="trailing" id="ZJr-pE-p97"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.462054" id="l7w-26-2iU"/>
+                            <constraint firstItem="E8G-Au-edL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="m0K-Qn-VqB"/>
+                            <constraint firstItem="bB5-Jp-Yw5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="10" id="nkz-wJ-YJB"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pZB-BX-pWz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="currentRoomMapImage" destination="3pp-q0-uRX" id="jgy-4Z-qz3"/>
                         <outlet property="gameView" destination="hdR-J4-3VW" id="aLG-Ix-uQp"/>
+                        <outlet property="mapGroup" destination="E8G-Au-edL" id="nKX-6N-iOq"/>
+                        <outlet property="mapImage" destination="r9A-6E-UFe" id="qbZ-GB-I6w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
