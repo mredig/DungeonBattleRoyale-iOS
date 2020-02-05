@@ -12,7 +12,12 @@ class MapController {
 	let rooms: RoomCollection
 	var scale: CGFloat
 
-	var currentRoom: Room?
+	var currentRoom: Room? {
+		didSet {
+			// FIXME: remove if no more problems with not finding room on server
+//			print(currentRoom)
+		}
+	}
 
 	private lazy var ranges: (ClosedRange<CGFloat>, ClosedRange<CGFloat>) = {
 		// sort x and y values
