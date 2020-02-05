@@ -35,7 +35,9 @@ class RoomScene: SKScene {
 		super.touchesBegan(touches, with: event)
 		for touch in touches {
 			let location = touch.location(in: self)
-			print("touched at \(location)")
+
+			let moveAction = SKAction.move(to: location, duration: 2)
+			currentPlayer?.run(moveAction, withKey: "move")
 		}
 	}
 
