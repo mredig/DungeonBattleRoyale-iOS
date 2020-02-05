@@ -51,6 +51,8 @@ class Player: SKNode {
 		addChild(playerSprite)
 
 		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
+		physicsBody?.categoryBitMask = playerBitmask
+		physicsBody?.contactTestBitMask = playerBitmask | wallBitmask | doorBitmask
 
 		// crappy animation priority system - probably scrap this
 		let animationPriorityRunner = SKAction.customAction(withDuration: 1/15) { [weak self] node, elapsed in
@@ -91,6 +93,10 @@ class Player: SKNode {
 		let moveAction = SKAction.move(to: location, duration: Double(time))
 
 		run(moveAction, withKey: Player.moveKey)
+	}
+
+	func stopMove() {
+		removeAction(forKey: Player.moveKey)
 	}
 }
 

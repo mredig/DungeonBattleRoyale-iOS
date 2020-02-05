@@ -24,6 +24,10 @@ class RoomSprite: SKNode {
 	let roomDimensions: CGFloat = 740
 	var halfRoomDimensions: CGFloat { roomDimensions / 2 }
 	var roomSize: CGSize { CGSize(width: roomDimensions, height: roomDimensions) }
+	private let doorWidth: CGFloat = 90
+	private var hDoorWidth: CGFloat { doorWidth / 2 }
+	private let doorHeight: CGFloat = 128
+	private var hDoorHeight: CGFloat { doorHeight / 2 }
 
 	override init() {
 		background = SKSpriteNode(imageNamed: "background")
@@ -32,6 +36,32 @@ class RoomSprite: SKNode {
 		background.position = CGPoint(x: -127.7, y: -127.7)
 		super.init()
 		addChild(background)
+
+		let chainPath = CGMutablePath()
+		chainPath.move(to: .zero)
+		chainPath.addLine(to: CGPoint(x: 0, y: halfRoomDimensions - hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: -doorHeight, y: halfRoomDimensions - hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: -doorHeight, y: halfRoomDimensions + hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: 0, y: halfRoomDimensions + hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: 0, y: roomDimensions))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions - hDoorWidth, y: roomDimensions))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions - hDoorWidth, y: roomDimensions + doorHeight))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions + hDoorWidth, y: roomDimensions + doorHeight))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions + hDoorWidth, y: roomDimensions))
+		chainPath.addLine(to: CGPoint(x: roomDimensions, y: roomDimensions))
+		chainPath.addLine(to: CGPoint(x: roomDimensions, y: halfRoomDimensions + hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: roomDimensions + doorHeight, y: halfRoomDimensions + hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: roomDimensions + doorHeight, y: halfRoomDimensions - hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: roomDimensions, y: halfRoomDimensions - hDoorWidth))
+		chainPath.addLine(to: CGPoint(x: roomDimensions, y: 0))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions + hDoorWidth, y: 0))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions + hDoorWidth, y: -doorHeight))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions - hDoorWidth, y: -doorHeight))
+		chainPath.addLine(to: CGPoint(x: halfRoomDimensions - hDoorWidth, y: 0))
+
+		physicsBody = SKPhysicsBody(edgeLoopFrom: chainPath)
+		physicsBody?.categoryBitMask = wallBitmask
+		physicsBody?.contactTestBitMask = playerBitmask | wallBitmask
 	}
 
 	required init?(coder aDecoder: NSCoder) {
