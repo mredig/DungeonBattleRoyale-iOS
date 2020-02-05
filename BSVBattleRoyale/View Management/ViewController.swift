@@ -15,6 +15,8 @@ class ViewController: UIViewController {
 
 	var mapController: MapController?
 
+	var liveConntroller: LiveConnectionController?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -27,7 +29,10 @@ class ViewController: UIViewController {
 
 
 		// FIXME: For testing
-		guard let url = Bundle.main.url(forResource: "rooms10", withExtension: "json") else { return }
+		guard let url = backendBaseURL?
+			.appendingPathComponent("api")
+			.appendingPathComponent("worldmap") else { return }
+
 
 		do {
 			let data = try Data(contentsOf: url)
@@ -37,6 +42,9 @@ class ViewController: UIViewController {
 			return
 		}
 
-		scene.background.room = mapController?.currentRoom
+		liveConntroller = LiveConnectionController(playerID: "71777254-4c12-4d36-adc2-858dda19ac98")
+
+		scene.loadRoom(room: mapController?.currentRoom, playerPosition: CGPoint(x: 370, y: 20))
+		scene.liveController = liveConntroller
 	}
 }

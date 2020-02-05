@@ -13,16 +13,25 @@ class LiveConnectionController {
 	var webSocketConnection: WebSocketConnection
 
 	init?(playerID: String) {
-		guard let url = URL(string: "ws://localhost:8000/ws/rooms/\(playerID)") else { return nil }
+		guard let url = backendWSURL?
+			.appendingPathComponent("ws")
+			.appendingPathComponent("rooms")
+			.appendingPathComponent(playerID) else { return nil }
 
 		webSocketConnection = WebSocketTaskConnection(url: url)
 		webSocketConnection.delegate = self
 		webSocketConnection.connect()
 	}
 
+
+	private var lastSend = TimeInterval(0)
+	let sendDelta: TimeInterval = 1/15
 	func updatePlayerPosition(_ position: CGPoint) {
-		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y]]).json else { return }
+		let currentTime = CFAbsoluteTimeGetCurrent()
+		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y]]).json,
+		currentTime > lastSend + sendDelta else { return }
 		webSocketConnection.send(text: packet)
+		lastSend = currentTime
 	}
 }
 

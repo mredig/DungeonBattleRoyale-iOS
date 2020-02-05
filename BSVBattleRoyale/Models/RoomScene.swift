@@ -14,6 +14,8 @@ class RoomScene: SKScene {
 
 	var currentPlayer: Player?
 
+	var liveController: LiveConnectionController?
+
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
 		setupScene()
@@ -30,18 +32,44 @@ class RoomScene: SKScene {
 		let playerCamera = SKCameraNode()
 		currentPlayer?.addChild(playerCamera)
 		camera = playerCamera
+
+		physicsWorld.gravity = CGVector.zero
+		physicsWorld.contactDelegate = self
 	}
 
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesBegan(touches, with: event)
+	func loadRoom(room: Room?, playerPosition: CGPoint) {
+		background.room = room
+		currentPlayer?.position = playerPosition
+	}
+
+	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesEnded(touches, with: event)
 		for touch in touches {
 			let location = touch.location(in: self)
 
-			currentPlayer?.move(to: location, duration: -300)
+			currentPlayer?.move(to: location, duration: -250)
 		}
 	}
 
 	override func update(_ currentTime: TimeInterval) {
 		super.update(currentTime)
+
+		// send player position
+		guard let player = currentPlayer else { return }
+		liveController?.updatePlayerPosition(player.position)
+	}
+}
+
+extension RoomScene: SKPhysicsContactDelegate {
+
+	func didBegin(_ contact: SKPhysicsContact) {
+		let bodies = Set([contact.bodyB, contact.bodyA])
+		let nodes = Set(bodies.compactMap { $0.node })
+
+		if let currentPlayer = currentPlayer {
+			if nodes.contains(currentPlayer) && nodes.contains(background) {
+				currentPlayer.stopMove()
+			}
+		}
 	}
 }
