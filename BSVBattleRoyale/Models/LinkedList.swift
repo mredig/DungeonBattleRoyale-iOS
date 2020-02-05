@@ -9,10 +9,15 @@
 import Foundation
 
 class LinkedList<T> {
+	@propertyWrapper
 	class Node<T> {
-		let value: T
+		private let value: T
 		var next: Node<T>?
 		var previous: Node<T>?
+
+		var wrappedValue: T {
+			get { return value }
+		}
 
 		init(value: T, next: Node?, previous: Node?) {
 			self.value = value
@@ -54,7 +59,7 @@ class LinkedList<T> {
 	}
 
 	func removeFromHead() -> T? {
-		let value = head?.value
+		let value = head?.wrappedValue
 		if head === tail {
 			head = nil
 			tail = nil
@@ -64,7 +69,7 @@ class LinkedList<T> {
 	}
 
 	func removeFromTail() -> T? {
-		let value = tail?.value
+		let value = tail?.wrappedValue
 		if head === tail {
 			head = nil
 			tail = nil

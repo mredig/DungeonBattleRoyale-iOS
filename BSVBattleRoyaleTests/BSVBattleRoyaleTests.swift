@@ -21,40 +21,40 @@ class BSVBattleRoyaleTests: XCTestCase {
 
 	func testLinkedListAddToHead() {
 		let list = LinkedList<Int>()
-		XCTAssertEqual(list.head?.value, nil)
-		XCTAssertEqual(list.tail?.value, nil)
+		XCTAssertEqual(list.head?.wrappedValue, nil)
+		XCTAssertEqual(list.tail?.wrappedValue, nil)
 
 		list.addToHead(value: 1)
-		XCTAssertEqual(list.head?.value, 1)
-		XCTAssertEqual(list.tail?.value, 1)
+		XCTAssertEqual(list.head?.wrappedValue, 1)
+		XCTAssertEqual(list.tail?.wrappedValue, 1)
 
 		list.addToHead(value: 2)
-		XCTAssertEqual(list.head?.value, 2)
-		XCTAssertEqual(list.tail?.value, 1)
+		XCTAssertEqual(list.head?.wrappedValue, 2)
+		XCTAssertEqual(list.tail?.wrappedValue, 1)
 	}
 
 	func testLinkedListAddToTail() {
 		let tailList = LinkedList<Int>()
 		tailList.addToTail(value: 1)
-		XCTAssertEqual(tailList.head?.value, 1)
-		XCTAssertEqual(tailList.tail?.value, 1)
+		XCTAssertEqual(tailList.head?.wrappedValue, 1)
+		XCTAssertEqual(tailList.tail?.wrappedValue, 1)
 
 		tailList.addToTail(value: 2)
-		XCTAssertEqual(tailList.head?.value, 1)
-		XCTAssertEqual(tailList.tail?.value, 2)
+		XCTAssertEqual(tailList.head?.wrappedValue, 1)
+		XCTAssertEqual(tailList.tail?.wrappedValue, 2)
 
 		tailList.addToTail(value: 3)
-		XCTAssertEqual(tailList.head?.value, 1)
-		XCTAssertEqual(tailList.tail?.value, 3)
+		XCTAssertEqual(tailList.head?.wrappedValue, 1)
+		XCTAssertEqual(tailList.tail?.wrappedValue, 3)
 
 		tailList.addToHead(value: 0)
-		XCTAssertEqual(tailList.head?.value, 0)
-		XCTAssertEqual(tailList.tail?.value, 3)
+		XCTAssertEqual(tailList.head?.wrappedValue, 0)
+		XCTAssertEqual(tailList.tail?.wrappedValue, 3)
 
 		var node = tailList.head
 		var array = [Int]()
 		while let unwrap = node {
-			array.append(unwrap.value)
+			array.append(unwrap.wrappedValue)
 			node = node?.next
 		}
 		XCTAssertEqual(array, [0, 1, 2, 3])
@@ -68,28 +68,28 @@ class BSVBattleRoyaleTests: XCTestCase {
 		tailList.addToHead(value: 0)
 
 		var removed = tailList.removeFromHead()
-		XCTAssertEqual(tailList.head?.value, 1)
-		XCTAssertEqual(tailList.tail?.value, 3)
+		XCTAssertEqual(tailList.head?.wrappedValue, 1)
+		XCTAssertEqual(tailList.tail?.wrappedValue, 3)
 		XCTAssertEqual(removed, 0)
 
 		removed = tailList.removeFromTail()
-		XCTAssertEqual(tailList.head?.value, 1)
-		XCTAssertEqual(tailList.tail?.value, 2)
+		XCTAssertEqual(tailList.head?.wrappedValue, 1)
+		XCTAssertEqual(tailList.tail?.wrappedValue, 2)
 		XCTAssertEqual(removed, 3)
 
 		removed = tailList.removeFromTail()
-		XCTAssertEqual(tailList.head?.value, 1)
-		XCTAssertEqual(tailList.tail?.value, 1)
+		XCTAssertEqual(tailList.head?.wrappedValue, 1)
+		XCTAssertEqual(tailList.tail?.wrappedValue, 1)
 		XCTAssertEqual(removed, 2)
 
 		removed = tailList.removeFromTail()
-		XCTAssertEqual(tailList.head?.value, nil)
-		XCTAssertEqual(tailList.tail?.value, nil)
+		XCTAssertEqual(tailList.head?.wrappedValue, nil)
+		XCTAssertEqual(tailList.tail?.wrappedValue, nil)
 		XCTAssertEqual(removed, 1)
 
 		removed = tailList.removeFromTail()
-		XCTAssertEqual(tailList.head?.value, nil)
-		XCTAssertEqual(tailList.tail?.value, nil)
+		XCTAssertEqual(tailList.head?.wrappedValue, nil)
+		XCTAssertEqual(tailList.tail?.wrappedValue, nil)
 		XCTAssertEqual(removed, nil)
 
 	}
@@ -101,18 +101,18 @@ class BSVBattleRoyaleTests: XCTestCase {
 
 
 		var removed = list.removeFromHead()
-		XCTAssertEqual(list.head?.value, 1)
-		XCTAssertEqual(list.tail?.value, 1)
+		XCTAssertEqual(list.head?.wrappedValue, 1)
+		XCTAssertEqual(list.tail?.wrappedValue, 1)
 		XCTAssertEqual(removed, 2)
 
 		removed = list.removeFromHead()
-		XCTAssertEqual(list.head?.value, nil)
-		XCTAssertEqual(list.tail?.value, nil)
+		XCTAssertEqual(list.head?.wrappedValue, nil)
+		XCTAssertEqual(list.tail?.wrappedValue, nil)
 		XCTAssertEqual(removed, 1)
 
 		removed = list.removeFromHead()
-		XCTAssertEqual(list.head?.value, nil)
-		XCTAssertEqual(list.tail?.value, nil)
+		XCTAssertEqual(list.head?.wrappedValue, nil)
+		XCTAssertEqual(list.tail?.wrappedValue, nil)
 		XCTAssertEqual(removed, nil)
 	}
 }
