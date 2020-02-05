@@ -7,3 +7,20 @@
 //
 
 import Foundation
+
+class Stack<T> {
+
+	let storage = LinkedList<T>()
+
+	var count: Int {
+		storage.count
+	}
+
+	func push(_ item: T) {
+		storage.addToHead(value: item)
+	}
+
+	func pop() -> T? {
+		storage.removeFromHead()
+	}
+}

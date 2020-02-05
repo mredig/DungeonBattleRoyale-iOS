@@ -129,4 +129,33 @@ class BSVBattleRoyaleTests: XCTestCase {
 		XCTAssertEqual(removed, nil)
 		XCTAssertEqual(list.count, 0)
 	}
+
+	func testStack() {
+		let stack = Stack<Int>()
+
+		XCTAssertEqual(stack.pop(), nil)
+		XCTAssertEqual(stack.count, 0)
+
+		stack.push(0)
+		XCTAssertEqual(stack.count, 1)
+		stack.push(1)
+		XCTAssertEqual(stack.count, 2)
+		stack.push(2)
+		XCTAssertEqual(stack.count, 3)
+		stack.push(3)
+		XCTAssertEqual(stack.count, 4)
+
+		XCTAssertEqual(stack.pop(), 3)
+		XCTAssertEqual(stack.count, 3)
+		XCTAssertEqual(stack.pop(), 2)
+		XCTAssertEqual(stack.count, 2)
+		XCTAssertEqual(stack.pop(), 1)
+		XCTAssertEqual(stack.count, 1)
+		XCTAssertEqual(stack.pop(), 0)
+		XCTAssertEqual(stack.count, 0)
+		XCTAssertEqual(stack.pop(), nil)
+		XCTAssertEqual(stack.count, 0)
+
+
+	}
 }
