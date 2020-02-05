@@ -10,6 +10,12 @@
 		3301028323EA5ECD00400F34 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028223EA5ECD00400F34 /* LinkedList.swift */; };
 		3301028523EA829200400F34 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028423EA829200400F34 /* Stack.swift */; };
 		3301028723EAAC3D00400F34 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028623EAAC3D00400F34 /* Constants.swift */; };
+		3301028B23EB3A9D00400F34 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028A23EB3A9D00400F34 /* APIController.swift */; };
+		3301028D23EB3ACC00400F34 /* APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028C23EB3ACB00400F34 /* APIModels.swift */; };
+		3301028F23EB3CE700400F34 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 3301028E23EB3CE700400F34 /* Cartfile */; };
+		3301029323EB3D0C00400F34 /* input.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029123EB3D0C00400F34 /* input.xcfilelist */; };
+		3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029223EB3D0C00400F34 /* output.xcfilelist */; };
+		3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3301029723EB3DE200400F34 /* NetworkHandler.framework */; };
 		3366ECB023EA22EF00953583 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3366ECAF23EA22EF00953583 /* Login.storyboard */; };
 		3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB123EA265C00953583 /* LiveConnectionController.swift */; };
 		3366ECB423EA284900953583 /* WSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB323EA284900953583 /* WSPacket.swift */; };
@@ -63,6 +69,12 @@
 		3301028223EA5ECD00400F34 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		3301028423EA829200400F34 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		3301028623EAAC3D00400F34 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3301028A23EB3A9D00400F34 /* APIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		3301028C23EB3ACB00400F34 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
+		3301028E23EB3CE700400F34 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		3301029123EB3D0C00400F34 /* input.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = input.xcfilelist; sourceTree = "<group>"; };
+		3301029223EB3D0C00400F34 /* output.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = output.xcfilelist; sourceTree = "<group>"; };
+		3301029723EB3DE200400F34 /* NetworkHandler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkHandler.framework; path = Carthage/Build/iOS/NetworkHandler.framework; sourceTree = "<group>"; };
 		3366ECAF23EA22EF00953583 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
 		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
@@ -102,6 +114,7 @@
 			files = (
 				DCCE53A223E9F8470098464D /* NIO in Frameworks */,
 				DCCE53AA23E9F8470098464D /* NIOFoundationCompat in Frameworks */,
+				3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */,
 				DCCE53A823E9F8470098464D /* NIOConcurrencyHelpers in Frameworks */,
 				DCCE53A423E9F8470098464D /* NIOHTTP1 in Frameworks */,
 				DCCE53A623E9F8470098464D /* NIOTLS in Frameworks */,
@@ -126,6 +139,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3301028823EB3A6500400F34 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				3301028923EB3A7100400F34 /* Boring HTTP */,
+				DCCE53AD23E9F8FA0098464D /* WebSockets */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		3301028923EB3A7100400F34 /* Boring HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				3301028A23EB3A9D00400F34 /* APIController.swift */,
+				3301028C23EB3ACB00400F34 /* APIModels.swift */,
+			);
+			path = "Boring HTTP";
+			sourceTree = "<group>";
+		};
+		3301029623EB3DDA00400F34 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3301029723EB3DE200400F34 /* NetworkHandler.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		33D2806023EA44C400DE0E4C /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,10 +196,14 @@
 		DCCE536223E9F4610098464D = {
 			isa = PBXGroup;
 			children = (
+				3301028E23EB3CE700400F34 /* Cartfile */,
+				3301029123EB3D0C00400F34 /* input.xcfilelist */,
+				3301029223EB3D0C00400F34 /* output.xcfilelist */,
 				DCCE536D23E9F4610098464D /* BSVBattleRoyale */,
 				DCCE538423E9F4630098464D /* BSVBattleRoyaleTests */,
 				DCCE538F23E9F4630098464D /* BSVBattleRoyaleUITests */,
 				DCCE536C23E9F4610098464D /* Products */,
+				3301029623EB3DDA00400F34 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -190,7 +233,7 @@
 				33D2806023EA44C400DE0E4C /* Atlases */,
 				DCCE537023E9F4610098464D /* SceneDelegate.swift */,
 				DCCE537C23E9F4630098464D /* Info.plist */,
-				DCCE53AD23E9F8FA0098464D /* WebSockets */,
+				3301028823EB3A6500400F34 /* Networking */,
 			);
 			path = BSVBattleRoyale;
 			sourceTree = "<group>";
@@ -271,6 +314,7 @@
 				DCCE536723E9F4610098464D /* Sources */,
 				DCCE536823E9F4610098464D /* Frameworks */,
 				DCCE536923E9F4610098464D /* Resources */,
+				3301029523EB3D1C00400F34 /* Run Script - Carthage */,
 			);
 			buildRules = (
 			);
@@ -376,11 +420,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3301028F23EB3CE700400F34 /* Cartfile in Resources */,
 				3366ECB023EA22EF00953583 /* Login.storyboard in Resources */,
 				DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */,
 				DCCE537823E9F4630098464D /* Assets.xcassets in Resources */,
 				33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */,
 				DCCE537623E9F4610098464D /* Main.storyboard in Resources */,
+				3301029323EB3D0C00400F34 /* input.xcfilelist in Resources */,
+				3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +447,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3301029523EB3D1C00400F34 /* Run Script - Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/input.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Carthage";
+			outputFileListPaths = (
+				"$(SRCROOT)/output.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n/usr/local/bin/carthage outdated --xcode-warnings\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		DCCE536723E9F4610098464D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -409,6 +479,7 @@
 				3301028723EAAC3D00400F34 /* Constants.swift in Sources */,
 				33FB437D23EA35C800D1DDC8 /* CGPoint+Hashable.swift in Sources */,
 				33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */,
+				3301028D23EB3ACC00400F34 /* APIModels.swift in Sources */,
 				33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */,
 				DCCE537323E9F4610098464D /* ViewController.swift in Sources */,
 				3366ECB423EA284900953583 /* WSPacket.swift in Sources */,
@@ -419,6 +490,7 @@
 				3301028523EA829200400F34 /* Stack.swift in Sources */,
 				33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */,
 				DC07B4AD23EB186000A4755D /* SignInWithAppleViewController.swift in Sources */,
+				3301028B23EB3A9D00400F34 /* APIController.swift in Sources */,
 				3366ECB623EA2BB400953583 /* Player.swift in Sources */,
 				3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */,
 				DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */,
@@ -601,6 +673,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = BSVBattleRoyale/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -623,6 +699,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = BSVBattleRoyale/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (

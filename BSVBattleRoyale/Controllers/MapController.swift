@@ -9,11 +9,10 @@
 import UIKit
 
 class MapController {
-	let jsonData: Data
 	let rooms: RoomCollection
 	var scale: CGFloat
 
-	var currentRoom: Room
+	var currentRoom: Room?
 
 	private lazy var ranges: (ClosedRange<CGFloat>, ClosedRange<CGFloat>) = {
 		// sort x and y values
@@ -52,15 +51,11 @@ class MapController {
 		unscaledSize * scale
 	}
 
-	init(jsonData: Data, scale: CGFloat = 50) throws {
-		self.jsonData = jsonData
-		self.rooms = try JSONDecoder().decode(RoomCollection.self, from: jsonData)
+	init(roomCollection: RoomCollection, scale: CGFloat = 50) {
+		self.rooms = roomCollection
 		self.scale = scale
 
-		guard let spawnRoom = rooms.rooms[rooms.spawnRoom] else {
-			throw NSError(domain: "Can't find spawn room", code: -1, userInfo: nil)
-		}
-		currentRoom = spawnRoom
+		self.currentRoom = rooms.rooms[rooms.spawnRoom] ?? Room(name: "Null", position: .zero, id: "", northRoomID: nil, southRoomID: nil, eastRoomID: nil, westRoomID: nil)
 	}
 
 	func room(for id: String) -> Room? {
@@ -130,6 +125,7 @@ class MapController {
 			context.cgContext.translateBy(x: 0, y: imageSize.height)
 			context.cgContext.scaleBy(x: 1, y: -1)
 
+			guard let currentRoom = currentRoom else { return }
 			let color = UIColor.red
 			drawRoom(currentRoom, onContext: context, offset: unscaledOffset, color: color)
 		}
