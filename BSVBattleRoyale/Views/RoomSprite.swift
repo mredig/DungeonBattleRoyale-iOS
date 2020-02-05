@@ -56,7 +56,7 @@ class RoomSprite: SKNode {
 		if let southID = room.southRoomID {
 			let south = DoorSprite(id: southID)
 			south.position = CGPoint(x: halfRoomDimensions, y: 0)
-			south.zRotation = CGFloat.pi / 180
+			south.zRotationDegrees = 180
 			addChild(south)
 			southDoor = south
 		}
@@ -64,7 +64,7 @@ class RoomSprite: SKNode {
 		if let eastID = room.eastRoomID {
 			let east = DoorSprite(id: eastID)
 			east.position = CGPoint(x: roomDimensions, y: halfRoomDimensions)
-			east.zRotation = CGFloat.pi / 90
+			east.zRotationDegrees = -90
 			addChild(east)
 			eastDoor = east
 		}
@@ -72,7 +72,7 @@ class RoomSprite: SKNode {
 		if let westID = room.westRoomID {
 			let west = DoorSprite(id: westID)
 			west.position = CGPoint(x: 0, y: halfRoomDimensions)
-			west.zRotation = CGFloat.pi / -90
+			west.zRotationDegrees = 90
 			addChild(west)
 			westDoor = west
 		}

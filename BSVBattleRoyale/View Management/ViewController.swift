@@ -19,8 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
-		// FIXME: size mult For testing
-		let scene = RoomScene(size: gameView.frame.size * 3)
+		let scene = RoomScene(size: gameView.frame.size)
 		scene.scaleMode = .aspectFit
 		gameView.presentScene(scene)
 		gameView.showsFPS = true
