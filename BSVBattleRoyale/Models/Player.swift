@@ -27,7 +27,11 @@ enum AnimationTitle: String {
 }
 
 class Player: SKNode {
-	var direction: PlayerDirection = .right
+	var direction: PlayerDirection = .right {
+		didSet {
+			updateFacing()
+		}
+	}
 
 	let playerSprite: SKSpriteNode
 	let avatar: Avatar
@@ -44,6 +48,27 @@ class Player: SKNode {
 
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init coder not implemented")
+	}
+
+	private func updateFacing() {
+		playerSprite.xScale = direction == .left ? 1.0 : -1.0
+	}
+
+	/// if duration is >= 0, moves in `duration` seconds. If less than zero, moves at speed of `duration` points per second
+	func move(to location: CGPoint, duration: CGFloat) {
+
+		direction = location.x > position.x ? .right : .left
+
+		let distance = position.distance(to: location)
+
+		let time: CGFloat
+		if duration >= 0 {
+			time = duration
+		} else {
+			time = distance / -duration
+		}
+		let moveAction = SKAction.move(to: location, duration: Double(time))
+		run(moveAction, withKey: "move")
 	}
 }
 

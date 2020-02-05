@@ -23,7 +23,7 @@ class RoomScene: SKScene {
 		addChild(background)
 
 		let newPlayer = Player(avatar: .yellowMonster)
-		newPlayer.position = CGPoint(x: 207, y: 207)
+		newPlayer.position = CGPoint.zero
 		addChild(newPlayer)
 		currentPlayer = newPlayer
 
@@ -37,9 +37,7 @@ class RoomScene: SKScene {
 		for touch in touches {
 			let location = touch.location(in: self)
 
-			let moveAction = SKAction.move(to: location, duration: 2)
-
-			currentPlayer?.run(moveAction, withKey: "move")
+			currentPlayer?.move(to: location, duration: -300)
 		}
 	}
 
