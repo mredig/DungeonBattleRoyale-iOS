@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3301028323EA5ECD00400F34 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028223EA5ECD00400F34 /* LinkedList.swift */; };
+		3301028523EA829200400F34 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028423EA829200400F34 /* Stack.swift */; };
 		3366ECB023EA22EF00953583 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3366ECAF23EA22EF00953583 /* Login.storyboard */; };
 		3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB123EA265C00953583 /* LiveConnectionController.swift */; };
 		3366ECB423EA284900953583 /* WSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB323EA284900953583 /* WSPacket.swift */; };
@@ -59,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		3301028223EA5ECD00400F34 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		3301028423EA829200400F34 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		3366ECAF23EA22EF00953583 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
 		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				3366ECBC23EA2CDC00953583 /* Room.swift */,
 				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
 				3301028223EA5ECD00400F34 /* LinkedList.swift */,
+				3301028423EA829200400F34 /* Stack.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */,
 				DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */,
 				3366ECBD23EA2CDC00953583 /* Room.swift in Sources */,
+				3301028523EA829200400F34 /* Stack.swift in Sources */,
 				33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */,
 				3366ECB623EA2BB400953583 /* Player.swift in Sources */,
 				3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */,

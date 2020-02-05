@@ -47,6 +47,7 @@ class LinkedList<T> {
 		if tail == nil {
 			tail = newNode
 		}
+		count += 1
 	}
 
 	func addToTail(value: T) {
@@ -56,25 +57,32 @@ class LinkedList<T> {
 		if head == nil {
 			head = newNode
 		}
+		count += 1
 	}
 
 	func removeFromHead() -> T? {
-		let value = head?.wrappedValue
-		if head === tail {
-			head = nil
-			tail = nil
+		defer {
+			if head === tail {
+				head = nil
+				tail = nil
+			}
+			head = head?.next
 		}
-		head = head?.next
+		guard let value = head?.wrappedValue else { return nil }
+		count -= 1
 		return value
 	}
 
 	func removeFromTail() -> T? {
-		let value = tail?.wrappedValue
-		if head === tail {
-			head = nil
-			tail = nil
+		defer {
+			if head === tail {
+				head = nil
+				tail = nil
+			}
+			tail = tail?.previous
 		}
-		tail = tail?.previous
+		guard let value = tail?.wrappedValue else { return nil }
+		count -= 1
 		return value
 	}
 }
