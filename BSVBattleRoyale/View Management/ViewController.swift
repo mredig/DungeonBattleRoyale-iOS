@@ -95,6 +95,7 @@ class ViewController: UIViewController {
 extension ViewController: RoomSceneDelegate {
 	func player(_ currentPlayer: Player, enteredDoor: DoorSprite) {
 		let oldRoom = mapController?.currentRoom?.id
+		liveConntroller?.disconnect()
 		apiController.movePlayer(to: enteredDoor.id) { [weak self] result in
 			print("Entering \(enteredDoor.id) from \(oldRoom!)")
 			guard let self = self else { return }

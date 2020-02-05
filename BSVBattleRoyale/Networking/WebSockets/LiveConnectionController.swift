@@ -12,6 +12,8 @@ import CoreGraphics
 class LiveConnectionController {
 	var webSocketConnection: WebSocketConnection
 
+	private var connected = false
+
 	init?(playerID: String) {
 		guard let url = backendWSURL?
 			.appendingPathComponent("ws")
@@ -27,11 +29,16 @@ class LiveConnectionController {
 	private var lastSend = TimeInterval(0)
 	let sendDelta: TimeInterval = 1/15
 	func updatePlayerPosition(_ position: CGPoint) {
+		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
 		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y]]).json,
 		currentTime > lastSend + sendDelta else { return }
 		webSocketConnection.send(text: packet)
 		lastSend = currentTime
+	}
+
+	func disconnect() {
+		webSocketConnection.disconnect()
 	}
 }
 
@@ -39,10 +46,12 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 
 	func onConnected(connection: WebSocketConnection) {
 		print("connected!")
+		connected = true
 	}
 
 	func onDisconnected(connection: WebSocketConnection, error: Error?) {
-		print("disconnected: \(error!)")
+		print("disconnected: \(error)")
+		connected = false
 	}
 
 	func onError(connection: WebSocketConnection, error: Error) {
