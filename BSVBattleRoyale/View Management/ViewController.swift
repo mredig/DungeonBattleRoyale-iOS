@@ -16,35 +16,57 @@ class ViewController: UIViewController {
 	var mapController: MapController?
 
 	var liveConntroller: LiveConnectionController?
+	let apiController = APIController()
+
+	var playerInfo = PlayerInfo(playerID: "", spawnLocation: .zero) {
+		didSet {
+			DispatchQueue.main.async {
+				self.updateSpriteKit()
+			}
+		}
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+		updateWorldMap()
+	}
 
+	func updateSpriteKit() {
 		let scene = RoomScene(size: gameView.frame.size)
 		scene.scaleMode = .aspectFit
 		gameView.presentScene(scene)
 		gameView.showsFPS = true
 		gameView.showsPhysics = true
 
-
-		// FIXME: For testing
-		guard let url = backendBaseURL?
-			.appendingPathComponent("api")
-			.appendingPathComponent("worldmap") else { return }
-
-
-		do {
-			let data = try Data(contentsOf: url)
-			mapController = try MapController(jsonData: data)
-		} catch {
-			NSLog("Failed opening: \(error)")
-			return
-		}
-
-		liveConntroller = LiveConnectionController(playerID: "71777254-4c12-4d36-adc2-858dda19ac98")
-
-		scene.loadRoom(room: mapController?.currentRoom, playerPosition: CGPoint(x: 370, y: 20))
+		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation)
+		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
 		scene.liveController = liveConntroller
+	}
+
+	func updateWorldMap() {
+		apiController.getWorldmap { [weak self] result in
+			guard let self = self else { return }
+			switch result {
+			case .success(let rooms):
+				self.mapController = MapController(roomCollection: rooms)
+				self.initializePlayer()
+			case .failure(let error):
+				NSLog("Failed getting world map: \(error)")
+			}
+		}
+	}
+
+	func initializePlayer() {
+		apiController.initializePlayer { [weak self] result in
+			guard let self = self else { return }
+			switch result {
+			case .success(let playerInit):
+				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.currentRoom)
+				self.playerInfo = PlayerInfo(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
+			case .failure(let error):
+				NSLog("Failed initing player: \(error)")
+			}
+		}
 	}
 }

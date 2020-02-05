@@ -26,3 +26,9 @@ struct PlayerMove: Codable {
 	let currentRoom: String
 	let spawnLocation: CGPoint
 }
+
+
+struct PlayerInfo {
+	var playerID: String
+	var spawnLocation: CGPoint
+}

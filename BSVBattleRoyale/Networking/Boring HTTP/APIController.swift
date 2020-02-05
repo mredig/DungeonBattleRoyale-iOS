@@ -45,7 +45,7 @@ class APIController {
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 
-	func getWorldmap(completion: @escaping (Result<Data, NetworkError>) -> Void) {
+	func getWorldmap(completion: @escaping (Result<RoomCollection, NetworkError>) -> Void) {
 		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("worldmap"),
 			let token = token else { return }
 
@@ -53,6 +53,6 @@ class APIController {
 		request.addValue(.other(value: "Token \(token.key)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
-		networkHandler.transferMahDatas(with: request, completion: completion)
+		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 }
