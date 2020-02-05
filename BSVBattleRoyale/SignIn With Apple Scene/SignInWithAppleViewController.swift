@@ -40,7 +40,7 @@ class SignInWithAppleViewController: UIViewController {
     func setupAppleIDButton() {
 
         // Instantiate the button with a type and style
-        let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+        let signInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
 
         // Add an action to be called when tapping the button
         signInButton.addTarget(self, action: #selector(signInButtonPressed), for: .touchUpInside)
@@ -60,12 +60,17 @@ class SignInWithAppleViewController: UIViewController {
 
     func presentCouldNotAuthenticateAlert() {
         // Present alert
+        
     }
+    
+    
 
     // MARK: - Networking
 
     func exchangeCode(_ code: String, handler: (String?, Error?) -> Void) {
         // Call your backend to exchange an API token with the code.
+        print("Auth Code: \(code)")
+        performSegue(withIdentifier: "ShowSegueToMainStoryboard", sender: nil)
     }
 }
 
@@ -94,11 +99,14 @@ extension SignInWithAppleViewController: ASAuthorizationControllerDelegate {
                 // Now send the 'code' to your backend to get an API token.
                 exchangeCode(code) { apiToken, error in
                     // Handle response
+                    
                 }
             } else {
                 // Handle missing authorization code ...
+                
             }
         }
     }
+    
 }
 
