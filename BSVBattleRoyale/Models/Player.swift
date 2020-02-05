@@ -37,15 +37,14 @@ class Player: SKNode {
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
 		playerSprite = SKSpriteNode(texture: idleAnimation.first)
 		playerSprite.run(Player.animationAction(with: idleAnimation))
-		playerSprite.anchorPoint = CGPoint(x: 0.5, y: 0)
 
 		super.init()
 		addChild(playerSprite)
 	}
+
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init coder not implemented")
 	}
-
 }
 
 extension Player {

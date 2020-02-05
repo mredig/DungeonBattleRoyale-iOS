@@ -21,14 +21,15 @@ class RoomScene: SKScene {
 
 	func setupScene() {
 		addChild(background)
-		// FIXME: For testing
-		background.position = CGPoint(x: 128, y: 128)
-		addChild(SKSpriteNode(color: .red, size: CGSize(width: 5, height: 5)))
 
 		let newPlayer = Player(avatar: .yellowMonster)
 		newPlayer.position = CGPoint(x: 207, y: 207)
 		addChild(newPlayer)
 		currentPlayer = newPlayer
+
+		let playerCamera = SKCameraNode()
+		currentPlayer?.addChild(playerCamera)
+		camera = playerCamera
 	}
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -37,6 +38,7 @@ class RoomScene: SKScene {
 			let location = touch.location(in: self)
 
 			let moveAction = SKAction.move(to: location, duration: 2)
+
 			currentPlayer?.run(moveAction, withKey: "move")
 		}
 	}
