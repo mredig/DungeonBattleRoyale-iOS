@@ -57,10 +57,11 @@ extension Player {
 		case .yellowMonster:
 			atlas = character1Atlas
 		}
-		return atlas.textureNames
-			.filter { $0.hasPrefix(animationTitle.rawValue) }
-			.sorted()
-			.map { atlas.textureNamed($0) }
+		let names = atlas.textureNames
+			.filter { $0.hasPrefix(animationTitle.rawValue) && !$0.contains("@2x") && !$0.contains("@3x") }
+		let sorted = names.map{ ($0 as NSString).deletingPathExtension }.sorted()
+		let textures = sorted.map { atlas.textureNamed($0) }
+		return textures
 	}
 
 	static func animationAction(for avatar: Avatar, animationTitle: AnimationTitle) -> SKAction {
