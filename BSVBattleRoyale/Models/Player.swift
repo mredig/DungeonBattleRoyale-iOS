@@ -52,7 +52,7 @@ class Player: SKNode {
 
 		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
 		physicsBody?.categoryBitMask = playerBitmask
-		physicsBody?.contactTestBitMask = playerBitmask | wallBitmask | doorBitmask
+		physicsBody?.contactTestBitMask = wallBitmask | doorBitmask // | playerBitmask
 
 		// crappy animation priority system - probably scrap this
 		let animationPriorityRunner = SKAction.customAction(withDuration: 1/15) { [weak self] node, elapsed in
