@@ -145,8 +145,11 @@ class BSVBattleRoyaleTests: XCTestCase {
 		stack.push(3)
 		XCTAssertEqual(stack.count, 4)
 
+		XCTAssertEqual(stack.peek(), 3)
+
 		XCTAssertEqual(stack.pop(), 3)
 		XCTAssertEqual(stack.count, 3)
+		XCTAssertEqual(stack.peek(), 2)
 		XCTAssertEqual(stack.pop(), 2)
 		XCTAssertEqual(stack.count, 2)
 		XCTAssertEqual(stack.pop(), 1)

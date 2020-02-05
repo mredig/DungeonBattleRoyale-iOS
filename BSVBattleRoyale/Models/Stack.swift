@@ -23,4 +23,8 @@ class Stack<T> {
 	func pop() -> T? {
 		storage.removeFromHead()
 	}
+
+	func peek() -> T? {
+		storage.head?.wrappedValue
+	}
 }
