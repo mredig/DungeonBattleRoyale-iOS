@@ -14,6 +14,7 @@
 		3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB923EA2BDC00953583 /* RoomScene.swift */; };
 		3366ECBD23EA2CDC00953583 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBC23EA2CDC00953583 /* Room.swift */; };
 		33D27F7E23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D27F7D23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift */; };
+		33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */; };
 		33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBB23EA2C6700953583 /* RoomSprite.swift */; };
 		33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */; };
 		33FB437823EA355500D1DDC8 /* rooms10.json in Resources */ = {isa = PBXBuildFile; fileRef = 33FB437723EA355500D1DDC8 /* rooms10.json */; };
@@ -64,6 +65,7 @@
 		3366ECBB23EA2C6700953583 /* RoomSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSprite.swift; sourceTree = "<group>"; };
 		3366ECBC23EA2CDC00953583 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		33D27F7D23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SpriteKit+Helpers.swift"; sourceTree = "<group>"; };
+		33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = YellowMonster.atlas; sourceTree = "<group>"; };
 		33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorSprite.swift; sourceTree = "<group>"; };
 		33FB437723EA355500D1DDC8 /* rooms10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rooms10.json; sourceTree = "<group>"; };
 		33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensions.swift; sourceTree = "<group>"; };
@@ -118,6 +120,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33D2806023EA44C400DE0E4C /* Atlases */ = {
+			isa = PBXGroup;
+			children = (
+				33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */,
+			);
+			path = Atlases;
+			sourceTree = "<group>";
+		};
 		33FB437923EA35A600D1DDC8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,8 +172,9 @@
 				DCCE537923E9F4630098464D /* LaunchScreen.storyboard */,
 				DCCE537423E9F4610098464D /* Main.storyboard */,
 				3366ECAF23EA22EF00953583 /* Login.storyboard */,
-				DCCE537C23E9F4630098464D /* Info.plist */,
+				33D2806023EA44C400DE0E4C /* Atlases */,
 				DCCE537023E9F4610098464D /* SceneDelegate.swift */,
+				DCCE537C23E9F4630098464D /* Info.plist */,
 				DCCE53AD23E9F8FA0098464D /* WebSockets */,
 			);
 			path = BSVBattleRoyale;
@@ -351,6 +362,7 @@
 				3366ECB023EA22EF00953583 /* Login.storyboard in Resources */,
 				DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */,
 				DCCE537823E9F4630098464D /* Assets.xcassets in Resources */,
+				33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */,
 				33FB437823EA355500D1DDC8 /* rooms10.json in Resources */,
 				DCCE537623E9F4610098464D /* Main.storyboard in Resources */,
 			);

@@ -12,6 +12,8 @@ class RoomScene: SKScene {
 
 	let background = RoomSprite()
 
+	var currentPlayer: Player?
+
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
 		setupScene()
@@ -22,6 +24,11 @@ class RoomScene: SKScene {
 		// FIXME: For testing
 		background.position = CGPoint(x: 128, y: 128)
 		addChild(SKSpriteNode(color: .red, size: CGSize(width: 5, height: 5)))
+
+		let newPlayer = Player(avatar: .yellowMonster)
+		newPlayer.position = CGPoint(x: 207, y: 207)
+		addChild(newPlayer)
+		currentPlayer = newPlayer
 	}
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
