@@ -10,6 +10,18 @@
 		3366ECB023EA22EF00953583 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3366ECAF23EA22EF00953583 /* Login.storyboard */; };
 		3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB123EA265C00953583 /* LiveConnectionController.swift */; };
 		3366ECB423EA284900953583 /* WSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB323EA284900953583 /* WSPacket.swift */; };
+		3366ECB623EA2BB400953583 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB523EA2BB400953583 /* Player.swift */; };
+		3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB923EA2BDC00953583 /* RoomScene.swift */; };
+		3366ECBD23EA2CDC00953583 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBC23EA2CDC00953583 /* Room.swift */; };
+		33D27F7E23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D27F7D23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift */; };
+		33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */; };
+		33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBB23EA2C6700953583 /* RoomSprite.swift */; };
+		33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */; };
+		33FB437823EA355500D1DDC8 /* rooms10.json in Resources */ = {isa = PBXBuildFile; fileRef = 33FB437723EA355500D1DDC8 /* rooms10.json */; };
+		33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */; };
+		33FB437D23EA35C800D1DDC8 /* CGPoint+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */; };
+		33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437E23EA35D000D1DDC8 /* MapController.swift */; };
+		33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB438023EA362100D1DDC8 /* RoomCollection.swift */; };
 		DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE536E23E9F4610098464D /* AppDelegate.swift */; };
 		DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537023E9F4610098464D /* SceneDelegate.swift */; };
 		DCCE537323E9F4610098464D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE537223E9F4610098464D /* ViewController.swift */; };
@@ -48,6 +60,18 @@
 		3366ECAF23EA22EF00953583 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
 		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
+		3366ECB523EA2BB400953583 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = BSVBattleRoyale/Models/Player.swift; sourceTree = SOURCE_ROOT; };
+		3366ECB923EA2BDC00953583 /* RoomScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScene.swift; sourceTree = "<group>"; };
+		3366ECBB23EA2C6700953583 /* RoomSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSprite.swift; sourceTree = "<group>"; };
+		3366ECBC23EA2CDC00953583 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		33D27F7D23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SpriteKit+Helpers.swift"; sourceTree = "<group>"; };
+		33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = YellowMonster.atlas; sourceTree = "<group>"; };
+		33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorSprite.swift; sourceTree = "<group>"; };
+		33FB437723EA355500D1DDC8 /* rooms10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rooms10.json; sourceTree = "<group>"; };
+		33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensions.swift; sourceTree = "<group>"; };
+		33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Hashable.swift"; sourceTree = "<group>"; };
+		33FB437E23EA35D000D1DDC8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
+		33FB438023EA362100D1DDC8 /* RoomCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomCollection.swift; sourceTree = "<group>"; };
 		DCCE536B23E9F4610098464D /* BSVBattleRoyale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSVBattleRoyale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE536E23E9F4610098464D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCCE537023E9F4610098464D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +120,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33D2806023EA44C400DE0E4C /* Atlases */ = {
+			isa = PBXGroup;
+			children = (
+				33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */,
+			);
+			path = Atlases;
+			sourceTree = "<group>";
+		};
+		33FB437923EA35A600D1DDC8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */,
+				33D27F7D23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift */,
+				33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		DCCE536223E9F4610098464D = {
 			isa = PBXGroup;
 			children = (
@@ -124,12 +166,15 @@
 				DCCE53B323E9FA600098464D /* Views */,
 				DCCE53AE23E9F9140098464D /* View Management */,
 				DCCE53B123E9FA0F0098464D /* Controllers */,
+				33FB437923EA35A600D1DDC8 /* Helpers */,
 				DCCE537723E9F4630098464D /* Assets.xcassets */,
+				33FB437723EA355500D1DDC8 /* rooms10.json */,
 				DCCE537923E9F4630098464D /* LaunchScreen.storyboard */,
 				DCCE537423E9F4610098464D /* Main.storyboard */,
 				3366ECAF23EA22EF00953583 /* Login.storyboard */,
-				DCCE537C23E9F4630098464D /* Info.plist */,
+				33D2806023EA44C400DE0E4C /* Atlases */,
 				DCCE537023E9F4610098464D /* SceneDelegate.swift */,
+				DCCE537C23E9F4630098464D /* Info.plist */,
 				DCCE53AD23E9F8FA0098464D /* WebSockets */,
 			);
 			path = BSVBattleRoyale;
@@ -174,6 +219,8 @@
 		DCCE53B123E9FA0F0098464D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				33FB437E23EA35D000D1DDC8 /* MapController.swift */,
+				33FB438023EA362100D1DDC8 /* RoomCollection.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -181,6 +228,9 @@
 		DCCE53B223E9FA3A0098464D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3366ECB523EA2BB400953583 /* Player.swift */,
+				3366ECBC23EA2CDC00953583 /* Room.swift */,
+				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,6 +238,8 @@
 		DCCE53B323E9FA600098464D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3366ECBB23EA2C6700953583 /* RoomSprite.swift */,
+				33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -310,6 +362,8 @@
 				3366ECB023EA22EF00953583 /* Login.storyboard in Resources */,
 				DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */,
 				DCCE537823E9F4630098464D /* Assets.xcassets in Resources */,
+				33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */,
+				33FB437823EA355500D1DDC8 /* rooms10.json in Resources */,
 				DCCE537623E9F4610098464D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,12 +389,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */,
+				33FB437D23EA35C800D1DDC8 /* CGPoint+Hashable.swift in Sources */,
+				33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */,
+				33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */,
 				DCCE537323E9F4610098464D /* ViewController.swift in Sources */,
 				3366ECB423EA284900953583 /* WSPacket.swift in Sources */,
+				3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */,
 				DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */,
 				DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */,
+				3366ECBD23EA2CDC00953583 /* Room.swift in Sources */,
+				33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */,
+				3366ECB623EA2BB400953583 /* Player.swift in Sources */,
 				3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */,
 				DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */,
+				33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */,
+				33D27F7E23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
