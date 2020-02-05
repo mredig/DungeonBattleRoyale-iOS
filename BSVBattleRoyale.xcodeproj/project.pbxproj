@@ -20,7 +20,6 @@
 		33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */; };
 		33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBB23EA2C6700953583 /* RoomSprite.swift */; };
 		33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */; };
-		33FB437823EA355500D1DDC8 /* rooms10.json in Resources */ = {isa = PBXBuildFile; fileRef = 33FB437723EA355500D1DDC8 /* rooms10.json */; };
 		33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */; };
 		33FB437D23EA35C800D1DDC8 /* CGPoint+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */; };
 		33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437E23EA35D000D1DDC8 /* MapController.swift */; };
@@ -74,7 +73,6 @@
 		33D27F7D23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SpriteKit+Helpers.swift"; sourceTree = "<group>"; };
 		33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = YellowMonster.atlas; sourceTree = "<group>"; };
 		33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorSprite.swift; sourceTree = "<group>"; };
-		33FB437723EA355500D1DDC8 /* rooms10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rooms10.json; sourceTree = "<group>"; };
 		33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensions.swift; sourceTree = "<group>"; };
 		33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Hashable.swift"; sourceTree = "<group>"; };
 		33FB437E23EA35D000D1DDC8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 				DCCE53B123E9FA0F0098464D /* Controllers */,
 				33FB437923EA35A600D1DDC8 /* Helpers */,
 				DCCE537723E9F4630098464D /* Assets.xcassets */,
-				33FB437723EA355500D1DDC8 /* rooms10.json */,
 				DCCE537923E9F4630098464D /* LaunchScreen.storyboard */,
 				DCCE537423E9F4610098464D /* Main.storyboard */,
 				DC07B4AB23EB17F500A4755D /* SignIn With Apple Scene */,
@@ -383,7 +380,6 @@
 				DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */,
 				DCCE537823E9F4630098464D /* Assets.xcassets in Resources */,
 				33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */,
-				33FB437823EA355500D1DDC8 /* rooms10.json in Resources */,
 				DCCE537623E9F4610098464D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
