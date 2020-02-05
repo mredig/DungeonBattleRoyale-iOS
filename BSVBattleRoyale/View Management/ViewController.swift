@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import NetworkHandler
 
 class ViewController: UIViewController {
 
@@ -35,13 +36,15 @@ class ViewController: UIViewController {
 	func updateSpriteKit() {
 		let scene = RoomScene(size: gameView.frame.size)
 		scene.scaleMode = .aspectFit
-		gameView.presentScene(scene)
+		gameView.presentScene(scene, transition: .fade(with: .black, duration: 0.5))
 		gameView.showsFPS = true
 		gameView.showsPhysics = true
+
 
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation)
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
 		scene.liveController = liveConntroller
+		scene.roomDelegate = self
 	}
 
 	func updateWorldMap() {
@@ -66,6 +69,32 @@ class ViewController: UIViewController {
 				self.playerInfo = PlayerInfo(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
 			case .failure(let error):
 				NSLog("Failed initing player: \(error)")
+			}
+		}
+	}
+}
+
+extension ViewController: RoomSceneDelegate {
+	func player(_ currentPlayer: Player, enteredDoor: DoorSprite) {
+		let oldRoom = mapController?.currentRoom?.id
+		apiController.movePlayer(to: enteredDoor.id) { [weak self] result in
+			print("Entering \(enteredDoor.id) from \(oldRoom!)")
+			guard let self = self else { return }
+			switch result {
+			case .success(let playerMove):
+				self.mapController?.currentRoom = self.mapController?.room(for: playerMove.currentRoom)
+				self.playerInfo.spawnLocation = playerMove.spawnLocation
+			case .failure(let error):
+				if let terror = error as? NetworkError {
+					switch terror {
+					case .dataCodingError(specifically: _, sourceData: let data):
+						let str = String(data: data!, encoding: .utf8)
+						print("Got \(str)")
+					default:
+						break
+					}
+				}
+				NSLog("Failed moving player: \(error)")
 			}
 		}
 	}

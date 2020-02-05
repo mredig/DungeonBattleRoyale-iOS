@@ -8,13 +8,24 @@
 
 import SpriteKit
 
+
+protocol RoomSceneDelegate: AnyObject {
+	func player(_ currentPlayer: Player, enteredDoor: DoorSprite)
+}
+
 class RoomScene: SKScene {
 
 	let background = RoomSprite()
-
 	var currentPlayer: Player?
-
 	var liveController: LiveConnectionController?
+	weak var roomDelegate: RoomSceneDelegate?
+
+	private lazy var fadeSprite: SKSpriteNode = {
+		let sp = SKSpriteNode(color: .black, size: self.size)
+		self.camera?.addChild(sp)
+		sp.alpha = 0
+		return sp
+	}()
 
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
@@ -63,12 +74,23 @@ class RoomScene: SKScene {
 extension RoomScene: SKPhysicsContactDelegate {
 
 	func didBegin(_ contact: SKPhysicsContact) {
-		let bodies = Set([contact.bodyB, contact.bodyA])
-		let nodes = Set(bodies.compactMap { $0.node })
+		var bodies = Set([contact.bodyB, contact.bodyA])
+		var physicNodes = Set(bodies.compactMap { $0.node })
 
 		if let currentPlayer = currentPlayer {
-			if nodes.contains(currentPlayer) && nodes.contains(background) {
+			if physicNodes.contains(currentPlayer) && physicNodes.contains(background) {
 				currentPlayer.stopMove()
+			}
+
+			// one of the nodes is player
+			if physicNodes.remove(currentPlayer) != nil {
+				if let door = physicNodes.removeFirst() as? DoorSprite {
+//					print("hit door: \(door)")
+					currentPlayer.physicsBody = nil
+					let action = SKAction.fadeIn(withDuration: 0.1)
+					fadeSprite.run(action)
+					roomDelegate?.player(currentPlayer, enteredDoor: door)
+				}
 			}
 		}
 	}
