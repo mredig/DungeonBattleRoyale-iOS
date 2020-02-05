@@ -52,4 +52,24 @@ class LinkedList<T> {
 			head = newNode
 		}
 	}
+
+	func removeFromHead() -> T? {
+		let value = head?.value
+		if head === tail {
+			head = nil
+			tail = nil
+		}
+		head = head?.next
+		return value
+	}
+
+	func removeFromTail() -> T? {
+		let value = tail?.value
+		if head === tail {
+			head = nil
+			tail = nil
+		}
+		tail = tail?.previous
+		return value
+	}
 }
