@@ -18,7 +18,7 @@
                         <viewLayoutGuide key="safeArea" id="Ctw-tJ-or5"/>
                     </view>
                     <connections>
-                        <segue destination="UAG-Dv-zfT" kind="show" identifier="ShowSegueToMainStoryboard" id="Mu2-OM-B9M"/>
+                        <segue destination="UAG-Dv-zfT" kind="modal" identifier="ShowSegueToMainStoryboard" modalPresentationStyle="fullScreen" id="Mu2-OM-B9M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg9-kl-jiR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
