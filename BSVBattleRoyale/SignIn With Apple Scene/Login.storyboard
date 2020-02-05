@@ -7,20 +7,33 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Sign In With Apple View Controller-->
         <scene sceneID="fng-uD-0yU">
             <objects>
-                <viewController id="HqL-B6-ywn" sceneMemberID="viewController">
+                <viewController id="HqL-B6-ywn" customClass="SignInWithAppleViewController" customModule="BSVBattleRoyale" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n1H-KT-EoJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Ctw-tJ-or5"/>
                     </view>
+                    <connections>
+                        <segue destination="UAG-Dv-zfT" kind="modal" identifier="ShowSegueToMainStoryboard" modalPresentationStyle="fullScreen" id="Mu2-OM-B9M"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg9-kl-jiR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="17" y="114"/>
+        </scene>
+        <!--Main-->
+        <scene sceneID="RXs-mN-ZCj">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="MainStoryboard" storyboardName="Main" id="UAG-Dv-zfT" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="LRC-bv-DgJ"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ws4-BF-fH5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="793" y="33"/>
         </scene>
     </scenes>
 </document>
