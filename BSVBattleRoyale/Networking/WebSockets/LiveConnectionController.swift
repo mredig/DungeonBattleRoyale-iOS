@@ -42,6 +42,12 @@ class LiveConnectionController {
 		lastSend = currentTime
 	}
 
+	func sendChatMessage(_ message: String) {
+		guard connected else { return }
+		guard let packet = WSPacket(type: .chatMessage, content: ["message" : message]).json else { return }
+		webSocketConnection.send(text: packet)
+	}
+
 	func disconnect() {
 		webSocketConnection.disconnect()
 	}
@@ -76,6 +82,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			case "playerPositions":
 				distributePositionData(data: dataObj)
 			default:
+				print("unclassified message: \(text)")
 				break
 			}
 		} catch {

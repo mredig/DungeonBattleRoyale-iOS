@@ -47,12 +47,31 @@
                                     <action selector="mapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dnY-ij-M1K"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Plg-SQ-GXv">
+                                <rect key="frame" x="20" y="808" width="374" height="34"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JNo-3n-WW4">
+                                        <rect key="frame" x="0.0" y="0.0" width="330" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSv-Kd-evZ">
+                                        <rect key="frame" x="338" y="0.0" width="36" height="34"/>
+                                        <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="chatSendPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o8w-s4-BJa"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="leading" secondItem="hdR-J4-3VW" secondAttribute="leading" id="3Od-hb-3vq"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="bottom" secondItem="hdR-J4-3VW" secondAttribute="bottom" id="8Rj-tA-lSd"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="A0r-1F-rEZ"/>
+                            <constraint firstItem="Plg-SQ-GXv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ckc-s1-Yjf"/>
+                            <constraint firstItem="Plg-SQ-GXv" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-20" id="Kgd-0C-I1X"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bB5-Jp-Yw5" secondAttribute="trailing" constant="30" id="Qjq-mg-GYA"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="top" secondItem="hdR-J4-3VW" secondAttribute="top" id="S8y-7E-bPz"/>
                             <constraint firstAttribute="trailing" secondItem="hdR-J4-3VW" secondAttribute="trailing" id="ZJr-pE-p97"/>
@@ -61,10 +80,13 @@
                             <constraint firstItem="bB5-Jp-Yw5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="10" id="nkz-wJ-YJB"/>
                             <constraint firstItem="bB5-Jp-Yw5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="oJS-HD-5RP"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pZB-BX-pWz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Plg-SQ-GXv" secondAttribute="trailing" constant="20" id="s04-r1-LHp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="chatSendButton" destination="aSv-Kd-evZ" id="VDu-vd-vLr"/>
+                        <outlet property="chatTextField" destination="JNo-3n-WW4" id="NZA-SA-bem"/>
                         <outlet property="currentRoomMapImage" destination="3pp-q0-uRX" id="jgy-4Z-qz3"/>
                         <outlet property="gameView" destination="hdR-J4-3VW" id="aLG-Ix-uQp"/>
                         <outlet property="mapGroup" destination="E8G-Au-edL" id="nKX-6N-iOq"/>

@@ -17,6 +17,11 @@ class ViewController: UIViewController {
 	@IBOutlet weak var mapImage: UIImageView!
 	@IBOutlet weak var currentRoomMapImage: UIImageView!
 
+	@IBOutlet weak var chatTextField: UITextField!
+	@IBOutlet weak var chatSendButton: UIButton!
+
+
+
 	var mapController: MapController?
 	var liveConntroller: LiveConnectionController?
 	var apiController: APIController?
@@ -93,6 +98,11 @@ class ViewController: UIViewController {
 
 	@IBAction func mapButtonPressed(_ sender: UIButton) {
 		mapGroup.isHidden.toggle()
+	}
+
+	@IBAction func chatSendPressed(_ sender: UIButton) {
+		guard let text = chatTextField.text, !text.isEmpty else { return }
+		liveConntroller?.sendChatMessage(text)
 	}
 }
 
