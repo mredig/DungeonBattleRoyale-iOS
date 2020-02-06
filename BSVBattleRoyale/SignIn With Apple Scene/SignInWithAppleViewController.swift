@@ -85,7 +85,7 @@ class SignInWithAppleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupAppleIDButton()
+//        setupAppleIDButton()
         
         switch Int.random(in: 0...10) {
         case 0...6:
@@ -97,8 +97,6 @@ class SignInWithAppleViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        //performSegue(withIdentifier: "ShowSegueToMainStoryboard", sender: nil)
     }
 
     // MARK: - View Setup
