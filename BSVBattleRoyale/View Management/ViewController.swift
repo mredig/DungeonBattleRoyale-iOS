@@ -107,16 +107,15 @@ extension ViewController: RoomSceneDelegate {
 				self.mapController?.currentRoom = self.mapController?.room(for: playerMove.currentRoom)
 				self.playerInfo.spawnLocation = playerMove.spawnLocation
 			case .failure(let error):
-				if let terror = error as? NetworkError {
-					switch terror {
+					switch error {
 					case .dataCodingError(specifically: _, sourceData: let data):
 						let str = String(data: data!, encoding: .utf8)
-						print("Got \(str)")
+                        print("Got \(String(describing: str))")
 					default:
 						break
 					}
+                    NSLog("Failed moving player: \(error)")
 				}
-				NSLog("Failed moving player: \(error)")
 			}
 		}
 	}
