@@ -44,9 +44,10 @@ class ViewController: UIViewController {
 		currentScene = scene
 		scene.scaleMode = .aspectFit
 		gameView.presentScene(scene, transition: .fade(with: .black, duration: 0.5))
-		gameView.showsFPS = true
+		// ⬇⬇⬇ Comment out for screengrabs
+        gameView.showsFPS = true
 		gameView.showsPhysics = true
-
+        // ⬆⬆⬆ Comment out for screengrabs
 
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
