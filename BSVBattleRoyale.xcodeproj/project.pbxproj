@@ -27,7 +27,6 @@
 		33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBB23EA2C6700953583 /* RoomSprite.swift */; };
 		33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */; };
 		33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */; };
-		33FB437D23EA35C800D1DDC8 /* CGPoint+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */; };
 		33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437E23EA35D000D1DDC8 /* MapController.swift */; };
 		33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB438023EA362100D1DDC8 /* RoomCollection.swift */; };
 		DC07B4AD23EB186000A4755D /* SignInWithAppleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC07B4AC23EB186000A4755D /* SignInWithAppleViewController.swift */; };
@@ -88,7 +87,6 @@
 		33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = YellowMonster.atlas; sourceTree = "<group>"; };
 		33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorSprite.swift; sourceTree = "<group>"; };
 		33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensions.swift; sourceTree = "<group>"; };
-		33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Hashable.swift"; sourceTree = "<group>"; };
 		33FB437E23EA35D000D1DDC8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		33FB438023EA362100D1DDC8 /* RoomCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomCollection.swift; sourceTree = "<group>"; };
 		DC07B4AC23EB186000A4755D /* SignInWithAppleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleViewController.swift; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 		33FB437923EA35A600D1DDC8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				33FB437B23EA35C800D1DDC8 /* CGPoint+Hashable.swift */,
 				33D27F7D23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift */,
 				33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */,
 				3301028623EAAC3D00400F34 /* Constants.swift */,
@@ -483,7 +480,6 @@
 			files = (
 				33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */,
 				3301028723EAAC3D00400F34 /* Constants.swift in Sources */,
-				33FB437D23EA35C800D1DDC8 /* CGPoint+Hashable.swift in Sources */,
 				33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */,
 				3301028D23EB3ACC00400F34 /* APIModels.swift in Sources */,
 				33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */,

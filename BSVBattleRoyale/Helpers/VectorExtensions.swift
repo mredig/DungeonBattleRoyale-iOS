@@ -77,6 +77,13 @@ extension CGPoint {
 	}
 }
 
+extension CGPoint: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(x)
+		hasher.combine(y)
+	}
+}
+
 extension CGAffineTransform {
 	var offset: CGPoint {
 		CGPoint(x: tx, y: ty)
