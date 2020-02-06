@@ -19,7 +19,7 @@ class ViewController: UIViewController {
 
 	var mapController: MapController?
 	var liveConntroller: LiveConnectionController?
-	let apiController = APIController()
+	var apiController: APIController?
 
 	var playerInfo = PlayerInfo(playerID: "", spawnLocation: .zero) {
 		didSet {
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
 	}
 
 	func updateWorldMap() {
-		apiController.getWorldmap { [weak self] result in
+		apiController?.getWorldmap { [weak self] result in
 			guard let self = self else { return }
 			switch result {
 			case .success(let rooms):
@@ -75,7 +75,7 @@ class ViewController: UIViewController {
 			}
 			self.mapImage.image = self.mapController?.generateOverworldMap()
 		}
-		apiController.initializePlayer { [weak self] result in
+		apiController?.initializePlayer { [weak self] result in
 			guard let self = self else { return }
 			switch result {
 			case .success(let playerInit):
@@ -96,7 +96,7 @@ extension ViewController: RoomSceneDelegate {
 	func player(_ currentPlayer: Player, enteredDoor: DoorSprite) {
 		let oldRoom = mapController?.currentRoom?.id
 		liveConntroller?.disconnect()
-		apiController.movePlayer(to: enteredDoor.id) { [weak self] result in
+		apiController?.movePlayer(to: enteredDoor.id) { [weak self] result in
 			print("Entering \(enteredDoor.id) from \(oldRoom!)")
 			guard let self = self else { return }
 			switch result {

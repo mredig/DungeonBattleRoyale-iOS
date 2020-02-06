@@ -41,7 +41,14 @@ class SignInWithAppleViewController: UIViewController {
             loginUser()
         }
     }
-    
+
+
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		super.prepare(for: segue, sender: sender)
+		if let dest = segue.destination as? ViewController {
+			dest.apiController = apiController
+		}
+	}
     
     @IBAction func segmentedControlChanged(_ sender: Any) {
         
