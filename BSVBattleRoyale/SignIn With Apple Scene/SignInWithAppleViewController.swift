@@ -138,7 +138,7 @@ class SignInWithAppleViewController: UIViewController {
                     switch terror {
                     case .httpNon200StatusCode(code: _, data: let Data):
                         let string = String(data: Data!, encoding: .utf8)
-                        print(string)
+                        print(string as Any)
                     default:
                         break
                     }
