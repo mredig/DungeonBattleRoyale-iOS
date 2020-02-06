@@ -35,6 +35,7 @@ class Player: SKNode {
 
 	let playerSprite: SKSpriteNode
 	let avatar: Avatar
+	let id: String
 
 	let animationPriority: Stack<AnimationTitle> = {
 		let stack = Stack<AnimationTitle>()
@@ -42,17 +43,18 @@ class Player: SKNode {
 		return stack
 	}()
 
-	init(avatar: Avatar) {
+	init(avatar: Avatar, id: String) {
 		self.avatar = avatar
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
 		playerSprite = SKSpriteNode(texture: idleAnimation.first)
-
+		self.id = id
 		super.init()
 		addChild(playerSprite)
 
 		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
 		physicsBody?.categoryBitMask = playerBitmask
 		physicsBody?.contactTestBitMask = wallBitmask | doorBitmask // | playerBitmask
+		physicsBody?.collisionBitMask = wallBitmask | doorBitmask
 
 		// crappy animation priority system - probably scrap this
 		let animationPriorityRunner = SKAction.customAction(withDuration: 1/15) { [weak self] node, elapsed in

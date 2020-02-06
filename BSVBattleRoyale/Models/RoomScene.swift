@@ -15,6 +15,8 @@ protocol RoomSceneDelegate: AnyObject {
 
 class RoomScene: SKScene {
 
+	var otherPlayers = [String: Player]()
+
 	let background = RoomSprite()
 	var currentPlayer: Player?
 	var liveController: LiveConnectionController?
@@ -35,22 +37,23 @@ class RoomScene: SKScene {
 	func setupScene() {
 		addChild(background)
 
-		let newPlayer = Player(avatar: .yellowMonster)
-		newPlayer.position = CGPoint.zero
-		addChild(newPlayer)
-		currentPlayer = newPlayer
-
-		let playerCamera = SKCameraNode()
-		currentPlayer?.addChild(playerCamera)
-		camera = playerCamera
-
 		physicsWorld.gravity = CGVector.zero
 		physicsWorld.contactDelegate = self
 	}
 
-	func loadRoom(room: Room?, playerPosition: CGPoint) {
+	func loadRoom(room: Room?, playerPosition: CGPoint, playerID: String) {
 		background.room = room
-		currentPlayer?.position = playerPosition
+
+		let newPlayer = Player(avatar: .yellowMonster, id: playerID)
+		newPlayer.position = CGPoint.zero
+		addChild(newPlayer)
+		currentPlayer = newPlayer
+		newPlayer.zPosition = 1
+		newPlayer.position = playerPosition
+
+		let playerCamera = SKCameraNode()
+		newPlayer.addChild(playerCamera)
+		camera = playerCamera
 	}
 
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -69,6 +72,40 @@ class RoomScene: SKScene {
 		guard let player = currentPlayer else { return }
 		liveController?.updatePlayerPosition(player.position)
 	}
+
+	func updateOtherPlayers(updatePlayers: [String: OtherPlayerUpdate]) {
+		guard let currentPlayer = currentPlayer else { return }
+		var newPlayers = updatePlayers
+		var expiredPlayers = [Player]()
+		// dont track current player
+		newPlayers[currentPlayer.id] = nil
+
+		for (id, updatedPlayer) in otherPlayers {
+			guard let update = updatePlayers[id] else {
+				// if this player isn't in this update, mark them as expired
+				expiredPlayers.append(updatedPlayer)
+				continue
+			}
+			// update any other consistent player's position
+			updatedPlayer.move(to: update.position, duration: 1/60)
+			// unmark this player as a new player
+			newPlayers[id] = nil
+		}
+
+		// add all new players to the scene and track them
+		for (id, newPlayer) in newPlayers {
+			let addtlPlayer = Player(avatar: .yellowMonster, id: id)
+			addChild(addtlPlayer)
+			otherPlayers[id] = addtlPlayer
+			addtlPlayer.position = newPlayer.position
+		}
+
+		// remove expired players
+		for delete in expiredPlayers {
+			otherPlayers[delete.id] = nil
+			delete.removeFromParent()
+		}
+	}
 }
 
 extension RoomScene: SKPhysicsContactDelegate {
@@ -85,7 +122,6 @@ extension RoomScene: SKPhysicsContactDelegate {
 			// one of the nodes is player
 			if physicNodes.remove(currentPlayer) != nil {
 				if let door = physicNodes.removeFirst() as? DoorSprite {
-//					print("hit door: \(door)")
 					currentPlayer.physicsBody = nil
 					let action = SKAction.fadeIn(withDuration: 0.1)
 					fadeSprite.run(action)

@@ -27,3 +27,7 @@ struct PlayerInfo {
 	var playerID: String
 	var spawnLocation: CGPoint
 }
+
+struct OtherPlayerUpdate: Codable {
+	let position: CGPoint
+}

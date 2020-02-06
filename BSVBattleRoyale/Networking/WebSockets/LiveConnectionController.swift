@@ -9,10 +9,15 @@
 import Foundation
 import CoreGraphics
 
+protocol LiveConnectionControllerDelegate: AnyObject {
+	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String: OtherPlayerUpdate])
+}
+
 class LiveConnectionController {
 	var webSocketConnection: WebSocketConnection
 
 	private var connected = false
+	weak var delegate: LiveConnectionControllerDelegate?
 
 	init?(playerID: String) {
 		guard let url = backendWSURL?
@@ -50,7 +55,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	}
 
 	func onDisconnected(connection: WebSocketConnection, error: Error?) {
-		print("disconnected: \(error)")
+		print("disconnected: \(String(describing: error))")
 		connected = false
 	}
 
@@ -59,10 +64,40 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	}
 
 	func onMessage(connection: WebSocketConnection, text: String) {
-		print("got text: \(text)")
+//		print("got text: \(text)")
+		guard let jsonData = text.data(using: .utf8) else { return }
+		do {
+			let jsonObj = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
+
+			guard let messageType = jsonObj?["messageType"] as? String else { return }
+			guard let dataObj = jsonObj?["data"] else { return }
+
+			switch messageType {
+			case "playerPositions":
+				distributePositionData(data: dataObj)
+			default:
+				break
+			}
+		} catch {
+			NSLog("Invalid json: \(text) (\(error))")
+		}
 	}
 
 	func onMessage(connection: WebSocketConnection, data: Data) {
 		print("got data: \(data)")
 	}
+
+	private func distributePositionData(data: Any) {
+		guard let dict = data as? [String: [String: [CGFloat]]] else { return }
+
+		var otherPlayers = [String: OtherPlayerUpdate]()
+		for (playerID, positionDict) in dict {
+			guard let positions = positionDict["position"], positions.count == 2 else { continue }
+			let position = CGPoint(x: positions[0], y: positions[1])
+			otherPlayers[playerID] = OtherPlayerUpdate(position: position)
+		}
+
+		delegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)
+	}
+
 }

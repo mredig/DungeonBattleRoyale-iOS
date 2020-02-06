@@ -20,6 +20,7 @@ class ViewController: UIViewController {
 	var mapController: MapController?
 	var liveConntroller: LiveConnectionController?
 	var apiController: APIController?
+	var currentScene: RoomScene?
 
 	var playerInfo = PlayerInfo(playerID: "", spawnLocation: .zero) {
 		didSet {
@@ -40,16 +41,18 @@ class ViewController: UIViewController {
 
 	func updateSpriteKit() {
 		let scene = RoomScene(size: gameView.frame.size)
+		currentScene = scene
 		scene.scaleMode = .aspectFit
 		gameView.presentScene(scene, transition: .fade(with: .black, duration: 0.5))
 		gameView.showsFPS = true
 		gameView.showsPhysics = true
 
 
-		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation)
+		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
 		scene.liveController = liveConntroller
 		scene.roomDelegate = self
+		liveConntroller?.delegate = self
 
 		currentRoomMapImage.image = mapController?.generateCurrentRoomOverlay()
 	}
@@ -115,6 +118,14 @@ extension ViewController: RoomSceneDelegate {
 				}
 				NSLog("Failed moving player: \(error)")
 			}
+		}
+	}
+}
+
+extension ViewController: LiveConnectionControllerDelegate {
+	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : OtherPlayerUpdate]) {
+		DispatchQueue.main.async {
+			self.currentScene?.updateOtherPlayers(updatePlayers: updatedPositions)
 		}
 	}
 }
