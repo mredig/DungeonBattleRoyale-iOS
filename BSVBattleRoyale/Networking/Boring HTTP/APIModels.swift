@@ -9,11 +9,6 @@
 import Foundation
 import CoreGraphics
 
-/// just temporary until Josh adds his
-struct TokenTemp: Codable {
-	let key: String
-}
-
 
 struct PlayerInit: Codable {
 	let playerID: String
