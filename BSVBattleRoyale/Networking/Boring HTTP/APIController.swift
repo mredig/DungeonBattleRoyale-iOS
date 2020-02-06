@@ -49,7 +49,27 @@ class APIController {
             .appendingPathComponent("auth")
             .appendingPathComponent("login") else { return }
         
+        var request = url.request
+        request.httpMethod = .post
+        request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
         
+        let user = User(username: username, password: password, password1: nil, password2: nil)
+        do {
+            request.httpBody = try JSONEncoder().encode(user)
+        } catch {
+            completion(error)
+            return
+        }
+        
+        networkHandler.transferMahCodableDatas(with: request) { (result: Result<Bearer, NetworkError>) in
+            do {
+                self.token = try result.get()
+                completion(nil)
+            } catch {
+                completion(error)
+                return
+            }
+        }
     }
     
         
