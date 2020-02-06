@@ -119,7 +119,7 @@ extension ViewController: RoomSceneDelegate {
 			}
 		}
 	}
-}
+
 
 extension ViewController: LiveConnectionControllerDelegate {
 	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : OtherPlayerUpdate]) {
