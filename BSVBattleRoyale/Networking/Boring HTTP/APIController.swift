@@ -18,10 +18,11 @@ class APIController {
     func register(with username: String, password: String, completion: @escaping (Error?) -> Void) {
         guard let url = backendBaseURL?.appendingPathComponent("api")
             .appendingPathComponent("auth")
-            .appendingPathComponent("registration") else { return }
+            .appendingPathComponent("registration", isDirectory: true) else { return }
         
         var request = url.request
         request.httpMethod = .post
+        request.expectedResponseCodes = Set(200...299)
         request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
         
         let user = User(username: username, password: nil, password1: password, password2: password)
@@ -44,13 +45,14 @@ class APIController {
     }
     
     
-    func logIn(with username: String, password: String, completion: @escaping (Error?) -> Void) {
+    func login(with username: String, password: String, completion: @escaping (Error?) -> Void) {
         guard let url = backendBaseURL?.appendingPathComponent("api")
             .appendingPathComponent("auth")
-            .appendingPathComponent("login") else { return }
+            .appendingPathComponent("login", isDirectory: true) else { return }
         
         var request = url.request
         request.httpMethod = .post
+        request.expectedResponseCodes = Set(200...299)
         request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
         
         let user = User(username: username, password: password, password1: nil, password2: nil)
@@ -79,7 +81,7 @@ class APIController {
 			let token = token else { return }
 
 		var request = url.request
-		request.addValue(.other(value: "Token \(token.token)"), forHTTPHeaderField: .commonKey(key: .authorization))
+		request.addValue(.other(value: "Token \(token.key)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
@@ -91,7 +93,7 @@ class APIController {
 
 		var request = url.request
 		request.httpMethod = .post
-		request.addValue(.other(value: "Token \(token.token)"), forHTTPHeaderField: .commonKey(key: .authorization))
+		request.addValue(.other(value: "Token \(token.key)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
 		let roomInfo = ["roomID": room]
@@ -111,7 +113,7 @@ class APIController {
 			let token = token else { return }
 
 		var request = url.request
-		request.addValue(.other(value: "Token \(token.token)"), forHTTPHeaderField: .commonKey(key: .authorization))
+		request.addValue(.other(value: "Token \(token.key)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)

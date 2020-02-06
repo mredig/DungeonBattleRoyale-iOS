@@ -8,11 +8,13 @@
 
 import UIKit
 import AuthenticationServices
+import NetworkHandler
 
 class SignInWithAppleViewController: UIViewController {
     
     @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var password1TextField: UITextField!
+    @IBOutlet weak var password2TextField: UITextField!
     @IBOutlet weak var registerLoginButton: UIButton!
     @IBOutlet weak var backgroundStuff: UIImageView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -33,15 +35,27 @@ class SignInWithAppleViewController: UIViewController {
         
         if segmentedControl.selectedSegmentIndex == 0 {
             signInType = .register
-            registerLoginButton.setTitle("Register", for: .normal)
+            registerUser()
         } else {
             signInType = .login
-            registerLoginButton.setTitle("Login", for: .normal)
+            loginUser()
         }
     }
     
     
-
+    @IBAction func segmentedControlChanged(_ sender: Any) {
+        
+        if segmentedControl.selectedSegmentIndex == 0 {
+            signInType = .register
+            registerLoginButton.setTitle("Register", for: .normal)
+            password2TextField.isHidden = false
+        } else {
+            signInType = .login
+            registerLoginButton.setTitle("Login", for: .normal)
+            password2TextField.isHidden = true
+        }
+    }
+    
     // MARK: - UI Actions
 
     @objc func signInButtonPressed() {
@@ -67,22 +81,10 @@ class SignInWithAppleViewController: UIViewController {
         setupAppleIDButton()
         
         switch Int.random(in: 0...10) {
-        case 3:
-            backgroundStuff.image = UIImage(named: "CowboyBlonde")
-            print("cb")
-        case 5:
-            backgroundStuff.image = UIImage(named: "CowboyRed")
-            print("cr")
-        case 7:
-            backgroundStuff.image = UIImage(named: "DallasCowboys")
-            print("DC")
-        case 9:
+        case 3, 5, 7, 9:
             backgroundStuff.image = UIImage(named: "SchamelessPlug")
-            print("shamelessly")
-            
         default:
             backgroundStuff.image = UIImage(named: "background")
-            print("background")
         }
     }
     
@@ -126,40 +128,59 @@ class SignInWithAppleViewController: UIViewController {
     
     func registerUser() {
         guard let username = usernameTextField.text,
-            let password = passwordTextField.text else { return }
+            let password = password1TextField.text,
+            let password2 = password2TextField.text,
+            password2 == password else { return }
         
-        switch signInType {
-        case .register:
-            print("not using signUp right now")
-            apiController.register(with: username, password: password, completion: { (error) in
-                if let error = error {
-                    NSLog("Error signing up: \(error)")
-                } else {
-                    DispatchQueue.main.async {
-                        let alertController = UIAlertController(title: "Sign Up Successful", message: "Now please log in.", preferredStyle: .alert)
-                        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alertController.addAction(alertAction)
-                        self.present(alertController, animated: true, completion: {
-                            self.signInType = .login
-                            self.segmentedControl.selectedSegmentIndex = 1
-                            self.registerLoginButton.setTitle("Sign In", for: .normal)
-                        })
+        apiController.register(with: username, password: password) { (error) in
+            if let error = error {
+                if let terror = error as? NetworkError {
+                    switch terror {
+                    case .httpNon200StatusCode(code: _, data: let Data):
+                        let string = String(data: Data!, encoding: .utf8)
+                        print(string)
+                    default:
+                        break
                     }
                 }
-            })
-        case .login:
-            //apiController.automatedLoginSuccess()
-            navigationController?.popViewController(animated: true)
-            
-            //            loginController.login(with: username, password: password, completion: { (error) in
-            //                if let error = error {
-            //                    NSLog("Error logging in: \(error)")
-            //                } else {
-            //                    DispatchQueue.main.async {
-            //                        self.dismiss(animated: true, completion: nil)
-            //                    }
-            //                }
-            //            })
+                NSLog("Error registering \(error)")
+                return
+            }
+            if self.apiController.token != nil {
+                self.startGame()
+            }
+        }
+    }
+    
+    
+    func startGame() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "ShowSegueToMainStoryboard", sender: nil)
+        }
+    }
+    
+    
+    func loginUser() {
+        guard let username = usernameTextField.text,
+            let password = password1TextField.text else { return }
+        
+        apiController.login(with: username, password: password) { (error) in
+            if let error = error {
+                if let terror = error as? NetworkError {
+                    switch terror {
+                    case .httpNon200StatusCode(code: _, data: let Data):
+                        let string = String(data: Data!, encoding: .utf8)!
+                        print(string)
+                    default:
+                        break
+                    }
+                }
+                NSLog("Error logging in user \(error)")
+                return
+            }
+            if self.apiController.token != nil {
+                self.startGame()
+            }
         }
     }
 
