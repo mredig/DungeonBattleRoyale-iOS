@@ -44,7 +44,7 @@ class RoomScene: SKScene {
 	func loadRoom(room: Room?, playerPosition: CGPoint, playerID: String) {
 		background.room = room
 
-		let newPlayer = Player(avatar: .yellowMonster, id: playerID)
+		let newPlayer = Player(avatar: .greenMonster, id: playerID)
 		newPlayer.position = CGPoint.zero
 		addChild(newPlayer)
 		currentPlayer = newPlayer

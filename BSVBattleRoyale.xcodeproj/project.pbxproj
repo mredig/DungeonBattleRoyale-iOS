@@ -16,6 +16,10 @@
 		3301029323EB3D0C00400F34 /* input.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029123EB3D0C00400F34 /* input.xcfilelist */; };
 		3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029223EB3D0C00400F34 /* output.xcfilelist */; };
 		3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3301029723EB3DE200400F34 /* NetworkHandler.framework */; };
+		334FA62E23EBFFA300CAEDC4 /* BlueMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA62D23EBFFA300CAEDC4 /* BlueMonster.atlas */; };
+		334FA63223EC025000CAEDC4 /* GreenMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */; };
+		334FA63323EC025000CAEDC4 /* PinkMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA63023EC025000CAEDC4 /* PinkMonster.atlas */; };
+		334FA63423EC025000CAEDC4 /* PurpleMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA63123EC025000CAEDC4 /* PurpleMonster.atlas */; };
 		3366ECB023EA22EF00953583 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3366ECAF23EA22EF00953583 /* Login.storyboard */; };
 		3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB123EA265C00953583 /* LiveConnectionController.swift */; };
 		3366ECB423EA284900953583 /* WSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB323EA284900953583 /* WSPacket.swift */; };
@@ -76,6 +80,10 @@
 		3301029123EB3D0C00400F34 /* input.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = input.xcfilelist; sourceTree = "<group>"; };
 		3301029223EB3D0C00400F34 /* output.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = output.xcfilelist; sourceTree = "<group>"; };
 		3301029723EB3DE200400F34 /* NetworkHandler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkHandler.framework; path = Carthage/Build/iOS/NetworkHandler.framework; sourceTree = "<group>"; };
+		334FA62D23EBFFA300CAEDC4 /* BlueMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BlueMonster.atlas; sourceTree = "<group>"; };
+		334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GreenMonster.atlas; sourceTree = "<group>"; };
+		334FA63023EC025000CAEDC4 /* PinkMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PinkMonster.atlas; sourceTree = "<group>"; };
+		334FA63123EC025000CAEDC4 /* PurpleMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PurpleMonster.atlas; sourceTree = "<group>"; };
 		3366ECAF23EA22EF00953583 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
 		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
@@ -170,6 +178,10 @@
 		33D2806023EA44C400DE0E4C /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
+				334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */,
+				334FA63023EC025000CAEDC4 /* PinkMonster.atlas */,
+				334FA63123EC025000CAEDC4 /* PurpleMonster.atlas */,
+				334FA62D23EBFFA300CAEDC4 /* BlueMonster.atlas */,
 				33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */,
 			);
 			path = Atlases;
@@ -423,14 +435,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				334FA63223EC025000CAEDC4 /* GreenMonster.atlas in Resources */,
 				3301028F23EB3CE700400F34 /* Cartfile in Resources */,
 				3366ECB023EA22EF00953583 /* Login.storyboard in Resources */,
 				DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */,
+				334FA62E23EBFFA300CAEDC4 /* BlueMonster.atlas in Resources */,
 				DCCE537823E9F4630098464D /* Assets.xcassets in Resources */,
+				334FA63423EC025000CAEDC4 /* PurpleMonster.atlas in Resources */,
 				33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */,
 				DCCE537623E9F4610098464D /* Main.storyboard in Resources */,
 				3301029323EB3D0C00400F34 /* input.xcfilelist in Resources */,
 				3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */,
+				334FA63323EC025000CAEDC4 /* PinkMonster.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

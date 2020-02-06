@@ -13,17 +13,22 @@ enum PlayerDirection {
 	case right
 }
 
-enum Avatar {
+enum Avatar: Int {
 	case yellowMonster
+	case pinkMonster
+	case purpleMonster
+	case blueMonster
+	case greenMonster
 }
 
 enum AnimationTitle: String, CaseIterable {
+	// ordered by priority, lowest to highest
 	case idle = "Idle"
-	case attack = "Attack"
-	case die = "Die"
-	case jump = "Jump"
-	case run = "Run"
 	case walk = "Walk"
+	case run = "Run"
+	case attack = "Attack"
+	case jump = "Jump"
+	case die = "Die"
 }
 
 class Player: SKNode {
@@ -34,14 +39,23 @@ class Player: SKNode {
 	}
 
 	let playerSprite: SKSpriteNode
-	let avatar: Avatar
+	var avatar: Avatar {
+		didSet {
+
+		}
+	}
 	let id: String
 
-	let animationPriority: Stack<AnimationTitle> = {
-		let stack = Stack<AnimationTitle>()
-		stack.push(.walk)
-		return stack
-	}()
+	var currentAnimations = Set([AnimationTitle.idle])
+	var animationPriority: AnimationTitle {
+		for animation in AnimationTitle.allCases.reversed() {
+			if currentAnimations.contains(animation) {
+				return animation
+			}
+		}
+		return .idle
+	}
+	var animationMaintainer: Timer?
 
 	init(avatar: Avatar, id: String) {
 		self.avatar = avatar
@@ -56,27 +70,38 @@ class Player: SKNode {
 		physicsBody?.contactTestBitMask = wallBitmask | doorBitmask // | playerBitmask
 		physicsBody?.collisionBitMask = wallBitmask | doorBitmask
 
-		// crappy animation priority system - probably scrap this
-		let animationPriorityRunner = SKAction.customAction(withDuration: 1/15) { [weak self] node, elapsed in
-			guard let self = self else { return }
-			guard let currentAnimationPriority = self.animationPriority.peek() else { return }
-			if node.action(forKey: "animation\(currentAnimationPriority.rawValue)") == nil {
-				for animation in AnimationTitle.allCases {
-					node.removeAction(forKey: "animation\(animation.rawValue)")
-				}
-				node.run(Player.animationAction(for: avatar, animationTitle: currentAnimationPriority), withKey: "animation\(currentAnimationPriority.rawValue)")
-			}
-		}
-		let forever = SKAction.repeatForever(animationPriorityRunner)
-		playerSprite.run(forever, withKey: "animationPriority")
+		animationMaintainer = Timer.scheduledTimer(withTimeInterval: 1/15, repeats: true, block: { [weak self] _ in
+			self?.updateCurrentAnimation()
+		})
+
 	}
 
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init coder not implemented")
 	}
 
+	override func removeFromParent() {
+		animationMaintainer?.invalidate()
+		animationMaintainer = nil
+		super.removeFromParent()
+	}
+
 	private func updateFacing() {
 		playerSprite.xScale = direction == .left ? 1.0 : -1.0
+	}
+
+	private func updateAvatar() {
+		AnimationTitle.allCases.forEach { playerSprite.removeAction(forKey: "animation\($0.rawValue)") }
+		updateCurrentAnimation()
+	}
+
+	private func updateCurrentAnimation() {
+		if playerSprite.action(forKey: "animation\(animationPriority.rawValue)") == nil {
+			for animation in AnimationTitle.allCases {
+				playerSprite.removeAction(forKey: "animation\(animation.rawValue)")
+			}
+			playerSprite.run(Player.animationAction(for: avatar, animationTitle: animationPriority), withKey: "animation\(animationPriority.rawValue)")
+		}
 	}
 
 	/// if duration is >= 0, moves in `duration` seconds. If less than zero, moves at speed of `duration` points per second
@@ -93,8 +118,15 @@ class Player: SKNode {
 			time = distance / -duration
 		}
 		let moveAction = SKAction.move(to: location, duration: Double(time))
+		let seq = SKAction.sequence([
+			moveAction,
+			SKAction.run {
+				self.currentAnimations.remove(.walk)
+			}
+		])
+		currentAnimations.insert(.walk)
 
-		run(moveAction, withKey: Player.moveKey)
+		run(seq, withKey: Player.moveKey)
 	}
 
 	func stopMove() {
@@ -106,13 +138,25 @@ extension Player {
 	private static let animationKey = "animation"
 	private static let moveKey = "move"
 
-	static let character1Atlas = SKTextureAtlas(named: "YellowMonster")
+	static let yellowAtlas = SKTextureAtlas(named: "YellowMonster")
+	static let pinkAtlas = SKTextureAtlas(named: "PinkMonster")
+	static let purpleAtlas = SKTextureAtlas(named: "PurpleMonster")
+	static let greenAtlas = SKTextureAtlas(named: "GreenMonster")
+	static let blueAtlas = SKTextureAtlas(named: "BlueMonster")
 
 	static func animationTextures(for avatar: Avatar, animationTitle: AnimationTitle) -> [SKTexture] {
 		let atlas: SKTextureAtlas
 		switch avatar {
 		case .yellowMonster:
-			atlas = character1Atlas
+			atlas = yellowAtlas
+		case .blueMonster:
+			atlas = blueAtlas
+		case .greenMonster:
+			atlas = greenAtlas
+		case .purpleMonster:
+			atlas = purpleAtlas
+		case .pinkMonster:
+			atlas = pinkAtlas
 		}
 		let names = atlas.textureNames
 			.filter { $0.hasPrefix(animationTitle.rawValue) && !$0.contains("@2x") && !$0.contains("@3x") }
