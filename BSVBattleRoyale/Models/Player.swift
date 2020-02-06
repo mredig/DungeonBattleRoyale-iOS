@@ -38,13 +38,18 @@ class Player: SKNode {
 		}
 	}
 
-	let playerSprite: SKSpriteNode
+	private let playerSprite: SKSpriteNode
+	private let nameSprite: SKLabelNode
 	var avatar: Avatar {
 		didSet {
 
 		}
 	}
 	let id: String
+	var username: String {
+		get { nameSprite.text ?? "" }
+		set { nameSprite.text = newValue }
+	}
 
 	var currentAnimations = Set([AnimationTitle.idle])
 	var animationPriority: AnimationTitle {
@@ -57,13 +62,23 @@ class Player: SKNode {
 	}
 	var animationMaintainer: Timer?
 
-	init(avatar: Avatar, id: String) {
+	var destination: CGPoint = .zero
+
+	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))") {
 		self.avatar = avatar
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
 		playerSprite = SKSpriteNode(texture: idleAnimation.first)
 		self.id = id
+
+		nameSprite = SKLabelNode(text: username)
+		nameSprite.color = UIColor(hue: CGFloat.random(in: 0...1), saturation: CGFloat.random(in: 0.6...1), brightness: CGFloat.random(in: 0.7...1), alpha: 1)
+		nameSprite.horizontalAlignmentMode = .center
+		nameSprite.verticalAlignmentMode = .center
+		nameSprite.position = CGPoint(x: 0, y: playerSprite.size.height / 2)
+		nameSprite.fontSize = 20
 		super.init()
 		addChild(playerSprite)
+		addChild(nameSprite)
 
 		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
 		physicsBody?.categoryBitMask = playerBitmask
