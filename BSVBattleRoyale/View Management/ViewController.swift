@@ -27,7 +27,7 @@ class ViewController: UIViewController {
 	var apiController: APIController?
 	var currentScene: RoomScene?
 
-	var playerInfo = PlayerInfo(playerID: "", spawnLocation: .zero) {
+	var playerInfo = PlayerState(playerID: "", spawnLocation: .zero) {
 		didSet {
 			DispatchQueue.main.async {
 				self.updateSpriteKit()
@@ -54,6 +54,7 @@ class ViewController: UIViewController {
 		gameView.showsPhysics = true
         // ⬆⬆⬆ Comment out for screengrabs
 
+		scene.apiController = apiController
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
 		scene.liveController = liveConntroller
@@ -89,7 +90,7 @@ class ViewController: UIViewController {
 			switch result {
 			case .success(let playerInit):
 				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.currentRoom)
-				self.playerInfo = PlayerInfo(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
+				self.playerInfo = PlayerState(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
 			case .failure(let error):
 				NSLog("Failed initing player: \(error)")
 			}
@@ -118,7 +119,7 @@ extension ViewController: RoomSceneDelegate {
 			case .success(let playerMove):
 				self.mapController?.currentRoom = self.mapController?.room(for: playerMove.currentRoom)
 				self.playerInfo.spawnLocation = playerMove.spawnLocation
-			case .failure(var error):
+			case .failure(let error):
                 if let terror = error as NetworkError? {
 					switch terror {
 					case .dataCodingError(specifically: _, sourceData: let data):

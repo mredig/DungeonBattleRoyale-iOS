@@ -23,11 +23,16 @@ struct PlayerMove: Codable {
 }
 
 
-struct PlayerInfo {
+struct PlayerState {
 	var playerID: String
 	var spawnLocation: CGPoint
 }
 
 struct OtherPlayerUpdate: Codable {
 	let position: CGPoint
+}
+
+struct PlayerInfo: Codable {
+	let player_avatar: Int
+	let username: String
 }

@@ -20,7 +20,12 @@ class RoomScene: SKScene {
 	let background = RoomSprite()
 	var currentPlayer: Player?
 	var liveController: LiveConnectionController?
+	var apiController: APIController?
 	weak var roomDelegate: RoomSceneDelegate?
+
+	private static var _playerInfoFetchTasks = [String: URLSessionDataTask]()
+	private static var _playerInfo = [String: PlayerInfo]()
+
 
 	private lazy var fadeSprite: SKSpriteNode = {
 		let sp = SKSpriteNode(color: .black, size: self.size)
@@ -50,6 +55,8 @@ class RoomScene: SKScene {
 		currentPlayer = newPlayer
 		newPlayer.zPosition = 1
 		newPlayer.position = playerPosition
+
+		loadInfoForPlayer(newPlayer)
 
 		let playerCamera = SKCameraNode()
 		newPlayer.addChild(playerCamera)
@@ -98,6 +105,7 @@ class RoomScene: SKScene {
 			addChild(addtlPlayer)
 			otherPlayers[id] = addtlPlayer
 			addtlPlayer.position = newPlayer.position
+			loadInfoForPlayer(addtlPlayer)
 		}
 
 		// remove expired players
@@ -106,12 +114,33 @@ class RoomScene: SKScene {
 			delete.removeFromParent()
 		}
 	}
+
+	func loadInfoForPlayer(_ player: Player) {
+		if let playerInfo = RoomScene._playerInfo[player.id] {
+			DispatchQueue.main.async {
+				player.avatar = Avatar(rawValue: playerInfo.player_avatar) ?? .yellowMonster
+				player.username = playerInfo.username
+			}
+		} else {
+			guard RoomScene._playerInfoFetchTasks[player.id] == nil else { return }
+			RoomScene._playerInfoFetchTasks[player.id] = apiController?.fetchPlayerInfo(for: player.id, completion: { [weak self] result in
+				switch result {
+				case .success(let info):
+					RoomScene._playerInfo[player.id] = info
+					self?.loadInfoForPlayer(player)
+				case .failure(let error):
+					print("Error fetching player info for \(player.id): \(error)")
+				}
+				RoomScene._playerInfoFetchTasks[player.id] = nil
+			})
+		}
+	}
 }
 
 extension RoomScene: SKPhysicsContactDelegate {
 
 	func didBegin(_ contact: SKPhysicsContact) {
-		var bodies = Set([contact.bodyB, contact.bodyA])
+		let bodies = Set([contact.bodyB, contact.bodyA])
 		var physicNodes = Set(bodies.compactMap { $0.node })
 
 		if let currentPlayer = currentPlayer {
