@@ -49,12 +49,10 @@ class RoomScene: SKScene {
 	func loadRoom(room: Room?, playerPosition: CGPoint, playerID: String) {
 		background.room = room
 
-		let newPlayer = Player(avatar: .greenMonster, id: playerID)
-		newPlayer.position = CGPoint.zero
+		let newPlayer = Player(avatar: .greenMonster, id: playerID, username: "", position: playerPosition)
 		addChild(newPlayer)
 		currentPlayer = newPlayer
 		newPlayer.zPosition = 1
-		newPlayer.position = playerPosition
 
 		loadInfoForPlayer(newPlayer)
 
@@ -68,7 +66,7 @@ class RoomScene: SKScene {
 		for touch in touches {
 			let location = touch.location(in: self)
 
-			currentPlayer?.move(to: location, duration: -250)
+			currentPlayer?.destination = location
 		}
 	}
 
@@ -94,17 +92,21 @@ class RoomScene: SKScene {
 				continue
 			}
 			// update any other consistent player's position
-			updatedPlayer.move(to: update.position, duration: 1/60)
+			if updatedPlayer.position.distance(to: update.position, isWithin: 40) {
+				updatedPlayer.destination = update.position
+			} else {
+				updatedPlayer.setPosition(to: update.position)
+			}
 			// unmark this player as a new player
 			newPlayers[id] = nil
 		}
 
 		// add all new players to the scene and track them
 		for (id, newPlayer) in newPlayers {
-			let addtlPlayer = Player(avatar: .yellowMonster, id: id)
+			let addtlPlayer = Player(avatar: .yellowMonster, id: id, username: "", position: newPlayer.position)
 			addChild(addtlPlayer)
 			otherPlayers[id] = addtlPlayer
-			addtlPlayer.position = newPlayer.position
+			addtlPlayer.setPosition(to: newPlayer.position)
 			loadInfoForPlayer(addtlPlayer)
 		}
 
@@ -145,7 +147,7 @@ extension RoomScene: SKPhysicsContactDelegate {
 
 		if let currentPlayer = currentPlayer {
 			if physicNodes.contains(currentPlayer) && physicNodes.contains(background) {
-				currentPlayer.stopMove()
+//				currentPlayer.stopMove()
 			}
 
 			// one of the nodes is player
