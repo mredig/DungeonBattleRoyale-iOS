@@ -10,7 +10,7 @@ import Foundation
 import CoreGraphics
 
 protocol LiveConnectionControllerDelegate: AnyObject {
-	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String: OtherPlayerUpdate])
+	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
 }
 
 class LiveConnectionController {
@@ -33,10 +33,10 @@ class LiveConnectionController {
 
 	private var lastSend = TimeInterval(0)
 	let sendDelta: TimeInterval = 1/15
-	func updatePlayerPosition(_ position: CGPoint) {
+	func updatePlayerPosition(_ position: CGPoint, destination: CGPoint) {
 		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
-		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y]]).json,
+		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y], "destination": [destination.x, destination.y]]).json,
 		currentTime > lastSend + sendDelta else { return }
 		webSocketConnection.send(text: packet)
 		lastSend = currentTime
@@ -79,8 +79,8 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			guard let dataObj = jsonObj?["data"] else { return }
 
 			switch messageType {
-			case "playerPositions":
-				distributePositionData(data: dataObj)
+			case "positionPulse":
+				distributePositionPulseData(data: dataObj)
 			default:
 				print("unclassified message: \(text)")
 				break
@@ -94,14 +94,18 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		print("got data: \(data)")
 	}
 
-	private func distributePositionData(data: Any) {
+	private func distributePositionPulseData(data: Any) {
 		guard let dict = data as? [String: [String: [CGFloat]]] else { return }
 
-		var otherPlayers = [String: OtherPlayerUpdate]()
+		var otherPlayers = [String: PositionPulseUpdate]()
 		for (playerID, positionDict) in dict {
-			guard let positions = positionDict["position"], positions.count == 2 else { continue }
+			guard let positions = positionDict["position"],
+				positions.count == 2,
+				let destinationList = positionDict["destination"],
+				destinationList.count == 2 else { continue }
 			let position = CGPoint(x: positions[0], y: positions[1])
-			otherPlayers[playerID] = OtherPlayerUpdate(position: position)
+			let destination = CGPoint(x: destinationList[0], y: destinationList[1])
+			otherPlayers[playerID] = PositionPulseUpdate(position: position, destination: destination)
 		}
 
 		delegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)

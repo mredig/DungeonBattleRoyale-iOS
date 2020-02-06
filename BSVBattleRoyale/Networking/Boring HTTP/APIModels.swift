@@ -28,8 +28,9 @@ struct PlayerState {
 	var spawnLocation: CGPoint
 }
 
-struct OtherPlayerUpdate: Codable {
+struct PositionPulseUpdate: Codable {
 	let position: CGPoint
+	let destination: CGPoint
 }
 
 struct PlayerInfo: Codable {

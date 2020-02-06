@@ -75,10 +75,10 @@ class RoomScene: SKScene {
 
 		// send player position
 		guard let player = currentPlayer else { return }
-		liveController?.updatePlayerPosition(player.position)
+		liveController?.updatePlayerPosition(player.position, destination: player.destination)
 	}
 
-	func updateOtherPlayers(updatePlayers: [String: OtherPlayerUpdate]) {
+	func updateOtherPlayers(updatePlayers: [String: PositionPulseUpdate]) {
 		guard let currentPlayer = currentPlayer else { return }
 		var newPlayers = updatePlayers
 		var expiredPlayers = [Player]()
@@ -92,8 +92,8 @@ class RoomScene: SKScene {
 				continue
 			}
 			// update any other consistent player's position
-			if updatedPlayer.position.distance(to: update.position, isWithin: 40) {
-				updatedPlayer.destination = update.position
+			if updatedPlayer.position.distance(to: update.position, isWithin: 150) {
+				updatedPlayer.destination = update.destination
 			} else {
 				updatedPlayer.setPosition(to: update.position)
 			}
