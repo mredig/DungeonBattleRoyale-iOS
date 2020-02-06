@@ -50,7 +50,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	}
 
 	func onDisconnected(connection: WebSocketConnection, error: Error?) {
-		print("disconnected: \(error)")
+        print("disconnected: \(String(describing: error))")
 		connected = false
 	}
 
