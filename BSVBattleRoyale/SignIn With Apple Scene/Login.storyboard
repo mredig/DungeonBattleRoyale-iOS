@@ -14,10 +14,76 @@
                     <view key="view" contentMode="scaleToFill" id="n1H-KT-EoJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="sDC-Ud-0P2">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="QUs-Ok-5Ck">
+                                <rect key="frame" x="40" y="64" width="334" height="419"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" translatesAutoresizingMaskIntoConstraints="NO" id="Slh-FZ-pLv">
+                                        <rect key="frame" x="0.0" y="0.0" width="334" height="32"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <segments>
+                                            <segment title="Register"/>
+                                            <segment title="Sign In"/>
+                                        </segments>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="segmentedControlChanged:" destination="HqL-B6-ywn" eventType="valueChanged" id="SAA-Ds-qyx"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wqU-UR-9kG">
+                                        <rect key="frame" x="0.0" y="67" width="334" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YyF-eU-kpI">
+                                        <rect key="frame" x="0.0" y="137" width="334" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xeC-ST-0bZ">
+                                        <rect key="frame" x="0.0" y="207" width="334" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oki-1m-zrP">
+                                        <rect key="frame" x="0.0" y="277" width="334" height="142"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="142" id="yki-AR-2wD"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <state key="normal" title="Register">
+                                            <color key="titleColor" red="0.45138680930000002" green="0.99309605359999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="registerButtonTapped:" destination="HqL-B6-ywn" eventType="touchUpInside" id="0FJ-38-72y"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="sDC-Ud-0P2" secondAttribute="bottom" id="048-Ra-IJZ"/>
+                            <constraint firstItem="QUs-Ok-5Ck" firstAttribute="leading" secondItem="Ctw-tJ-or5" secondAttribute="leading" constant="40" id="LyV-sm-r6K"/>
+                            <constraint firstItem="QUs-Ok-5Ck" firstAttribute="top" secondItem="Ctw-tJ-or5" secondAttribute="top" constant="20" id="MAh-Qo-NfI"/>
+                            <constraint firstItem="sDC-Ud-0P2" firstAttribute="trailing" secondItem="Ctw-tJ-or5" secondAttribute="trailing" id="MOl-Ee-vHK"/>
+                            <constraint firstItem="sDC-Ud-0P2" firstAttribute="leading" secondItem="Ctw-tJ-or5" secondAttribute="leading" id="Pav-DM-add"/>
+                            <constraint firstItem="sDC-Ud-0P2" firstAttribute="top" secondItem="n1H-KT-EoJ" secondAttribute="top" id="mMU-MA-MKr"/>
+                            <constraint firstItem="Ctw-tJ-or5" firstAttribute="trailing" secondItem="QUs-Ok-5Ck" secondAttribute="trailing" constant="40" id="sIy-Rl-HN2"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Ctw-tJ-or5"/>
                     </view>
                     <connections>
+                        <outlet property="backgroundStuff" destination="sDC-Ud-0P2" id="VJq-WZ-hDX"/>
+                        <outlet property="password1TextField" destination="YyF-eU-kpI" id="l59-Md-OaD"/>
+                        <outlet property="password2TextField" destination="xeC-ST-0bZ" id="SJv-sd-enD"/>
+                        <outlet property="registerLoginButton" destination="Oki-1m-zrP" id="vQA-XU-UBP"/>
+                        <outlet property="segmentedControl" destination="Slh-FZ-pLv" id="mbj-S7-QHG"/>
+                        <outlet property="usernameTextField" destination="wqU-UR-9kG" id="H7e-bz-MSX"/>
                         <segue destination="UAG-Dv-zfT" kind="modal" identifier="ShowSegueToMainStoryboard" modalPresentationStyle="fullScreen" id="Mu2-OM-B9M"/>
                     </connections>
                 </viewController>
@@ -36,4 +102,7 @@
             <point key="canvasLocation" x="793" y="33"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="background" width="995" height="995"/>
+    </resources>
 </document>

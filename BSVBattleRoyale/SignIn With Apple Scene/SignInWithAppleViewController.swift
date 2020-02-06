@@ -8,9 +8,54 @@
 
 import UIKit
 import AuthenticationServices
+import NetworkHandler
 
 class SignInWithAppleViewController: UIViewController {
-
+    
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var password1TextField: UITextField!
+    @IBOutlet weak var password2TextField: UITextField!
+    @IBOutlet weak var registerLoginButton: UIButton!
+    @IBOutlet weak var backgroundStuff: UIImageView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    var signInType: SignInType = .login
+       
+       enum SignInType {
+           case register
+           case login
+       }
+       
+    let apiController = APIController()
+    
+    
+    @IBAction func registerButtonTapped(_ sender: Any) {
+        
+        print("register button tapped")
+        
+        if segmentedControl.selectedSegmentIndex == 0 {
+            signInType = .register
+            registerUser()
+        } else {
+            signInType = .login
+            loginUser()
+        }
+    }
+    
+    
+    @IBAction func segmentedControlChanged(_ sender: Any) {
+        
+        if segmentedControl.selectedSegmentIndex == 0 {
+            signInType = .register
+            registerLoginButton.setTitle("Register", for: .normal)
+            password2TextField.isHidden = false
+        } else {
+            signInType = .login
+            registerLoginButton.setTitle("Login", for: .normal)
+            password2TextField.isHidden = true
+        }
+    }
+    
     // MARK: - UI Actions
 
     @objc func signInButtonPressed() {
@@ -32,7 +77,21 @@ class SignInWithAppleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupAppleIDButton()
+        
+        switch Int.random(in: 0...10) {
+        case 3, 5, 7, 9:
+            backgroundStuff.image = UIImage(named: "SchamelessPlug")
+        default:
+            backgroundStuff.image = UIImage(named: "background")
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        //performSegue(withIdentifier: "ShowSegueToMainStoryboard", sender: nil)
     }
 
     // MARK: - View Setup
@@ -66,6 +125,64 @@ class SignInWithAppleViewController: UIViewController {
     
 
     // MARK: - Networking
+    
+    func registerUser() {
+        guard let username = usernameTextField.text,
+            let password = password1TextField.text,
+            let password2 = password2TextField.text,
+            password2 == password else { return }
+        
+        apiController.register(with: username, password: password) { (error) in
+            if let error = error {
+                if let terror = error as? NetworkError {
+                    switch terror {
+                    case .httpNon200StatusCode(code: _, data: let Data):
+                        let string = String(data: Data!, encoding: .utf8)
+                        print(string)
+                    default:
+                        break
+                    }
+                }
+                NSLog("Error registering \(error)")
+                return
+            }
+            if self.apiController.token != nil {
+                self.startGame()
+            }
+        }
+    }
+    
+    
+    func startGame() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "ShowSegueToMainStoryboard", sender: nil)
+        }
+    }
+    
+    
+    func loginUser() {
+        guard let username = usernameTextField.text,
+            let password = password1TextField.text else { return }
+        
+        apiController.login(with: username, password: password) { (error) in
+            if let error = error {
+                if let terror = error as? NetworkError {
+                    switch terror {
+                    case .httpNon200StatusCode(code: _, data: let Data):
+                        let string = String(data: Data!, encoding: .utf8)!
+                        print(string)
+                    default:
+                        break
+                    }
+                }
+                NSLog("Error logging in user \(error)")
+                return
+            }
+            if self.apiController.token != nil {
+                self.startGame()
+            }
+        }
+    }
 
     func exchangeCode(_ code: String, handler: (String?, Error?) -> Void) {
         // Call your backend to exchange an API token with the code.

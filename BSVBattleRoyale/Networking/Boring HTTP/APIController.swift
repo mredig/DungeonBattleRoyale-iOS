@@ -9,10 +9,73 @@
 import Foundation
 import NetworkHandler
 
-class APIController {
-	var token: TokenTemp? = TokenTemp(key: "ded69bb47c94b5a0716377d444b3297e94fc105f")
-	let networkHandler = NetworkHandler.default
 
+
+class APIController {
+    var token: Bearer?
+    let networkHandler = NetworkHandler.default
+
+    func register(with username: String, password: String, completion: @escaping (Error?) -> Void) {
+        guard let url = backendBaseURL?.appendingPathComponent("api")
+            .appendingPathComponent("auth")
+            .appendingPathComponent("registration", isDirectory: true) else { return }
+        
+        var request = url.request
+        request.httpMethod = .post
+        request.expectedResponseCodes = Set(200...299)
+        request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
+        
+        let user = User(username: username, password: nil, password1: password, password2: password)
+        do {
+            request.httpBody = try JSONEncoder().encode(user)
+        } catch {
+            completion(error)
+            return
+        }
+        
+        networkHandler.transferMahCodableDatas(with: request) { (result: Result<Bearer, NetworkError>) in
+            do {
+                self.token = try result.get()
+                completion(nil)
+            } catch {
+                completion(error)
+                return
+            }
+        }
+    }
+    
+    
+    func login(with username: String, password: String, completion: @escaping (Error?) -> Void) {
+        guard let url = backendBaseURL?.appendingPathComponent("api")
+            .appendingPathComponent("auth")
+            .appendingPathComponent("login", isDirectory: true) else { return }
+        
+        var request = url.request
+        request.httpMethod = .post
+        request.expectedResponseCodes = Set(200...299)
+        request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
+        
+        let user = User(username: username, password: password, password1: nil, password2: nil)
+        do {
+            request.httpBody = try JSONEncoder().encode(user)
+        } catch {
+            completion(error)
+            return
+        }
+        
+        networkHandler.transferMahCodableDatas(with: request) { (result: Result<Bearer, NetworkError>) in
+            do {
+                self.token = try result.get()
+                completion(nil)
+            } catch {
+                completion(error)
+                return
+            }
+        }
+    }
+    
+        
+        
 	func initializePlayer(completion: @escaping ((Result<PlayerInit, NetworkError>) -> Void)) {
 		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("init"),
 			let token = token else { return }

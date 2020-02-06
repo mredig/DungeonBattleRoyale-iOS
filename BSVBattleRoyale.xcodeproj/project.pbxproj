@@ -46,6 +46,8 @@
 		DCCE53A823E9F8470098464D /* NIOConcurrencyHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A723E9F8470098464D /* NIOConcurrencyHelpers */; };
 		DCCE53AA23E9F8470098464D /* NIOFoundationCompat in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A923E9F8470098464D /* NIOFoundationCompat */; };
 		DCCE53AC23E9F8470098464D /* NIOWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53AB23E9F8470098464D /* NIOWebSocket */; };
+		FCED98D623EB974300E321FC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED98D523EB974300E321FC /* User.swift */; };
+		FCED98D823EB975600E321FC /* Bearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED98D723EB975600E321FC /* Bearer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,8 @@
 		DCCE539023E9F4630098464D /* BSVBattleRoyaleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSVBattleRoyaleUITests.swift; sourceTree = "<group>"; };
 		DCCE539223E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
+		FCED98D523EB974300E321FC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FCED98D723EB975600E321FC /* Bearer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bearer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +290,8 @@
 		DCCE53B223E9FA3A0098464D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FCED98D523EB974300E321FC /* User.swift */,
+				FCED98D723EB975600E321FC /* Bearer.swift */,
 				3366ECB523EA2BB400953583 /* Player.swift */,
 				3366ECBC23EA2CDC00953583 /* Room.swift */,
 				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
@@ -483,6 +489,7 @@
 				33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */,
 				DCCE537323E9F4610098464D /* ViewController.swift in Sources */,
 				3366ECB423EA284900953583 /* WSPacket.swift in Sources */,
+				FCED98D823EB975600E321FC /* Bearer.swift in Sources */,
 				3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */,
 				DCCE536F23E9F4610098464D /* AppDelegate.swift in Sources */,
 				DCCE537123E9F4610098464D /* SceneDelegate.swift in Sources */,
@@ -497,6 +504,7 @@
 				33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */,
 				3301028323EA5ECD00400F34 /* LinkedList.swift in Sources */,
 				33D27F7E23EA3D1D00DE0E4C /* SpriteKit+Helpers.swift in Sources */,
+				FCED98D623EB974300E321FC /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
