@@ -24,7 +24,7 @@ class APIController {
         request.httpMethod = .post
         request.expectedResponseCodes = Set(200...299)
         request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
-        
+
         let user = User(username: username, password: nil, password1: password, password2: password)
         do {
             request.httpBody = try JSONEncoder().encode(user)

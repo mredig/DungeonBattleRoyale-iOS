@@ -8,9 +8,6 @@
 
 import Foundation
 
-
-
 struct Bearer: Codable {
-    
     let key: String
 }
