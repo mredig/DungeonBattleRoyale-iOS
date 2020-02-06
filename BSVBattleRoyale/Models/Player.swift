@@ -73,7 +73,6 @@ class Player: SKNode {
 		animationMaintainer = Timer.scheduledTimer(withTimeInterval: 1/15, repeats: true, block: { [weak self] _ in
 			self?.updateCurrentAnimation()
 		})
-
 	}
 
 	required init?(coder aDecoder: NSCoder) {

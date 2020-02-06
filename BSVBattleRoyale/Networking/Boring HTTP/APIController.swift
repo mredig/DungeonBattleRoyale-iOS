@@ -73,16 +73,23 @@ class APIController {
             }
         }
     }
-    
-        
-        
+
 	func initializePlayer(completion: @escaping ((Result<PlayerInit, NetworkError>) -> Void)) {
 		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("init"),
 			let token = token else { return }
 
 		var request = url.request
+		request.httpMethod = .post
 		request.addValue(.other(value: "Token \(token.key)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
+
+		let toServer = ["player_avatar": Avatar.yellowMonster.rawValue]
+		do {
+			request.httpBody = try JSONSerialization.data(withJSONObject: toServer, options: [])
+		} catch {
+			completion(.failure(.dataCodingError(specifically: error, sourceData: nil)))
+			return
+		}
 
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
