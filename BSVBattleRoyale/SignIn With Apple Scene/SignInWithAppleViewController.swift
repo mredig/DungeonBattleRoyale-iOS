@@ -81,7 +81,7 @@ class SignInWithAppleViewController: UIViewController {
         setupAppleIDButton()
         
         switch Int.random(in: 0...10) {
-        case 3, 5, 7, 9:
+        case 0...6:
             backgroundStuff.image = UIImage(named: "SchamelessPlug")
         default:
             backgroundStuff.image = UIImage(named: "background")
