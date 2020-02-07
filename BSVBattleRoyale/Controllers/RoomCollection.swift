@@ -10,8 +10,8 @@ import Foundation
 import CoreGraphics
 
 class RoomCollection: Codable {
-	let rooms: [String: Room]
+	let rooms: [Int: Room]
 	let roomCoordinates: Set<CGPoint>
-	let spawnRoom: String
+	let spawnRoom: Int
 }
 

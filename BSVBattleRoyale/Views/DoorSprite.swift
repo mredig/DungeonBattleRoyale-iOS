@@ -11,9 +11,9 @@ import SpriteKit
 class DoorSprite: SKNode {
 	let doorSprite: SKSpriteNode
 
-	let id: String
+	let id: Int
 
-	init(id: String) {
+	init(id: Int) {
 		doorSprite = SKSpriteNode(imageNamed: "door")
 		doorSprite.zPosition = -10
 		doorSprite.anchorPoint = CGPoint(x: 0.5, y: 0)

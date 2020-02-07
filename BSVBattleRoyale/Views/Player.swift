@@ -13,12 +13,12 @@ enum PlayerDirection {
 	case right
 }
 
-enum Avatar: Int {
-	case yellowMonster
-	case pinkMonster
-	case purpleMonster
+enum Avatar: Int, CaseIterable {
 	case blueMonster
 	case greenMonster
+	case pinkMonster
+	case purpleMonster
+	case yellowMonster
 }
 
 enum AnimationTitle: String, CaseIterable {
@@ -156,11 +156,28 @@ class Player: SKNode {
 	func say(message: String) {
 		chatBubbleSprite.text = message
 	}
+
+
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesBegan(touches, with: event)
+		attack()
+	}
+
+	func attack() {
+		guard !currentAnimations.contains(.attack) else { return }
+		let textures = Player.animationTextures(for: avatar, animationTitle: .attack)
+		let duration = TimeInterval(textures.count) * Player.animationFrameSpeed
+		currentAnimations.insert(.attack)
+		DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+			self.currentAnimations.remove(.attack)
+		}
+	}
 }
 
 extension Player {
 	private static let animationKey = "animation"
 	private static let moveKey = "move"
+	static let animationFrameSpeed: TimeInterval = 1/12
 
 	static let yellowAtlas = SKTextureAtlas(named: "YellowMonster")
 	static let pinkAtlas = SKTextureAtlas(named: "PinkMonster")
@@ -194,7 +211,7 @@ extension Player {
 	}
 
 	static func animationAction(with textures: [SKTexture]) -> SKAction {
-		let animation = SKAction.animate(with: textures, timePerFrame: 1.0 / 12.0)
+		let animation = SKAction.animate(with: textures, timePerFrame: animationFrameSpeed)
 		return SKAction.repeatForever(animation)
 	}
 }

@@ -70,8 +70,8 @@ class ViewController: UIViewController {
 		scene.scaleMode = .aspectFit
 		gameView.presentScene(scene, transition: .fade(with: .black, duration: 0.5))
 		// ⬇⬇⬇ Comment out for screengrabs
-        gameView.showsFPS = true
-		gameView.showsPhysics = true
+//		gameView.showsFPS = true
+//		gameView.showsPhysics = true
         // ⬆⬆⬆ Comment out for screengrabs
 
 		scene.apiController = apiController
