@@ -115,7 +115,7 @@ class APIController {
 		return networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 
-	func movePlayer(to room: String, completion: @escaping ((Result<PlayerMove, NetworkError>) -> Void)) {
+	func movePlayer(to room: Int, completion: @escaping ((Result<PlayerMove, NetworkError>) -> Void)) {
 		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("movetoroom"),
 			let token = token else { return }
 
