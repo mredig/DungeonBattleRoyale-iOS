@@ -19,6 +19,7 @@ class ViewController: UIViewController {
 
 	@IBOutlet weak var chatTextField: UITextField!
 	@IBOutlet weak var chatSendButton: UIButton!
+	@IBOutlet weak var textFieldInputConstraint: NSLayoutConstraint!
 
 
 
@@ -42,6 +43,25 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
 		mapGroup.isHidden = true
 		updateWorldMap()
+		setupKeyboardInputStuff()
+	}
+
+	private func setupKeyboardInputStuff() {
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
+	}
+
+	@objc func keyboardFrameWillChange(notification: NSNotification) {
+		guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+		let duration: NSNumber = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber ?? 0.2
+
+		animateTextField(to: keyboardRect.height, duration: TimeInterval(truncating: duration))
+	}
+
+	func animateTextField(to height: CGFloat, duration: TimeInterval) {
+		UIView.animate(withDuration: duration) {
+			self.textFieldInputConstraint.constant = height
+			self.view.layoutSubviews()
+		}
 	}
 
 	func updateSpriteKit() {
@@ -102,8 +122,11 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func chatSendPressed(_ sender: UIButton) {
+		animateTextField(to: 0, duration: 0.2)
+		chatTextField.resignFirstResponder()
 		guard let text = chatTextField.text, !text.isEmpty else { return }
 		liveConntroller?.sendChatMessage(text)
+		chatTextField.text = ""
 	}
 }
 
