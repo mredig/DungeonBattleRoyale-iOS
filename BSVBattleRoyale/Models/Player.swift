@@ -40,6 +40,7 @@ class Player: SKNode {
 
 	private let playerSprite: SKSpriteNode
 	private let nameSprite: SKLabelNode
+	private let chatBubbleSprite: ChatBubble
 	var avatar: Avatar {
 		didSet {
 			updateAvatar()
@@ -80,11 +81,14 @@ class Player: SKNode {
 		nameSprite.verticalAlignmentMode = .center
 		nameSprite.position = CGPoint(x: 0, y: playerSprite.size.height / 2)
 		nameSprite.fontSize = 20
+		chatBubbleSprite = ChatBubble()
 		destination = position
 		super.init()
 		self.position = position
 		addChild(playerSprite)
 		addChild(nameSprite)
+		addChild(chatBubbleSprite)
+		chatBubbleSprite.position = CGPoint(x: 0, y: nameSprite.calculateAccumulatedFrame().size.height + nameSprite.position.y + 30)
 
 		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
 		physicsBody?.categoryBitMask = playerBitmask
@@ -147,6 +151,10 @@ class Player: SKNode {
 
 		position.step(toward: destination, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
 		currentAnimations.insert(.walk)
+	}
+
+	func say(message: String) {
+		chatBubbleSprite.text = message
 	}
 }
 

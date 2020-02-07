@@ -136,9 +136,15 @@ extension ViewController: RoomSceneDelegate {
 }
 
 extension ViewController: LiveConnectionControllerDelegate {
-  func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
-      DispatchQueue.main.async {
-          self.currentScene?.updateOtherPlayers(updatePlayers: updatedPositions)
-    }
-  }
+	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
+		DispatchQueue.main.async {
+			self.currentScene?.updateOtherPlayers(updatePlayers: updatedPositions)
+		}
+	}
+
+	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String) {
+		DispatchQueue.main.async {
+			self.currentScene?.chatReceived(from: playerID, message: message)
+		}
+	}
 }

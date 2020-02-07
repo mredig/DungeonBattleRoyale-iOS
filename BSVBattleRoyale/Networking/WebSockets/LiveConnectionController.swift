@@ -11,6 +11,7 @@ import CoreGraphics
 
 protocol LiveConnectionControllerDelegate: AnyObject {
 	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
+	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String)
 }
 
 class LiveConnectionController {
@@ -81,6 +82,8 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			switch messageType {
 			case "positionPulse":
 				distributePositionPulseData(data: dataObj)
+			case "roomchat":
+				distributechatData(data: dataObj)
 			default:
 				print("unclassified message: \(text)")
 				break
@@ -92,6 +95,12 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 
 	func onMessage(connection: WebSocketConnection, data: Data) {
 		print("got data: \(data)")
+	}
+
+	private func distributechatData(data: Any) {
+		guard let dict = data as? [String: String] else { return }
+		guard let message = dict["message"], let playerID = dict["player"] else { return }
+		delegate?.chatReceived(on: self, message: message, playerID: playerID)
 	}
 
 	private func distributePositionPulseData(data: Any) {

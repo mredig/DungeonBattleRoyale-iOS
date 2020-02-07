@@ -117,6 +117,14 @@ class RoomScene: SKScene {
 		}
 	}
 
+	func chatReceived(from playerID: String, message: String) {
+		if let player = otherPlayers[playerID] {
+			player.say(message: message)
+		} else if currentPlayer?.id == playerID {
+			currentPlayer?.say(message: message)
+		}
+	}
+
 	func loadInfoForPlayer(_ player: Player) {
 		if let playerInfo = RoomScene._playerInfo[player.id] {
 			DispatchQueue.main.async {
