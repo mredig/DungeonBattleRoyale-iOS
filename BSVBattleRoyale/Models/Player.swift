@@ -175,7 +175,6 @@ class Player: SKNode {
 		DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
 			self.currentAnimations.remove(.attack)
 		}
-
 	}
 }
 
