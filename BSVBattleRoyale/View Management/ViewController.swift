@@ -121,6 +121,13 @@ class ViewController: UIViewController {
 		mapGroup.isHidden.toggle()
 	}
 
+	@IBAction func disconnectButtonPressed(_ sender: UIButton) {
+		apiController?.token = nil
+		liveConntroller?.disconnect()
+		liveConntroller = nil
+		dismiss(animated: true)
+	}
+
 	@IBAction func chatSendPressed(_ sender: UIButton) {
 		animateTextField(to: 0, duration: 0.2)
 		chatTextField.resignFirstResponder()
