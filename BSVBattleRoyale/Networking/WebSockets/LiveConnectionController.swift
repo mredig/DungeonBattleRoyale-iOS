@@ -10,8 +10,12 @@ import Foundation
 import CoreGraphics
 
 protocol LiveConnectionControllerDelegate: AnyObject {
+}
+
+protocol LiveInteractionDelegate: AnyObject {
 	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
 	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String)
+	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, hitPlayers: [String])
 }
 
 class LiveConnectionController {
@@ -19,6 +23,7 @@ class LiveConnectionController {
 
 	private var connected = false
 	weak var delegate: LiveConnectionControllerDelegate?
+	weak var liveInteractionDelegate: LiveInteractionDelegate?
 
 	init?(playerID: String) {
 		guard let url = backendWSURL?
@@ -46,6 +51,13 @@ class LiveConnectionController {
 	func sendChatMessage(_ message: String) {
 		guard connected else { return }
 		guard let packet = WSPacket(type: .chatMessage, content: ["message" : message]).json else { return }
+		webSocketConnection.send(text: packet)
+	}
+
+	func playerAttacked(facing: PlayerDirection, hit players: [Player]) {
+		guard connected else { return }
+		let victimIDs = players.map { $0.id }
+		guard let packet = WSPacket(type: .playerAttack, content: ["direction": facing.rawValue, "hitPlayers": victimIDs]).json else { return }
 		webSocketConnection.send(text: packet)
 	}
 
@@ -84,6 +96,8 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 				distributePositionPulseData(data: dataObj)
 			case "roomchat":
 				distributechatData(data: dataObj)
+			case "playerAttackBroadcast":
+				distributeAttackBroadcast(data: dataObj)
 			default:
 				print("unclassified message: \(text)")
 				break
@@ -100,7 +114,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	private func distributechatData(data: Any) {
 		guard let dict = data as? [String: String] else { return }
 		guard let message = dict["message"], let playerID = dict["player"] else { return }
-		delegate?.chatReceived(on: self, message: message, playerID: playerID)
+		liveInteractionDelegate?.chatReceived(on: self, message: message, playerID: playerID)
 	}
 
 	private func distributePositionPulseData(data: Any) {
@@ -117,7 +131,13 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			otherPlayers[playerID] = PositionPulseUpdate(position: position, destination: destination)
 		}
 
-		delegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)
+		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)
+	}
+
+	private func distributeAttackBroadcast(data: Any) {
+		guard let dict = data as? [String: Any] else { return }
+		guard let attackingPlayer = dict["playerID"] as? String, let hitPlayers = dict["hitPlayers"] as? [String] else { return }
+		liveInteractionDelegate?.attackBroadcastReceived(on: self, from: attackingPlayer, hitPlayers: hitPlayers)
 	}
 
 }

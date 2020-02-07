@@ -12,11 +12,11 @@ import CoreGraphics
 struct Room: Codable {
 	let name: String
 	let position: CGPoint
-	let id: String
-	let northRoomID: String?
-	let southRoomID: String?
-	let eastRoomID: String?
-	let westRoomID: String?
+	let id: Int
+	let northRoomID: Int?
+	let southRoomID: Int?
+	let eastRoomID: Int?
+	let westRoomID: Int?
 
 	enum CodingKeys: String, CodingKey {
 		case name

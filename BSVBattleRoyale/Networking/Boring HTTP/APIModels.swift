@@ -12,13 +12,13 @@ import CoreGraphics
 
 struct PlayerInit: Codable {
 	let playerID: String
-	let currentRoom: String
+	let currentRoom: Int
 	let spawnLocation: CGPoint
 }
 
 
 struct PlayerMove: Codable {
-	let currentRoom: String
+	let currentRoom: Int
 	let spawnLocation: CGPoint
 }
 

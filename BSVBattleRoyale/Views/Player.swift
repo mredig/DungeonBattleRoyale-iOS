@@ -8,17 +8,17 @@
 
 import SpriteKit
 
-enum PlayerDirection {
+enum PlayerDirection: String {
 	case left
 	case right
 }
 
-enum Avatar: Int {
-	case yellowMonster
-	case pinkMonster
-	case purpleMonster
+enum Avatar: Int, CaseIterable {
 	case blueMonster
 	case greenMonster
+	case pinkMonster
+	case purpleMonster
+	case yellowMonster
 }
 
 enum AnimationTitle: String, CaseIterable {
@@ -29,6 +29,10 @@ enum AnimationTitle: String, CaseIterable {
 	case attack = "Attack"
 	case jump = "Jump"
 	case die = "Die"
+}
+
+protocol PlayerInteractionDelegate: AnyObject {
+	func player(_ player: Player, attackedFacing facing: PlayerDirection)
 }
 
 class Player: SKNode {
@@ -67,6 +71,8 @@ class Player: SKNode {
 	var movementSpeed: CGFloat = 250
 	var movementSpeedMultiplier: CGFloat = 1
 
+	weak var interactionDelegate: PlayerInteractionDelegate?
+
 	var destination: CGPoint
 
 	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
@@ -81,6 +87,7 @@ class Player: SKNode {
 		nameSprite.verticalAlignmentMode = .center
 		nameSprite.position = CGPoint(x: 0, y: playerSprite.size.height / 2)
 		nameSprite.fontSize = 20
+		nameSprite.fontName = "Verdana"
 		chatBubbleSprite = ChatBubble()
 		destination = position
 		super.init()
@@ -156,11 +163,37 @@ class Player: SKNode {
 	func say(message: String) {
 		chatBubbleSprite.text = message
 	}
+
+
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesBegan(touches, with: event)
+		attack()
+	}
+
+	func attack() {
+		guard !currentAnimations.contains(.attack) else { return }
+		interactionDelegate?.player(self, attackedFacing: direction)
+		let textures = Player.animationTextures(for: avatar, animationTitle: .attack)
+		let duration = TimeInterval(textures.count) * Player.animationFrameSpeed
+		currentAnimations.insert(.attack)
+		DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+			self.currentAnimations.remove(.attack)
+		}
+	}
+
+	func hitAnimation() {
+		let flashRed = SKAction.sequence([
+			SKAction.colorize(with: .red, colorBlendFactor: 0.5, duration: 0.05),
+			SKAction.colorize(with: .red, colorBlendFactor: 0, duration: 0.05)
+		])
+		playerSprite.run(flashRed)
+	}
 }
 
 extension Player {
 	private static let animationKey = "animation"
 	private static let moveKey = "move"
+	static let animationFrameSpeed: TimeInterval = 1/12
 
 	static let yellowAtlas = SKTextureAtlas(named: "YellowMonster")
 	static let pinkAtlas = SKTextureAtlas(named: "PinkMonster")
@@ -194,7 +227,7 @@ extension Player {
 	}
 
 	static func animationAction(with textures: [SKTexture]) -> SKAction {
-		let animation = SKAction.animate(with: textures, timePerFrame: 1.0 / 12.0)
+		let animation = SKAction.animate(with: textures, timePerFrame: animationFrameSpeed)
 		return SKAction.repeatForever(animation)
 	}
 }

@@ -16,9 +16,9 @@ class SignInWithAppleViewController: UIViewController {
     @IBOutlet weak var password1TextField: UITextField!
     @IBOutlet weak var password2TextField: UITextField!
     @IBOutlet weak var registerLoginButton: UIButton!
-    @IBOutlet weak var backgroundStuff: UIImageView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    
+	@IBOutlet weak var collectionView: UICollectionView!
+
     var signInType: SignInType = .login
        
        enum SignInType {
@@ -27,7 +27,13 @@ class SignInWithAppleViewController: UIViewController {
        }
        
     let apiController = APIController()
-    
+	
+	var avatars: [AvatarSelectionContainer] = Avatar.allCases.map {
+		let container = AvatarSelectionContainer()
+		container.avatar = $0
+		return container
+	}
+
     
     @IBAction func registerButtonTapped(_ sender: Any) {
         
@@ -42,24 +48,25 @@ class SignInWithAppleViewController: UIViewController {
         }
     }
 
-
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		super.prepare(for: segue, sender: sender)
-		if let dest = segue.destination as? ViewController {
-			dest.apiController = apiController
-		}
-	}
     
     @IBAction func segmentedControlChanged(_ sender: Any) {
         
         if segmentedControl.selectedSegmentIndex == 0 {
             signInType = .register
-            registerLoginButton.setTitle("Register", for: .normal)
-            password2TextField.isHidden = false
+            UIView.transition(with: registerLoginButton, duration: 0.3, options: [.transitionCrossDissolve, .curveLinear], animations: {
+              self.registerLoginButton.setTitle("Register", for: .normal)
+              self.hideViewWithFade(self.password2TextField)
+            }, completion: nil)
+                        
+
         } else {
             signInType = .login
-            registerLoginButton.setTitle("Login", for: .normal)
-            password2TextField.isHidden = true
+            UIView.transition(with: registerLoginButton, duration: 0.4, options: [.transitionCrossDissolve, .curveLinear], animations: {
+              self.registerLoginButton.setTitle("Login", for: .normal)
+              self.hideViewWithFade(self.password2TextField)
+            }, completion: nil)
+
+
         }
     }
     
@@ -86,13 +93,20 @@ class SignInWithAppleViewController: UIViewController {
         super.viewDidLoad()
         
 //        setupAppleIDButton()
-        
-        switch Int.random(in: 0...10) {
-        case 0...6:
-            backgroundStuff.image = UIImage(named: "SchamelessPlug")
-        default:
-            backgroundStuff.image = UIImage(named: "background")
-        }
+
+
+		registerLoginButton.layer.cornerRadius = 8
+		registerLoginButton.layer.cornerCurve = .continuous
+
+		avatars.first?.isSelected = true
+
+		collectionView.delegate = self
+		collectionView.dataSource = self
+
+		//FIXME: TEST ONLY
+//		usernameTextField.text = "ffff"
+//		password1TextField.text = "Aabc123!"
+//		segmentedControl.selectedSegmentIndex = 1
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -127,7 +141,29 @@ class SignInWithAppleViewController: UIViewController {
         
     }
     
+    // MARK: - Transitions
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if let dest = segue.destination as? ViewController {
+            dest.apiController = apiController
+        }
+    }
+    
+    // smooth fade in/out for views
+    func hideViewWithFade(_ view: UIView) {
+        if view.isHidden {
+            view.alpha = 0.0
+        }
+
+        view.isHidden = false
+
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .transitionCrossDissolve, animations: {
+            view.alpha = view.alpha == 1.0 ? 0.0 : 1.0
+        }, completion: { _ in
+            view.isHidden = !Bool(truncating: view.alpha as NSNumber)
+        })
+    }
 
     // MARK: - Networking
     
@@ -159,6 +195,9 @@ class SignInWithAppleViewController: UIViewController {
     
     
     func startGame() {
+		let selectedIndex = avatars.firstIndex(where: { $0.isSelected} ) ?? 0
+		let avatar = Avatar(rawValue: selectedIndex) ?? .yellowMonster
+		apiController.selectedAvatar = avatar
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "ShowSegueToMainStoryboard", sender: nil)
         }
@@ -229,6 +268,19 @@ extension SignInWithAppleViewController: ASAuthorizationControllerDelegate {
             }
         }
     }
-    
 }
 
+extension SignInWithAppleViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return avatars.count
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AvatarCell", for: indexPath)
+		guard let avatarCell = cell as? AvatarCollectionViewCell else { return cell }
+
+		let info = avatars[indexPath.item]
+		avatarCell.avatar = info
+		return avatarCell
+	}
+}

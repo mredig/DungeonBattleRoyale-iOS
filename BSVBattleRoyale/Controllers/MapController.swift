@@ -60,10 +60,10 @@ class MapController {
 		self.rooms = roomCollection
 		self.scale = scale
 
-		self.currentRoom = rooms.rooms[rooms.spawnRoom] ?? Room(name: "Null", position: .zero, id: "", northRoomID: nil, southRoomID: nil, eastRoomID: nil, westRoomID: nil)
+		self.currentRoom = rooms.rooms[rooms.spawnRoom] ?? Room(name: "Null", position: .zero, id: 0, northRoomID: nil, southRoomID: nil, eastRoomID: nil, westRoomID: nil)
 	}
 
-	func room(for id: String) -> Room? {
+	func room(for id: Int) -> Room? {
 		rooms.rooms[id]
 	}
 

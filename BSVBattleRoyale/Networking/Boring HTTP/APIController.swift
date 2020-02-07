@@ -14,6 +14,7 @@ import NetworkHandler
 class APIController {
     var token: Bearer?
     let networkHandler = NetworkHandler.default
+	var selectedAvatar: Avatar = .yellowMonster
 
     func register(with username: String, password: String, completion: @escaping (Error?) -> Void) {
         guard let url = backendBaseURL?.appendingPathComponent("api")
@@ -83,7 +84,7 @@ class APIController {
 		request.addValue(.other(value: "Token \(token.key)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
-		let toServer = ["player_avatar": Avatar.yellowMonster.rawValue]
+		let toServer = ["player_avatar": selectedAvatar.rawValue]
 		do {
 			request.httpBody = try JSONSerialization.data(withJSONObject: toServer, options: [])
 		} catch {
@@ -114,7 +115,7 @@ class APIController {
 		return networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 
-	func movePlayer(to room: String, completion: @escaping ((Result<PlayerMove, NetworkError>) -> Void)) {
+	func movePlayer(to room: Int, completion: @escaping ((Result<PlayerMove, NetworkError>) -> Void)) {
 		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("movetoroom"),
 			let token = token else { return }
 

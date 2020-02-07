@@ -17,6 +17,8 @@
 		3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029223EB3D0C00400F34 /* output.xcfilelist */; };
 		3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3301029723EB3DE200400F34 /* NetworkHandler.framework */; };
 		331B868F23ECD75B00B45F18 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B868E23ECD75A00B45F18 /* ChatBubble.swift */; };
+		331B869323ED043A00B45F18 /* AvatarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */; };
+		331B869723ED194800B45F18 /* AvatarSelectionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B869623ED194800B45F18 /* AvatarSelectionContainer.swift */; };
 		334FA62E23EBFFA300CAEDC4 /* BlueMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA62D23EBFFA300CAEDC4 /* BlueMonster.atlas */; };
 		334FA63223EC025000CAEDC4 /* GreenMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */; };
 		334FA63323EC025000CAEDC4 /* PinkMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA63023EC025000CAEDC4 /* PinkMonster.atlas */; };
@@ -82,6 +84,8 @@
 		3301029223EB3D0C00400F34 /* output.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = output.xcfilelist; sourceTree = "<group>"; };
 		3301029723EB3DE200400F34 /* NetworkHandler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkHandler.framework; path = Carthage/Build/iOS/NetworkHandler.framework; sourceTree = "<group>"; };
 		331B868E23ECD75A00B45F18 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatBubble.swift; path = BSVBattleRoyale/Views/ChatBubble.swift; sourceTree = SOURCE_ROOT; };
+		331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCollectionViewCell.swift; sourceTree = "<group>"; };
+		331B869623ED194800B45F18 /* AvatarSelectionContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarSelectionContainer.swift; sourceTree = "<group>"; };
 		334FA62D23EBFFA300CAEDC4 /* BlueMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BlueMonster.atlas; sourceTree = "<group>"; };
 		334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GreenMonster.atlas; sourceTree = "<group>"; };
 		334FA63023EC025000CAEDC4 /* PinkMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PinkMonster.atlas; sourceTree = "<group>"; };
@@ -89,7 +93,7 @@
 		3366ECAF23EA22EF00953583 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
 		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
-		3366ECB523EA2BB400953583 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = BSVBattleRoyale/Models/Player.swift; sourceTree = SOURCE_ROOT; };
+		3366ECB523EA2BB400953583 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = BSVBattleRoyale/Views/Player.swift; sourceTree = SOURCE_ROOT; };
 		3366ECB923EA2BDC00953583 /* RoomScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScene.swift; sourceTree = "<group>"; };
 		3366ECBB23EA2C6700953583 /* RoomSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSprite.swift; sourceTree = "<group>"; };
 		3366ECBC23EA2CDC00953583 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
@@ -177,6 +181,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		331B869123ED00FE00B45F18 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				DCCE536E23E9F4610098464D /* AppDelegate.swift */,
+				DCCE537723E9F4630098464D /* Assets.xcassets */,
+				DCCE537923E9F4630098464D /* LaunchScreen.storyboard */,
+				DCCE537423E9F4610098464D /* Main.storyboard */,
+				DCCE537023E9F4610098464D /* SceneDelegate.swift */,
+				DCCE537C23E9F4630098464D /* Info.plist */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		33D2806023EA44C400DE0E4C /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,20 +252,15 @@
 		DCCE536D23E9F4610098464D /* BSVBattleRoyale */ = {
 			isa = PBXGroup;
 			children = (
-				DCCE536E23E9F4610098464D /* AppDelegate.swift */,
-				DCCE53B223E9FA3A0098464D /* Models */,
 				DCCE53B323E9FA600098464D /* Views */,
 				DCCE53AE23E9F9140098464D /* View Management */,
+				DCCE53B223E9FA3A0098464D /* Models */,
 				DCCE53B123E9FA0F0098464D /* Controllers */,
 				33FB437923EA35A600D1DDC8 /* Helpers */,
-				DCCE537723E9F4630098464D /* Assets.xcassets */,
-				DCCE537923E9F4630098464D /* LaunchScreen.storyboard */,
-				DCCE537423E9F4610098464D /* Main.storyboard */,
 				DC07B4AB23EB17F500A4755D /* SignIn With Apple Scene */,
-				33D2806023EA44C400DE0E4C /* Atlases */,
-				DCCE537023E9F4610098464D /* SceneDelegate.swift */,
-				DCCE537C23E9F4630098464D /* Info.plist */,
 				3301028823EB3A6500400F34 /* Networking */,
+				33D2806023EA44C400DE0E4C /* Atlases */,
+				331B869123ED00FE00B45F18 /* Other */,
 			);
 			path = BSVBattleRoyale;
 			sourceTree = "<group>";
@@ -303,11 +315,10 @@
 			children = (
 				FCED98D523EB974300E321FC /* User.swift */,
 				FCED98D723EB975600E321FC /* Bearer.swift */,
-				3366ECB523EA2BB400953583 /* Player.swift */,
 				3366ECBC23EA2CDC00953583 /* Room.swift */,
-				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
 				3301028223EA5ECD00400F34 /* LinkedList.swift */,
 				3301028423EA829200400F34 /* Stack.swift */,
+				331B869623ED194800B45F18 /* AvatarSelectionContainer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -315,9 +326,12 @@
 		DCCE53B323E9FA600098464D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3366ECB523EA2BB400953583 /* Player.swift */,
 				331B868E23ECD75A00B45F18 /* ChatBubble.swift */,
 				3366ECBB23EA2C6700953583 /* RoomSprite.swift */,
 				33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */,
+				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
+				331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -500,6 +514,8 @@
 				33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */,
 				3301028723EAAC3D00400F34 /* Constants.swift in Sources */,
 				33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */,
+				331B869723ED194800B45F18 /* AvatarSelectionContainer.swift in Sources */,
+				331B869323ED043A00B45F18 /* AvatarCollectionViewCell.swift in Sources */,
 				3301028D23EB3ACC00400F34 /* APIModels.swift in Sources */,
 				33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */,
 				DCCE537323E9F4610098464D /* ViewController.swift in Sources */,
@@ -696,13 +712,13 @@
 				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1.3;
+				CURRENT_PROJECT_VERSION = 0.0.1.4;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = BSVBattleRoyale/Info.plist;
+				INFOPLIST_FILE = BSVBattleRoyale/Other/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -724,13 +740,13 @@
 				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1.3;
+				CURRENT_PROJECT_VERSION = 0.0.1.4;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = BSVBattleRoyale/Info.plist;
+				INFOPLIST_FILE = BSVBattleRoyale/Other/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
