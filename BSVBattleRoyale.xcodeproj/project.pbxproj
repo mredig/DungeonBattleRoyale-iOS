@@ -326,11 +326,11 @@
 		DCCE53B323E9FA600098464D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
 				3366ECB523EA2BB400953583 /* Player.swift */,
 				331B868E23ECD75A00B45F18 /* ChatBubble.swift */,
 				3366ECBB23EA2C6700953583 /* RoomSprite.swift */,
 				33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */,
+				3366ECB923EA2BDC00953583 /* RoomScene.swift */,
 				331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */,
 			);
 			path = Views;

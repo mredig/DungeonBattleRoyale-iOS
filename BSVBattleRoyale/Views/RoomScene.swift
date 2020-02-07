@@ -19,7 +19,11 @@ class RoomScene: SKScene {
 
 	let background = RoomSprite()
 	var currentPlayer: Player?
-	var liveController: LiveConnectionController?
+	var liveController: LiveConnectionController? {
+		didSet {
+			liveController?.liveInteractionDelegate = self
+		}
+	}
 	var apiController: APIController?
 	weak var roomDelegate: RoomSceneDelegate?
 
@@ -54,6 +58,7 @@ class RoomScene: SKScene {
 		currentPlayer = newPlayer
 		newPlayer.zPosition = 1
 		currentPlayer?.isUserInteractionEnabled = true
+		currentPlayer?.interactionDelegate = self
 
 		loadInfoForPlayer(newPlayer)
 
@@ -133,6 +138,7 @@ class RoomScene: SKScene {
 		// remove expired players
 		for delete in expiredPlayers {
 			otherPlayers[delete.id] = nil
+			RoomScene._playerInfo[delete.id] = nil
 			delete.removeFromParent()
 		}
 	}
@@ -142,6 +148,19 @@ class RoomScene: SKScene {
 			player.say(message: message)
 		} else if currentPlayer?.id == playerID {
 			currentPlayer?.say(message: message)
+		}
+	}
+
+	func attackReceived(from playerID: String, hitPlayers: [String]) {
+		if let player = otherPlayers[playerID] {
+			player.attack()
+		}
+
+		hitPlayers.forEach {
+			otherPlayers[$0]?.hitAnimation()
+			if currentPlayer?.id == $0 {
+				currentPlayer?.hitAnimation()
+			}
 		}
 	}
 
@@ -191,6 +210,32 @@ extension RoomScene: SKPhysicsContactDelegate {
 					roomDelegate?.player(currentPlayer, enteredDoor: door)
 				}
 			}
+		}
+	}
+}
+
+extension RoomScene: PlayerInteractionDelegate {
+	func player(_ player: Player, attackedFacing facing: PlayerDirection) {
+		liveController?.playerAttacked(facing: facing, hit: [])
+	}
+}
+
+extension RoomScene: LiveInteractionDelegate {
+	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
+		DispatchQueue.main.async {
+			self.updateOtherPlayers(updatePlayers: updatedPositions)
+		}
+	}
+
+	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String) {
+		DispatchQueue.main.async {
+			self.chatReceived(from: playerID, message: message)
+		}
+	}
+
+	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, hitPlayers: [String]) {
+		DispatchQueue.main.async {
+			self.attackReceived(from: playerID, hitPlayers: hitPlayers)
 		}
 	}
 }

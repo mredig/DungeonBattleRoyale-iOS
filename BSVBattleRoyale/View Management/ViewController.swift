@@ -79,7 +79,6 @@ class ViewController: UIViewController {
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
 		scene.liveController = liveConntroller
 		scene.roomDelegate = self
-        liveConntroller?.delegate = self as LiveConnectionControllerDelegate
 
 		currentRoomMapImage.image = mapController?.generateCurrentRoomOverlay()
 	}
@@ -162,20 +161,6 @@ extension ViewController: RoomSceneDelegate {
 				}
                 NSLog("Failed moving player: \(error)")
 			}
-		}
-	}
-}
-
-extension ViewController: LiveConnectionControllerDelegate {
-	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
-		DispatchQueue.main.async {
-			self.currentScene?.updateOtherPlayers(updatePlayers: updatedPositions)
-		}
-	}
-
-	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String) {
-		DispatchQueue.main.async {
-			self.currentScene?.chatReceived(from: playerID, message: message)
 		}
 	}
 }
