@@ -61,13 +61,32 @@ class RoomScene: SKScene {
 		camera = playerCamera
 	}
 
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesBegan(touches, with: event)
+		for touch in touches {
+			let location = touch.location(in: self)
+			changePlayerDestination(to: location)
+		}
+	}
+
+	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesMoved(touches, with: event)
+		for touch in touches {
+			let location = touch.location(in: self)
+			changePlayerDestination(to: location)
+		}
+	}
+
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesEnded(touches, with: event)
 		for touch in touches {
 			let location = touch.location(in: self)
-
-			currentPlayer?.destination = location
+			changePlayerDestination(to: location)
 		}
+	}
+
+	private func changePlayerDestination(to location: CGPoint) {
+		currentPlayer?.destination = location
 	}
 
 	override func update(_ currentTime: TimeInterval) {
