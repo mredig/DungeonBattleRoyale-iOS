@@ -38,7 +38,7 @@ class LiveConnectionController {
 
 
 	private var lastSend = TimeInterval(0)
-	let sendDelta: TimeInterval = 1/15
+	let sendDelta: TimeInterval = 1/2
 	func updatePlayerPosition(_ position: CGPoint, destination: CGPoint) {
 		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
