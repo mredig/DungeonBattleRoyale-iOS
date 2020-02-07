@@ -165,6 +165,10 @@ class RoomScene: SKScene {
 			})
 		}
 	}
+
+	func clearPlayerCache() {
+		RoomScene._playerInfo.removeAll()
+	}
 }
 
 extension RoomScene: SKPhysicsContactDelegate {

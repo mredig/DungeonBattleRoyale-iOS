@@ -125,6 +125,7 @@ class ViewController: UIViewController {
 		apiController?.token = nil
 		liveConntroller?.disconnect()
 		liveConntroller = nil
+		currentScene?.clearPlayerCache()
 		dismiss(animated: true)
 	}
 
