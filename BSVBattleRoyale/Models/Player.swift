@@ -67,6 +67,11 @@ class Player: SKNode {
 	var movementSpeed: CGFloat = 250
 	var movementSpeedMultiplier: CGFloat = 1
 
+	override var isUserInteractionEnabled: Bool {
+		set { }
+		get { true }
+	}
+
 	var destination: CGPoint
 
 	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
@@ -156,11 +161,28 @@ class Player: SKNode {
 	func say(message: String) {
 		chatBubbleSprite.text = message
 	}
+
+
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesBegan(touches, with: event)
+		attack()
+	}
+
+	func attack() {
+		let textures = Player.animationTextures(for: avatar, animationTitle: .attack)
+		let duration = TimeInterval(textures.count) * Player.animationFrameSpeed
+		currentAnimations.insert(.attack)
+		DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+			self.currentAnimations.remove(.attack)
+		}
+
+	}
 }
 
 extension Player {
 	private static let animationKey = "animation"
 	private static let moveKey = "move"
+	private static let animationFrameSpeed: TimeInterval = 1/12
 
 	static let yellowAtlas = SKTextureAtlas(named: "YellowMonster")
 	static let pinkAtlas = SKTextureAtlas(named: "PinkMonster")
@@ -194,7 +216,7 @@ extension Player {
 	}
 
 	static func animationAction(with textures: [SKTexture]) -> SKAction {
-		let animation = SKAction.animate(with: textures, timePerFrame: 1.0 / 12.0)
+		let animation = SKAction.animate(with: textures, timePerFrame: animationFrameSpeed)
 		return SKAction.repeatForever(animation)
 	}
 }
