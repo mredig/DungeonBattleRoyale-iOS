@@ -87,6 +87,7 @@ class Player: SKNode {
 		nameSprite.verticalAlignmentMode = .center
 		nameSprite.position = CGPoint(x: 0, y: playerSprite.size.height / 2)
 		nameSprite.fontSize = 20
+		nameSprite.fontName = "Verdana"
 		chatBubbleSprite = ChatBubble()
 		destination = position
 		super.init()
