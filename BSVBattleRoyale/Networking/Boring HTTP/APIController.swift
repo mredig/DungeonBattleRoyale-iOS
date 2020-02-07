@@ -94,6 +94,26 @@ class APIController {
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 
+	func fetchPlayerInfo(for id: String, completion: @escaping ((Result<PlayerInfo, NetworkError>) -> Void)) -> URLSessionDataTask? {
+		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("playerinfo"),
+			let token = token else { return nil }
+
+		var request = url.request
+		request.httpMethod = .post
+		request.addValue(.other(value: "Token \(token.key)"), forHTTPHeaderField: .commonKey(key: .authorization))
+		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
+
+		let toServer = ["id": id]
+		do {
+			request.httpBody = try JSONSerialization.data(withJSONObject: toServer, options: [])
+		} catch {
+			completion(.failure(.dataCodingError(specifically: error, sourceData: nil)))
+			return nil
+		}
+
+		return networkHandler.transferMahCodableDatas(with: request, completion: completion)
+	}
+
 	func movePlayer(to room: String, completion: @escaping ((Result<PlayerMove, NetworkError>) -> Void)) {
 		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("movetoroom"),
 			let token = token else { return }

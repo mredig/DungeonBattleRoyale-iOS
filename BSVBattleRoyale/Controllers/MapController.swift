@@ -115,7 +115,7 @@ class MapController {
 			context.cgContext.scaleBy(x: 1, y: -1)
 
 			for (_, room) in rooms.rooms {
-				let color = room.position == .zero ? UIColor.darkGray : UIColor.black
+				let color = room.position == .zero ? UIColor.darkGray : UIColor.lightGray
 				drawRoom(room, onContext: context, offset: unscaledOffset, color: color)
 			}
 		}

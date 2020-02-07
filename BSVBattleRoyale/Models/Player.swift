@@ -38,13 +38,19 @@ class Player: SKNode {
 		}
 	}
 
-	let playerSprite: SKSpriteNode
+	private let playerSprite: SKSpriteNode
+	private let nameSprite: SKLabelNode
+	private let chatBubbleSprite: ChatBubble
 	var avatar: Avatar {
 		didSet {
-
+			updateAvatar()
 		}
 	}
 	let id: String
+	var username: String {
+		get { nameSprite.text ?? "" }
+		set { nameSprite.text = newValue }
+	}
 
 	var currentAnimations = Set([AnimationTitle.idle])
 	var animationPriority: AnimationTitle {
@@ -56,14 +62,33 @@ class Player: SKNode {
 		return .idle
 	}
 	var animationMaintainer: Timer?
+	var moverMaintainer: Timer?
+	private var lastTimerFire: TimeInterval = 0
+	var movementSpeed: CGFloat = 250
+	var movementSpeedMultiplier: CGFloat = 1
 
-	init(avatar: Avatar, id: String) {
+	var destination: CGPoint
+
+	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
 		self.avatar = avatar
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
 		playerSprite = SKSpriteNode(texture: idleAnimation.first)
 		self.id = id
+
+		nameSprite = SKLabelNode(text: username)
+		nameSprite.color = UIColor(hue: CGFloat.random(in: 0...1), saturation: CGFloat.random(in: 0.6...1), brightness: CGFloat.random(in: 0.7...1), alpha: 1)
+		nameSprite.horizontalAlignmentMode = .center
+		nameSprite.verticalAlignmentMode = .center
+		nameSprite.position = CGPoint(x: 0, y: playerSprite.size.height / 2)
+		nameSprite.fontSize = 20
+		chatBubbleSprite = ChatBubble()
+		destination = position
 		super.init()
+		self.position = position
 		addChild(playerSprite)
+		addChild(nameSprite)
+		addChild(chatBubbleSprite)
+		chatBubbleSprite.position = CGPoint(x: 0, y: nameSprite.calculateAccumulatedFrame().size.height + nameSprite.position.y + 30)
 
 		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
 		physicsBody?.categoryBitMask = playerBitmask
@@ -72,6 +97,13 @@ class Player: SKNode {
 
 		animationMaintainer = Timer.scheduledTimer(withTimeInterval: 1/15, repeats: true, block: { [weak self] _ in
 			self?.updateCurrentAnimation()
+		})
+
+		moverMaintainer = Timer.scheduledTimer(withTimeInterval: 1/60, repeats: true, block: { [weak self] _ in
+			guard let self = self else { return }
+			let currentTime = CFAbsoluteTimeGetCurrent()
+			self.stepTowardsDestination(interval: min(currentTime - self.lastTimerFire, 1))
+			self.lastTimerFire = currentTime
 		})
 	}
 
@@ -82,6 +114,7 @@ class Player: SKNode {
 	override func removeFromParent() {
 		animationMaintainer?.invalidate()
 		animationMaintainer = nil
+		moverMaintainer?.invalidate()
 		super.removeFromParent()
 	}
 
@@ -103,33 +136,25 @@ class Player: SKNode {
 		}
 	}
 
-	/// if duration is >= 0, moves in `duration` seconds. If less than zero, moves at speed of `duration` points per second
-	func move(to location: CGPoint, duration: CGFloat) {
-
-		direction = location.x > position.x ? .right : .left
-
-		let distance = position.distance(to: location)
-
-		let time: CGFloat
-		if duration >= 0 {
-			time = duration
-		} else {
-			time = distance / -duration
-		}
-		let moveAction = SKAction.move(to: location, duration: Double(time))
-		let seq = SKAction.sequence([
-			moveAction,
-			SKAction.run {
-				self.currentAnimations.remove(.walk)
-			}
-		])
-		currentAnimations.insert(.walk)
-
-		run(seq, withKey: Player.moveKey)
+	func setPosition(to position: CGPoint) {
+		destination = position
+		self.position = position
 	}
 
-	func stopMove() {
-		removeAction(forKey: Player.moveKey)
+	private func stepTowardsDestination(interval: TimeInterval) {
+		guard !position.distance(to: destination, isWithin: 3) else {
+			currentAnimations.remove(.walk)
+			currentAnimations.remove(.run)
+			return
+		}
+		direction = destination.x > position.x ? .right : .left
+
+		position.step(toward: destination, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
+		currentAnimations.insert(.walk)
+	}
+
+	func say(message: String) {
+		chatBubbleSprite.text = message
 	}
 }
 

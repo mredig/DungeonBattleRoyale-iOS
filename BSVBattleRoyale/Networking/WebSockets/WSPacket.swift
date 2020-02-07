@@ -10,6 +10,7 @@ import Foundation
 
 enum WSPacketType: String {
 	case positionUpdate
+	case chatMessage = "chat"
 }
 
 struct WSPacket {

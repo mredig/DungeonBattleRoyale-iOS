@@ -17,12 +17,18 @@ class ViewController: UIViewController {
 	@IBOutlet weak var mapImage: UIImageView!
 	@IBOutlet weak var currentRoomMapImage: UIImageView!
 
+	@IBOutlet weak var chatTextField: UITextField!
+	@IBOutlet weak var chatSendButton: UIButton!
+	@IBOutlet weak var textFieldInputConstraint: NSLayoutConstraint!
+
+
+
 	var mapController: MapController?
 	var liveConntroller: LiveConnectionController?
 	var apiController: APIController?
 	var currentScene: RoomScene?
 
-	var playerInfo = PlayerInfo(playerID: "", spawnLocation: .zero) {
+	var playerInfo = PlayerState(playerID: "", spawnLocation: .zero) {
 		didSet {
 			DispatchQueue.main.async {
 				self.updateSpriteKit()
@@ -37,6 +43,25 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
 		mapGroup.isHidden = true
 		updateWorldMap()
+		setupKeyboardInputStuff()
+	}
+
+	private func setupKeyboardInputStuff() {
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
+	}
+
+	@objc func keyboardFrameWillChange(notification: NSNotification) {
+		guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+		let duration: NSNumber = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber ?? 0.2
+
+		animateTextField(to: keyboardRect.height, duration: TimeInterval(truncating: duration))
+	}
+
+	func animateTextField(to height: CGFloat, duration: TimeInterval) {
+		UIView.animate(withDuration: duration) {
+			self.textFieldInputConstraint.constant = height
+			self.view.layoutSubviews()
+		}
 	}
 
 	func updateSpriteKit() {
@@ -49,6 +74,7 @@ class ViewController: UIViewController {
 		gameView.showsPhysics = true
         // ⬆⬆⬆ Comment out for screengrabs
 
+		scene.apiController = apiController
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
 		scene.liveController = liveConntroller
@@ -84,7 +110,7 @@ class ViewController: UIViewController {
 			switch result {
 			case .success(let playerInit):
 				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.currentRoom)
-				self.playerInfo = PlayerInfo(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
+				self.playerInfo = PlayerState(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
 			case .failure(let error):
 				NSLog("Failed initing player: \(error)")
 			}
@@ -93,6 +119,14 @@ class ViewController: UIViewController {
 
 	@IBAction func mapButtonPressed(_ sender: UIButton) {
 		mapGroup.isHidden.toggle()
+	}
+
+	@IBAction func chatSendPressed(_ sender: UIButton) {
+		animateTextField(to: 0, duration: 0.2)
+		chatTextField.resignFirstResponder()
+		guard let text = chatTextField.text, !text.isEmpty else { return }
+		liveConntroller?.sendChatMessage(text)
+		chatTextField.text = ""
 	}
 }
 
@@ -108,7 +142,7 @@ extension ViewController: RoomSceneDelegate {
 			case .success(let playerMove):
 				self.mapController?.currentRoom = self.mapController?.room(for: playerMove.currentRoom)
 				self.playerInfo.spawnLocation = playerMove.spawnLocation
-			case .failure(var error):
+			case .failure(let error):
                 if let terror = error as NetworkError? {
 					switch terror {
 					case .dataCodingError(specifically: _, sourceData: let data):
@@ -125,9 +159,15 @@ extension ViewController: RoomSceneDelegate {
 }
 
 extension ViewController: LiveConnectionControllerDelegate {
-  func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : OtherPlayerUpdate]) {
-      DispatchQueue.main.async {
-          self.currentScene?.updateOtherPlayers(updatePlayers: updatedPositions)
-    }
-  }
+	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
+		DispatchQueue.main.async {
+			self.currentScene?.updateOtherPlayers(updatePlayers: updatedPositions)
+		}
+	}
+
+	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String) {
+		DispatchQueue.main.async {
+			self.currentScene?.chatReceived(from: playerID, message: message)
+		}
+	}
 }
