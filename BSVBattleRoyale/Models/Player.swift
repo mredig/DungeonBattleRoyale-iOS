@@ -67,11 +67,6 @@ class Player: SKNode {
 	var movementSpeed: CGFloat = 250
 	var movementSpeedMultiplier: CGFloat = 1
 
-	override var isUserInteractionEnabled: Bool {
-		set { }
-		get { true }
-	}
-
 	var destination: CGPoint
 
 	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
@@ -169,6 +164,7 @@ class Player: SKNode {
 	}
 
 	func attack() {
+		guard !currentAnimations.contains(.attack) else { return }
 		let textures = Player.animationTextures(for: avatar, animationTitle: .attack)
 		let duration = TimeInterval(textures.count) * Player.animationFrameSpeed
 		currentAnimations.insert(.attack)

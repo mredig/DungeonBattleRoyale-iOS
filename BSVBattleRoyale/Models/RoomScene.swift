@@ -53,6 +53,7 @@ class RoomScene: SKScene {
 		addChild(newPlayer)
 		currentPlayer = newPlayer
 		newPlayer.zPosition = 1
+		currentPlayer?.isUserInteractionEnabled = true
 
 		loadInfoForPlayer(newPlayer)
 
