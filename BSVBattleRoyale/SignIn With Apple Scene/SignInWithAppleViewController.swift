@@ -16,9 +16,9 @@ class SignInWithAppleViewController: UIViewController {
     @IBOutlet weak var password1TextField: UITextField!
     @IBOutlet weak var password2TextField: UITextField!
     @IBOutlet weak var registerLoginButton: UIButton!
-    @IBOutlet weak var backgroundStuff: UIImageView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    
+	@IBOutlet weak var collectionView: UICollectionView!
+
     var signInType: SignInType = .login
        
        enum SignInType {
@@ -27,7 +27,13 @@ class SignInWithAppleViewController: UIViewController {
        }
        
     let apiController = APIController()
-    
+	
+	var avatars: [AvatarSelectionContainer] = Avatar.allCases.map {
+		let container = AvatarSelectionContainer()
+		container.avatar = $0
+		return container
+	}
+
     
     @IBAction func registerButtonTapped(_ sender: Any) {
         
@@ -86,13 +92,20 @@ class SignInWithAppleViewController: UIViewController {
         super.viewDidLoad()
         
 //        setupAppleIDButton()
-        
-        switch Int.random(in: 0...10) {
-        case 0...6:
-            backgroundStuff.image = UIImage(named: "SchamelessPlug")
-        default:
-            backgroundStuff.image = UIImage(named: "background")
-        }
+
+
+		registerLoginButton.layer.cornerRadius = 8
+		registerLoginButton.layer.cornerCurve = .continuous
+
+		avatars.first?.isSelected = true
+
+		collectionView.delegate = self
+		collectionView.dataSource = self
+
+		//FIXME: TEST ONLY
+		usernameTextField.text = "ffff"
+		password1TextField.text = "Aabc123!"
+		segmentedControl.selectedSegmentIndex = 1
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -159,6 +172,9 @@ class SignInWithAppleViewController: UIViewController {
     
     
     func startGame() {
+		let selectedIndex = avatars.firstIndex(where: { $0.isSelected} ) ?? 0
+		let avatar = Avatar(rawValue: selectedIndex) ?? .yellowMonster
+		apiController.selectedAvatar = avatar
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "ShowSegueToMainStoryboard", sender: nil)
         }
@@ -229,6 +245,19 @@ extension SignInWithAppleViewController: ASAuthorizationControllerDelegate {
             }
         }
     }
-    
 }
 
+extension SignInWithAppleViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return avatars.count
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AvatarCell", for: indexPath)
+		guard let avatarCell = cell as? AvatarCollectionViewCell else { return cell }
+
+		let info = avatars[indexPath.item]
+		avatarCell.avatar = info
+		return avatarCell
+	}
+}

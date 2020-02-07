@@ -13,12 +13,12 @@ enum PlayerDirection {
 	case right
 }
 
-enum Avatar: Int {
-	case yellowMonster
-	case pinkMonster
-	case purpleMonster
+enum Avatar: Int, CaseIterable {
 	case blueMonster
 	case greenMonster
+	case pinkMonster
+	case purpleMonster
+	case yellowMonster
 }
 
 enum AnimationTitle: String, CaseIterable {
@@ -177,7 +177,7 @@ class Player: SKNode {
 extension Player {
 	private static let animationKey = "animation"
 	private static let moveKey = "move"
-	private static let animationFrameSpeed: TimeInterval = 1/12
+	static let animationFrameSpeed: TimeInterval = 1/12
 
 	static let yellowAtlas = SKTextureAtlas(named: "YellowMonster")
 	static let pinkAtlas = SKTextureAtlas(named: "PinkMonster")
