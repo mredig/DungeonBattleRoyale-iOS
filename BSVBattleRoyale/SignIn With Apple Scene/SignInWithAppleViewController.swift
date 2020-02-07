@@ -48,24 +48,25 @@ class SignInWithAppleViewController: UIViewController {
         }
     }
 
-
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		super.prepare(for: segue, sender: sender)
-		if let dest = segue.destination as? ViewController {
-			dest.apiController = apiController
-		}
-	}
     
     @IBAction func segmentedControlChanged(_ sender: Any) {
         
         if segmentedControl.selectedSegmentIndex == 0 {
             signInType = .register
-            registerLoginButton.setTitle("Register", for: .normal)
-            password2TextField.isHidden = false
+            UIView.transition(with: registerLoginButton, duration: 0.3, options: [.transitionCrossDissolve, .curveLinear], animations: {
+              self.registerLoginButton.setTitle("Register", for: .normal)
+              self.hideViewWithFade(self.password2TextField)
+            }, completion: nil)
+                        
+
         } else {
             signInType = .login
-            registerLoginButton.setTitle("Login", for: .normal)
-            password2TextField.isHidden = true
+            UIView.transition(with: registerLoginButton, duration: 0.4, options: [.transitionCrossDissolve, .curveLinear], animations: {
+              self.registerLoginButton.setTitle("Login", for: .normal)
+              self.hideViewWithFade(self.password2TextField)
+            }, completion: nil)
+
+
         }
     }
     
@@ -140,7 +141,29 @@ class SignInWithAppleViewController: UIViewController {
         
     }
     
+    // MARK: - Transitions
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if let dest = segue.destination as? ViewController {
+            dest.apiController = apiController
+        }
+    }
+    
+    // smooth fade in/out for views
+    func hideViewWithFade(_ view: UIView) {
+        if view.isHidden {
+            view.alpha = 0.0
+        }
+
+        view.isHidden = false
+
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .transitionCrossDissolve, animations: {
+            view.alpha = view.alpha == 1.0 ? 0.0 : 1.0
+        }, completion: { _ in
+            view.isHidden = !Bool(truncating: view.alpha as NSNumber)
+        })
+    }
 
     // MARK: - Networking
     
