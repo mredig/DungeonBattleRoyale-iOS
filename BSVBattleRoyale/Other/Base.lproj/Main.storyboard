@@ -53,23 +53,38 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bB5-Jp-Yw5">
-                                <rect key="frame" x="354" y="10" width="30" height="30"/>
+                                <rect key="frame" x="319" y="64" width="55" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="BaI-k0-SuR"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="h5F-je-JCb"/>
+                                </constraints>
                                 <state key="normal" title="Map"/>
                                 <connections>
                                     <action selector="mapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dnY-ij-M1K"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pY1-Dr-mfP">
+                                <rect key="frame" x="40" y="64" width="78" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="rCA-A2-200"/>
+                                </constraints>
+                                <state key="normal" title="Disconnect"/>
+                                <connections>
+                                    <action selector="disconnectButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DzO-S4-hkc"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Plg-SQ-GXv">
-                                <rect key="frame" x="20" y="828" width="374" height="34"/>
+                                <rect key="frame" x="20" y="824" width="374" height="38"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JNo-3n-WW4">
-                                        <rect key="frame" x="0.0" y="0.0" width="330" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="321" height="38"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSv-Kd-evZ">
-                                        <rect key="frame" x="338" y="0.0" width="36" height="34"/>
-                                        <state key="normal" title="Send"/>
+                                        <rect key="frame" x="329" y="0.0" width="45" height="38"/>
+                                        <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                        <state key="normal" title="Say"/>
                                         <connections>
                                             <action selector="chatSendPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o8w-s4-BJa"/>
                                         </connections>
@@ -79,20 +94,22 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bB5-Jp-Yw5" secondAttribute="trailing" constant="40" id="0Un-vF-gJM"/>
                             <constraint firstAttribute="bottom" secondItem="hdR-J4-3VW" secondAttribute="bottom" id="3MX-1P-l1R"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="leading" secondItem="hdR-J4-3VW" secondAttribute="leading" id="3Od-hb-3vq"/>
+                            <constraint firstItem="bB5-Jp-Yw5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="6oB-WQ-nYM"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="bottom" secondItem="hdR-J4-3VW" secondAttribute="bottom" id="8Rj-tA-lSd"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="A0r-1F-rEZ"/>
                             <constraint firstItem="Plg-SQ-GXv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ckc-s1-Yjf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Plg-SQ-GXv" secondAttribute="bottom" id="Kgd-0C-I1X"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bB5-Jp-Yw5" secondAttribute="trailing" constant="30" id="Qjq-mg-GYA"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="top" secondItem="hdR-J4-3VW" secondAttribute="top" id="S8y-7E-bPz"/>
                             <constraint firstAttribute="trailing" secondItem="hdR-J4-3VW" secondAttribute="trailing" id="ZJr-pE-p97"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="trailing" secondItem="hdR-J4-3VW" secondAttribute="trailing" id="ak2-zQ-bkI"/>
-                            <constraint firstItem="bB5-Jp-Yw5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="10" id="nkz-wJ-YJB"/>
-                            <constraint firstItem="bB5-Jp-Yw5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="oJS-HD-5RP"/>
+                            <constraint firstItem="bB5-Jp-Yw5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pY1-Dr-mfP" secondAttribute="trailing" constant="8" id="fuC-uD-qNN"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pZB-BX-pWz"/>
+                            <constraint firstItem="pY1-Dr-mfP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="pZX-Bc-QlD"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Plg-SQ-GXv" secondAttribute="trailing" constant="20" id="s04-r1-LHp"/>
+                            <constraint firstItem="pY1-Dr-mfP" firstAttribute="centerY" secondItem="bB5-Jp-Yw5" secondAttribute="centerY" id="weV-GQ-BJ0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
