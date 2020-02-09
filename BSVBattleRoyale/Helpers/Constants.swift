@@ -15,6 +15,8 @@ let playerBitmask: UInt32 = 1 << 2
 
 //let backendDomain = "localhost:8000" //local
 //let backendDomain = "bsvbattle.redig.me:8040" //dev
-let backendDomain = "bsvbattle.redig.me:8000" //testflight
-let backendBaseURL = URL(string: "http://\(backendDomain)/")
-let backendWSURL = URL(string: "ws://\(backendDomain)")
+let backendDomain = "bsvbattle.redig.me" //testflight
+fileprivate let restProtocol = "https"
+fileprivate let wsProtocol = "wss"
+let backendBaseURL = URL(string: "\(restProtocol)://\(backendDomain)/")
+let backendWSURL = URL(string: "\(wsProtocol)://\(backendDomain)")
