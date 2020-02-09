@@ -14,7 +14,7 @@ let wallBitmask: UInt32 = 1 << 1
 let playerBitmask: UInt32 = 1 << 2
 
 //let backendDomain = "localhost:8000" //local
-//let backendDomain = "bsvbattle.redig.me:8040" //dev
+//let backendDomain = "dev.bsvbattle.redig.me" //dev
 let backendDomain = "bsvbattle.redig.me" //testflight
 fileprivate let restProtocol = "https"
 fileprivate let wsProtocol = "wss"
