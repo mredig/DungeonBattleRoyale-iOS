@@ -10,7 +10,6 @@ import Foundation
 
 struct User: Codable {
 	let username: String
-    let password: String?
-    let password1: String?
-    let password2: String?
+    let password: String
+    let passwordVerify: String?
 }

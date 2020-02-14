@@ -12,8 +12,10 @@ import CoreGraphics
 
 struct PlayerInit: Codable {
 	let playerID: String
-	let currentRoom: Int
+	let roomID: Int
 	let spawnLocation: CGPoint
+	let avatar: Int
+	let username: String
 }
 
 
@@ -34,6 +36,6 @@ struct PositionPulseUpdate: Codable {
 }
 
 struct PlayerInfo: Codable {
-	let player_avatar: Int
+	let avatar: Int
 	let username: String
 }

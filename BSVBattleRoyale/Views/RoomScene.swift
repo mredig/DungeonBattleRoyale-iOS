@@ -167,7 +167,7 @@ class RoomScene: SKScene {
 	func loadInfoForPlayer(_ player: Player) {
 		if let playerInfo = RoomScene._playerInfo[player.id] {
 			DispatchQueue.main.async {
-				player.avatar = Avatar(rawValue: playerInfo.player_avatar) ?? .yellowMonster
+				player.avatar = Avatar(rawValue: playerInfo.avatar) ?? .yellowMonster
 				player.username = playerInfo.username
 			}
 		} else {

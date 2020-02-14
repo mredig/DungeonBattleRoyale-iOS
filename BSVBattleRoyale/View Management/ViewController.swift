@@ -108,7 +108,7 @@ class ViewController: UIViewController {
 			guard let self = self else { return }
 			switch result {
 			case .success(let playerInit):
-				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.currentRoom)
+				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.roomID)
 				self.playerInfo = PlayerState(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
 			case .failure(let error):
 				NSLog("Failed initing player: \(error)")
