@@ -110,13 +110,7 @@ class APIController {
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
 		let roomInfo = ["roomID": room]
-		do {
-			let json = try JSONEncoder().encode(roomInfo)
-			request.httpBody = json
-		} catch {
-			completion(.failure(.dataCodingError(specifically: error, sourceData: nil)))
-			return
-		}
+		request.encodeData(roomInfo)
 
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}

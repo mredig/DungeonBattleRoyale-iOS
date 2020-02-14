@@ -22,6 +22,7 @@ struct PlayerInit: Codable {
 struct PlayerMove: Codable {
 	let currentRoom: Int
 	let spawnLocation: CGPoint
+	let otherPlayersInRoom: [String]
 }
 
 
