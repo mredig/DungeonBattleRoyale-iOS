@@ -12,10 +12,10 @@ import CoreGraphics
 
 struct PlayerInit: Codable {
 	let playerID: String
+	let username: String
 	let roomID: Int
 	let spawnLocation: CGPoint
 	let avatar: Int
-	let username: String
 }
 
 

@@ -74,13 +74,8 @@ class APIController {
 		request.addValue(.other(value: "Bearer \(token.token)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
-		let toServer = ["player_avatar": selectedAvatar.rawValue]
-		do {
-			request.httpBody = try JSONSerialization.data(withJSONObject: toServer, options: [])
-		} catch {
-			completion(.failure(.dataCodingError(specifically: error, sourceData: nil)))
-			return
-		}
+		let toServer = ["playerAvatar": selectedAvatar.rawValue]
+		request.encodeData(toServer)
 
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
@@ -127,7 +122,7 @@ class APIController {
 	}
 
 	func getWorldmap(completion: @escaping (Result<RoomCollection, NetworkError>) -> Void) {
-		guard let url = backendBaseURL?.appendingPathComponent("api").appendingPathComponent("overworld"),
+		guard let url = backendBaseURL?.appendingPathComponent("overworld"),
 			let token = token else { return }
 
 		var request = url.request
