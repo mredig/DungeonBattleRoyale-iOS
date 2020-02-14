@@ -89,13 +89,8 @@ class APIController {
 		request.addValue(.other(value: "Bearer \(token.token)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
-		let toServer = ["id": id]
-		do {
-			request.httpBody = try JSONSerialization.data(withJSONObject: toServer, options: [])
-		} catch {
-			completion(.failure(.dataCodingError(specifically: error, sourceData: nil)))
-			return nil
-		}
+		let toServer = ["playerID": id]
+		request.encodeData(toServer)
 
 		return networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
