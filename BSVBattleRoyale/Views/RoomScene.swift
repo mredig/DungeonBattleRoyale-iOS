@@ -93,6 +93,8 @@ class RoomScene: SKScene {
 
 	private func changePlayerDestination(to location: CGPoint) {
 		currentPlayer?.destination = location
+		guard let player = currentPlayer else { return }
+		liveController?.updatePlayerPosition(player.position, destination: location)
 	}
 
 	override func update(_ currentTime: TimeInterval) {
@@ -100,7 +102,7 @@ class RoomScene: SKScene {
 
 		// send player position
 		guard let player = currentPlayer else { return }
-		liveController?.updatePlayerPosition(player.position, destination: player.destination)
+		liveController?.sendPositionPulse(player.position, destination: player.destination)
 	}
 
 	func updateOtherPlayers(updatePlayers: [String: PositionPulseUpdate]) {

@@ -36,13 +36,19 @@ class LiveConnectionController {
 		webSocketConnection.connect()
 	}
 
-
-	private var lastSend = TimeInterval(0)
-	let sendDelta: TimeInterval = 1/2
 	func updatePlayerPosition(_ position: CGPoint, destination: CGPoint) {
 		guard connected else { return }
+		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y], "destination": [destination.x, destination.y]]).json
+			else { return }
+		webSocketConnection.send(text: packet)
+	}
+
+	private var lastSend = TimeInterval(0)
+	let sendDelta: TimeInterval = 1/3
+	func sendPositionPulse(_ position: CGPoint, destination: CGPoint) {
+		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
-		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y], "destination": [destination.x, destination.y]]).json,
+		guard let packet = WSPacket(type: .positionPulse, content: ["position": [position.x, position.y], "destination": [destination.x, destination.y]]).json,
 		currentTime > lastSend + sendDelta else { return }
 		webSocketConnection.send(text: packet)
 		lastSend = currentTime
@@ -108,7 +114,11 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	}
 
 	func onMessage(connection: WebSocketConnection, data: Data) {
-		print("got data: \(data)")
+		if let magic = data.getMagic() {
+			print("got a \(magic)")
+		} else {
+			print("got data: \(data)")
+		}
 	}
 
 	private func distributechatData(data: Any) {
