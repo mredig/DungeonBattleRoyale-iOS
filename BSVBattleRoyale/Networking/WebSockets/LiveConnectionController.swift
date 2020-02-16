@@ -14,7 +14,8 @@ protocol LiveConnectionControllerDelegate: AnyObject {
 }
 
 protocol LiveInteractionDelegate: AnyObject {
-	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
+	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
+	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionPulseUpdate)
 	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String)
 	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, hitPlayers: [String])
 }
@@ -39,9 +40,9 @@ class LiveConnectionController {
 
 	func updatePlayerPosition(_ position: CGPoint, destination: CGPoint) {
 		guard connected else { return }
-		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y], "destination": [destination.x, destination.y]]).json
-			else { return }
-		webSocketConnection.send(text: packet)
+		let message = WSMessage(messageType: .positionUpdate, payload: PositionPulseUpdate(position: position, destination: destination))
+
+		encodeAndSend(binaryMessage: message)
 	}
 
 	private var lastSend = TimeInterval(0)
@@ -53,12 +54,15 @@ class LiveConnectionController {
 		guard currentTime > lastSend + sendDelta else { return }
 		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, destination: destination))
 
+		encodeAndSend(binaryMessage: message)
+	}
+
+	private func encodeAndSend<Payload: Codable>(binaryMessage message: WSMessage<Payload>) {
 		do {
 			let bin = try message.encode()
 			webSocketConnection.send(data: bin)
-			lastSend = currentTime
 		} catch {
-			NSLog("Error encoding position pulse: \(error)")
+			NSLog("Error encoding message with payload type \(type(of: message.payload)): \(error)")
 		}
 	}
 
@@ -111,22 +115,30 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			case .playerAttack:
 				break
 			case .positionUpdate:
-				break
+				handlePlayerPositionUpdate(from: data)
 			}
 		} else {
 			print("got data: \(data)")
 		}
 	}
 
-	private func handlePositionPulse(from data: Data) {
-		let playerPositions: [String: PositionPulseUpdate]
+	private func extractPayload<Payload: Codable>(of type: Payload.Type, from data: Data) -> Payload? {
 		do {
-			playerPositions = try data.extractPayload(payloadType: [String: PositionPulseUpdate].self)
+			return try data.extractPayload(payloadType: type)
 		} catch {
-			NSLog("Error decoding player positions from pulse: \(error)")
-			return
+			NSLog("Error decoding payload of type \(type): \(error)")
+			return nil
 		}
-		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: playerPositions)
+	}
+
+	private func handlePositionPulse(from data: Data) {
+		guard let playerPositions = extractPayload(of: [String: PositionPulseUpdate].self, from: data) else { return }
+		liveInteractionDelegate?.positionPulse(on: self, updatedPositions: playerPositions)
+	}
+
+	private func handlePlayerPositionUpdate(from data: Data) {
+		guard let playerPosition = extractPayload(of: PositionPulseUpdate.self, from: data) else { return }
+		liveInteractionDelegate?.otherPlayerMoved(on: self, update: playerPosition)
 	}
 
 	private func distributechatData(data: Any) {
@@ -134,23 +146,6 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		guard let message = dict["message"], let playerID = dict["player"] else { return }
 		liveInteractionDelegate?.chatReceived(on: self, message: message, playerID: playerID)
 	}
-
-//	private func distributePositionPulseData(data: Any) {
-//		guard let dict = data as? [String: [String: [CGFloat]]] else { return }
-//
-//		var otherPlayers = [String: PositionPulseUpdate]()
-//		for (playerID, positionDict) in dict {
-//			guard let positions = positionDict["position"],
-//				positions.count == 2,
-//				let destinationList = positionDict["destination"],
-//				destinationList.count == 2 else { continue }
-//			let position = CGPoint(x: positions[0], y: positions[1])
-//			let destination = CGPoint(x: destinationList[0], y: destinationList[1])
-//			otherPlayers[playerID] = PositionPulseUpdate(position: position, destination: destination)
-//		}
-//
-//		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)
-//	}
 
 	private func distributeAttackBroadcast(data: Any) {
 		guard let dict = data as? [String: Any] else { return }

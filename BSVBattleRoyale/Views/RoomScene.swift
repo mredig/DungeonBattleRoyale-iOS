@@ -119,11 +119,7 @@ class RoomScene: SKScene {
 				continue
 			}
 			// update any other consistent player's position
-			if updatedPlayer.position.distance(to: update.position, isWithin: 150) {
-				updatedPlayer.destination = update.destination
-			} else {
-				updatedPlayer.setPosition(to: update.position)
-			}
+			updateExistingPlayer(updatedPlayer, pulseInfo: update)
 			// unmark this player as a new player
 			newPlayers[id] = nil
 		}
@@ -142,6 +138,15 @@ class RoomScene: SKScene {
 			otherPlayers[delete.id] = nil
 			RoomScene._playerInfo[delete.id] = nil
 			delete.removeFromParent()
+		}
+	}
+
+	private func updateExistingPlayer(_ player: Player, pulseInfo: PositionPulseUpdate) {
+		// update any other consistent player's position
+		if player.position.distance(to: pulseInfo.position, isWithin: 150) {
+			player.destination = pulseInfo.destination
+		} else {
+			player.setPosition(to: pulseInfo.position)
 		}
 	}
 
@@ -223,9 +228,16 @@ extension RoomScene: PlayerInteractionDelegate {
 }
 
 extension RoomScene: LiveInteractionDelegate {
-	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
+	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
 		DispatchQueue.main.async {
 			self.updateOtherPlayers(updatePlayers: updatedPositions)
+		}
+	}
+
+	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionPulseUpdate) {
+		guard let updateID = update.playerID, updateID != currentPlayer?.id, let player = otherPlayers[updateID] else { return }
+		DispatchQueue.main.async {
+			self.updateExistingPlayer(player, pulseInfo: update)
 		}
 	}
 

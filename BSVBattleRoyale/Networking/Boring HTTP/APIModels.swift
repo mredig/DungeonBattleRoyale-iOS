@@ -34,6 +34,18 @@ struct PlayerState {
 struct PositionPulseUpdate: Codable {
 	let position: CGPoint
 	let destination: CGPoint
+	let playerID: String?
+
+	init(position: CGPoint, destination: CGPoint, playerID: String? = nil) {
+		self.position = position
+		self.destination = destination
+		self.playerID = playerID
+	}
+
+	/// returns a new PositionPulseUpdate, but with the playerID value populated with the passed in value
+	func setting(playerID: String) -> PositionPulseUpdate {
+		PositionPulseUpdate(position: position, destination: destination, playerID: playerID)
+	}
 }
 
 struct PlayerInfo: Codable {
