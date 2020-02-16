@@ -223,6 +223,8 @@ extension RoomScene: SKPhysicsContactDelegate {
 
 extension RoomScene: PlayerInteractionDelegate {
 	func player(_ player: Player, attackedFacing facing: PlayerDirection) {
+		// this will get the closest players, but theres more to account for like the direction faced, a good distance value to calculate, hitboxes, etc
+//		let closestPlayers = otherPlayers.filter { $0.value.position.distance(to: player.position, isWithin: 40) }.map { $0.value }
 		liveController?.playerAttacked(facing: facing, hit: [])
 	}
 }

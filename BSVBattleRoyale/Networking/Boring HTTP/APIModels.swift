@@ -57,3 +57,8 @@ struct PlayerInfo: Codable {
 	let avatar: Int
 	let username: String
 }
+
+struct PlayerAttack: Codable {
+	let attacker: String
+	let hitPlayers: [String]
+}
