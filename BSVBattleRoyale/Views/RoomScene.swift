@@ -93,6 +93,8 @@ class RoomScene: SKScene {
 
 	private func changePlayerDestination(to location: CGPoint) {
 		currentPlayer?.destination = location
+		guard let player = currentPlayer else { return }
+		liveController?.updatePlayerPosition(player.position, destination: location)
 	}
 
 	override func update(_ currentTime: TimeInterval) {
@@ -100,7 +102,7 @@ class RoomScene: SKScene {
 
 		// send player position
 		guard let player = currentPlayer else { return }
-		liveController?.updatePlayerPosition(player.position, destination: player.destination)
+		liveController?.sendPositionPulse(player.position, destination: player.destination)
 	}
 
 	func updateOtherPlayers(updatePlayers: [String: PositionPulseUpdate]) {
@@ -117,11 +119,7 @@ class RoomScene: SKScene {
 				continue
 			}
 			// update any other consistent player's position
-			if updatedPlayer.position.distance(to: update.position, isWithin: 150) {
-				updatedPlayer.destination = update.destination
-			} else {
-				updatedPlayer.setPosition(to: update.position)
-			}
+			updateExistingPlayer(updatedPlayer, pulseInfo: update)
 			// unmark this player as a new player
 			newPlayers[id] = nil
 		}
@@ -140,6 +138,15 @@ class RoomScene: SKScene {
 			otherPlayers[delete.id] = nil
 			RoomScene._playerInfo[delete.id] = nil
 			delete.removeFromParent()
+		}
+	}
+
+	private func updateExistingPlayer(_ player: Player, pulseInfo: PositionPulseUpdate) {
+		// update any other consistent player's position
+		if player.position.distance(to: pulseInfo.position, isWithin: 150) {
+			player.destination = pulseInfo.destination
+		} else {
+			player.setPosition(to: pulseInfo.position)
 		}
 	}
 
@@ -167,7 +174,7 @@ class RoomScene: SKScene {
 	func loadInfoForPlayer(_ player: Player) {
 		if let playerInfo = RoomScene._playerInfo[player.id] {
 			DispatchQueue.main.async {
-				player.avatar = Avatar(rawValue: playerInfo.player_avatar) ?? .yellowMonster
+				player.avatar = Avatar(rawValue: playerInfo.avatar) ?? .yellowMonster
 				player.username = playerInfo.username
 			}
 		} else {
@@ -216,14 +223,23 @@ extension RoomScene: SKPhysicsContactDelegate {
 
 extension RoomScene: PlayerInteractionDelegate {
 	func player(_ player: Player, attackedFacing facing: PlayerDirection) {
+		// this will get the closest players, but theres more to account for like the direction faced, a good distance value to calculate, hitboxes, etc
+//		let closestPlayers = otherPlayers.filter { $0.value.position.distance(to: player.position, isWithin: 40) }.map { $0.value }
 		liveController?.playerAttacked(facing: facing, hit: [])
 	}
 }
 
 extension RoomScene: LiveInteractionDelegate {
-	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
+	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
 		DispatchQueue.main.async {
 			self.updateOtherPlayers(updatePlayers: updatedPositions)
+		}
+	}
+
+	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionPulseUpdate) {
+		guard let updateID = update.playerID, updateID != currentPlayer?.id, let player = otherPlayers[updateID] else { return }
+		DispatchQueue.main.async {
+			self.updateExistingPlayer(player, pulseInfo: update)
 		}
 	}
 

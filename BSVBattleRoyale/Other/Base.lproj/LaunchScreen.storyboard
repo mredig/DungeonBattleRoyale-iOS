@@ -40,7 +40,7 @@
     <resources>
         <image name="title" width="359.5" height="242"/>
         <namedColor name="MenuColor">
-            <color red="0.23403532803058624" green="0.57048231363296509" blue="0.79746943712234497" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23399999737739563" green="0.56999999284744263" blue="0.79699999094009399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

@@ -10,64 +10,88 @@ import Foundation
 import CoreGraphics
 
 protocol LiveConnectionControllerDelegate: AnyObject {
+	func socketDisconnected()
 }
 
 protocol LiveInteractionDelegate: AnyObject {
-	func otherPlayersUpdated(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
+	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
+	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionPulseUpdate)
 	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String)
 	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, hitPlayers: [String])
 }
 
 class LiveConnectionController {
+	// MARK: - Properties
 	var webSocketConnection: WebSocketConnection
 
-	private var connected = false
+	private(set) var connected = false
 	weak var delegate: LiveConnectionControllerDelegate?
 	weak var liveInteractionDelegate: LiveInteractionDelegate?
+	private let playerID: String
 
+	// MARK: - Lifecycle
 	init?(playerID: String) {
 		guard let url = backendWSURL?
 			.appendingPathComponent("ws")
 			.appendingPathComponent("rooms")
 			.appendingPathComponent(playerID) else { return nil }
 
+		self.playerID = playerID
+
 		webSocketConnection = WebSocketTaskConnection(url: url)
 		webSocketConnection.delegate = self
 		webSocketConnection.connect()
 	}
 
+	func disconnect() {
+		webSocketConnection.disconnect()
+	}
 
-	private var lastSend = TimeInterval(0)
-	let sendDelta: TimeInterval = 1/15
+	// MARK: - Outgoing messages
 	func updatePlayerPosition(_ position: CGPoint, destination: CGPoint) {
 		guard connected else { return }
+		let message = WSMessage(messageType: .positionUpdate, payload: PositionPulseUpdate(position: position, destination: destination))
+
+		encodeAndSend(binaryMessage: message)
+	}
+
+	private var lastSend = TimeInterval(0)
+	let sendDelta: TimeInterval = 1/3
+	func sendPositionPulse(_ position: CGPoint, destination: CGPoint) {
+		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
-		guard let packet = WSPacket(type: .positionUpdate, content: ["position": [position.x, position.y], "destination": [destination.x, destination.y]]).json,
-		currentTime > lastSend + sendDelta else { return }
-		webSocketConnection.send(text: packet)
-		lastSend = currentTime
+
+		guard currentTime > lastSend + sendDelta else { return }
+		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, destination: destination))
+
+		encodeAndSend(binaryMessage: message)
 	}
 
 	func sendChatMessage(_ message: String) {
 		guard connected else { return }
-		guard let packet = WSPacket(type: .chatMessage, content: ["message" : message]).json else { return }
-		webSocketConnection.send(text: packet)
+		let message = WSMessage(messageType: .chatMessage, payload: ChatMessage(message: message, playerID: playerID))
+		encodeAndSend(binaryMessage: message)
 	}
 
 	func playerAttacked(facing: PlayerDirection, hit players: [Player]) {
 		guard connected else { return }
 		let victimIDs = players.map { $0.id }
-		guard let packet = WSPacket(type: .playerAttack, content: ["direction": facing.rawValue, "hitPlayers": victimIDs]).json else { return }
-		webSocketConnection.send(text: packet)
+		let message = WSMessage(messageType: .playerAttack, payload: PlayerAttack(attacker: playerID, hitPlayers: victimIDs))
+		encodeAndSend(binaryMessage: message)
 	}
 
-	func disconnect() {
-		webSocketConnection.disconnect()
+	private func encodeAndSend<Payload: Codable>(binaryMessage message: WSMessage<Payload>) {
+		do {
+			let bin = try message.encode()
+			webSocketConnection.send(data: bin)
+		} catch {
+			NSLog("Error encoding message with payload type \(type(of: message.payload)): \(error)")
+		}
 	}
 }
 
+// MARK: - Delegate
 extension LiveConnectionController: WebSocketConnectionDelegate {
-
 	func onConnected(connection: WebSocketConnection) {
 		print("connected!")
 		connected = true
@@ -76,6 +100,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	func onDisconnected(connection: WebSocketConnection, error: Error?) {
 		print("disconnected: \(String(describing: error))")
 		connected = false
+		delegate?.socketDisconnected()
 	}
 
 	func onError(connection: WebSocketConnection, error: Error) {
@@ -83,61 +108,53 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	}
 
 	func onMessage(connection: WebSocketConnection, text: String) {
-//		print("got text: \(text)")
-		guard let jsonData = text.data(using: .utf8) else { return }
-		do {
-			let jsonObj = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
-
-			guard let messageType = jsonObj?["messageType"] as? String else { return }
-			guard let dataObj = jsonObj?["data"] else { return }
-
-			switch messageType {
-			case "positionPulse":
-				distributePositionPulseData(data: dataObj)
-			case "roomchat":
-				distributechatData(data: dataObj)
-			case "playerAttackBroadcast":
-				distributeAttackBroadcast(data: dataObj)
-			default:
-				print("unclassified message: \(text)")
-				break
-			}
-		} catch {
-			NSLog("Invalid json: \(text) (\(error))")
-		}
+		print("got text: \(text)")
 	}
 
 	func onMessage(connection: WebSocketConnection, data: Data) {
-		print("got data: \(data)")
-	}
-
-	private func distributechatData(data: Any) {
-		guard let dict = data as? [String: String] else { return }
-		guard let message = dict["message"], let playerID = dict["player"] else { return }
-		liveInteractionDelegate?.chatReceived(on: self, message: message, playerID: playerID)
-	}
-
-	private func distributePositionPulseData(data: Any) {
-		guard let dict = data as? [String: [String: [CGFloat]]] else { return }
-
-		var otherPlayers = [String: PositionPulseUpdate]()
-		for (playerID, positionDict) in dict {
-			guard let positions = positionDict["position"],
-				positions.count == 2,
-				let destinationList = positionDict["destination"],
-				destinationList.count == 2 else { continue }
-			let position = CGPoint(x: positions[0], y: positions[1])
-			let destination = CGPoint(x: destinationList[0], y: destinationList[1])
-			otherPlayers[playerID] = PositionPulseUpdate(position: position, destination: destination)
+		if let magic = data.getMagic() {
+			switch magic {
+			case .positionPulse:
+				handlePositionPulse(from: data)
+			case .chatMessage:
+				handleChatMessage(from: data)
+			case .playerAttack:
+				handleAttackMessage(from: data)
+			case .positionUpdate:
+				handlePlayerPositionUpdate(from: data)
+			}
+		} else {
+			print("got data: \(data)")
 		}
-
-		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)
 	}
 
-	private func distributeAttackBroadcast(data: Any) {
-		guard let dict = data as? [String: Any] else { return }
-		guard let attackingPlayer = dict["playerID"] as? String, let hitPlayers = dict["hitPlayers"] as? [String] else { return }
-		liveInteractionDelegate?.attackBroadcastReceived(on: self, from: attackingPlayer, hitPlayers: hitPlayers)
+	// MARK: - Incoming message handling
+	private func extractPayload<Payload: Codable>(of type: Payload.Type, from data: Data) -> Payload? {
+		do {
+			return try data.extractPayload(payloadType: type)
+		} catch {
+			NSLog("Error decoding payload of type \(type): \(error)")
+			return nil
+		}
 	}
 
+	private func handlePositionPulse(from data: Data) {
+		guard let playerPositions = extractPayload(of: [String: PositionPulseUpdate].self, from: data) else { return }
+		liveInteractionDelegate?.positionPulse(on: self, updatedPositions: playerPositions)
+	}
+
+	private func handlePlayerPositionUpdate(from data: Data) {
+		guard let playerPosition = extractPayload(of: PositionPulseUpdate.self, from: data) else { return }
+		liveInteractionDelegate?.otherPlayerMoved(on: self, update: playerPosition)
+	}
+
+	private func handleChatMessage(from data: Data) {
+		guard let chatMessage = extractPayload(of: ChatMessage.self, from: data) else { return }
+		liveInteractionDelegate?.chatReceived(on: self, message: chatMessage.message, playerID: chatMessage.playerID)
+	}
+
+	private func handleAttackMessage(from data: Data) {
+		guard let attackMessage = extractPayload(of: PlayerAttack.self, from: data) else { return }
+		liveInteractionDelegate?.attackBroadcastReceived(on: self, from: attackMessage.attacker, hitPlayers: attackMessage.hitPlayers)
+	}
 }

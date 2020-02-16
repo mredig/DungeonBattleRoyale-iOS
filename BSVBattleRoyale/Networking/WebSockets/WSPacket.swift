@@ -10,7 +10,8 @@ import Foundation
 
 enum WSPacketType: String {
 	case positionUpdate
-	case chatMessage = "chat"
+	case positionPulse
+	case chatMessage
 	case playerAttack
 }
 

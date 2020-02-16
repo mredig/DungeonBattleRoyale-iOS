@@ -19,6 +19,7 @@
 		331B868F23ECD75B00B45F18 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B868E23ECD75A00B45F18 /* ChatBubble.swift */; };
 		331B869323ED043A00B45F18 /* AvatarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */; };
 		331B869723ED194800B45F18 /* AvatarSelectionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B869623ED194800B45F18 /* AvatarSelectionContainer.swift */; };
+		331E79BC23F7F2740091026F /* WSMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331E79BB23F7F2740091026F /* WSMessage.swift */; };
 		334FA62E23EBFFA300CAEDC4 /* BlueMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA62D23EBFFA300CAEDC4 /* BlueMonster.atlas */; };
 		334FA63223EC025000CAEDC4 /* GreenMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */; };
 		334FA63323EC025000CAEDC4 /* PinkMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA63023EC025000CAEDC4 /* PinkMonster.atlas */; };
@@ -86,6 +87,7 @@
 		331B868E23ECD75A00B45F18 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatBubble.swift; path = BSVBattleRoyale/Views/ChatBubble.swift; sourceTree = SOURCE_ROOT; };
 		331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCollectionViewCell.swift; sourceTree = "<group>"; };
 		331B869623ED194800B45F18 /* AvatarSelectionContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarSelectionContainer.swift; sourceTree = "<group>"; };
+		331E79BB23F7F2740091026F /* WSMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSMessage.swift; sourceTree = "<group>"; };
 		334FA62D23EBFFA300CAEDC4 /* BlueMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BlueMonster.atlas; sourceTree = "<group>"; };
 		334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GreenMonster.atlas; sourceTree = "<group>"; };
 		334FA63023EC025000CAEDC4 /* PinkMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PinkMonster.atlas; sourceTree = "<group>"; };
@@ -286,9 +288,10 @@
 		DCCE53AD23E9F8FA0098464D /* WebSockets */ = {
 			isa = PBXGroup;
 			children = (
-				DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */,
-				3366ECB323EA284900953583 /* WSPacket.swift */,
 				3366ECB123EA265C00953583 /* LiveConnectionController.swift */,
+				331E79BB23F7F2740091026F /* WSMessage.swift */,
+				3366ECB323EA284900953583 /* WSPacket.swift */,
+				DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */,
 			);
 			path = WebSockets;
 			sourceTree = "<group>";
@@ -502,7 +505,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n/usr/local/bin/carthage outdated --xcode-warnings\n";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n#/usr/local/bin/carthage outdated --xcode-warnings\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -512,6 +515,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */,
+				331E79BC23F7F2740091026F /* WSMessage.swift in Sources */,
 				3301028723EAAC3D00400F34 /* Constants.swift in Sources */,
 				33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */,
 				331B869723ED194800B45F18 /* AvatarSelectionContainer.swift in Sources */,
@@ -712,7 +716,7 @@
 				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1.4;
+				CURRENT_PROJECT_VERSION = 0.0.1.6;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -740,7 +744,7 @@
 				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1.4;
+				CURRENT_PROJECT_VERSION = 0.0.1.6;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

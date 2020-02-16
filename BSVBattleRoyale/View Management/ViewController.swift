@@ -12,17 +12,7 @@ import NetworkHandler
 
 class ViewController: UIViewController {
 
-	@IBOutlet weak var gameView: SKView!
-	@IBOutlet weak var mapGroup: UIView!
-	@IBOutlet weak var mapImage: UIImageView!
-	@IBOutlet weak var currentRoomMapImage: UIImageView!
-
-	@IBOutlet weak var chatTextField: UITextField!
-	@IBOutlet weak var chatSendButton: UIButton!
-	@IBOutlet weak var textFieldInputConstraint: NSLayoutConstraint!
-
-
-
+	// MARK: - Properties
 	var mapController: MapController?
 	var liveConntroller: LiveConnectionController?
 	var apiController: APIController?
@@ -38,6 +28,19 @@ class ViewController: UIViewController {
 
 	override var prefersStatusBarHidden: Bool { true }
 
+	private var disconnectTimer: Timer?
+
+	// MARK: - Outlets
+	@IBOutlet weak var gameView: SKView!
+	@IBOutlet weak var mapGroup: UIView!
+	@IBOutlet weak var mapImage: UIImageView!
+	@IBOutlet weak var currentRoomMapImage: UIImageView!
+
+	@IBOutlet weak var chatTextField: UITextField!
+	@IBOutlet weak var chatSendButton: UIButton!
+	@IBOutlet weak var textFieldInputConstraint: NSLayoutConstraint!
+
+	// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -48,20 +51,6 @@ class ViewController: UIViewController {
 
 	private func setupKeyboardInputStuff() {
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
-	}
-
-	@objc func keyboardFrameWillChange(notification: NSNotification) {
-		guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-		let duration: NSNumber = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber ?? 0.2
-
-		animateTextField(to: keyboardRect.height, duration: TimeInterval(truncating: duration))
-	}
-
-	func animateTextField(to height: CGFloat, duration: TimeInterval) {
-		UIView.animate(withDuration: duration) {
-			self.textFieldInputConstraint.constant = height
-			self.view.layoutSubviews()
-		}
 	}
 
 	func updateSpriteKit() {
@@ -77,8 +66,10 @@ class ViewController: UIViewController {
 		scene.apiController = apiController
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
+		liveConntroller?.delegate = self
 		scene.liveController = liveConntroller
 		scene.roomDelegate = self
+		disconnectTimer?.invalidate()
 
 		currentRoomMapImage.image = mapController?.generateCurrentRoomOverlay()
 	}
@@ -108,11 +99,26 @@ class ViewController: UIViewController {
 			guard let self = self else { return }
 			switch result {
 			case .success(let playerInit):
-				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.currentRoom)
+				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.roomID)
 				self.playerInfo = PlayerState(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
 			case .failure(let error):
 				NSLog("Failed initing player: \(error)")
 			}
+		}
+	}
+
+	// MARK: - Actions
+	@objc func keyboardFrameWillChange(notification: NSNotification) {
+		guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+		let duration: NSNumber = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber ?? 0.2
+
+		animateTextField(to: keyboardRect.height, duration: TimeInterval(truncating: duration))
+	}
+
+	func animateTextField(to height: CGFloat, duration: TimeInterval) {
+		UIView.animate(withDuration: duration) {
+			self.textFieldInputConstraint.constant = height
+			self.view.layoutSubviews()
 		}
 	}
 
@@ -121,11 +127,18 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func disconnectButtonPressed(_ sender: UIButton) {
-		apiController?.token = nil
-		liveConntroller?.disconnect()
-		liveConntroller = nil
-		currentScene?.clearPlayerCache()
-		dismiss(animated: true)
+		disconnectAndDismiss()
+	}
+
+	private func disconnectAndDismiss() {
+		DispatchQueue.main.async {
+			self.apiController?.token = nil
+			self.liveConntroller?.disconnect()
+			self.liveConntroller = nil
+			self.disconnectTimer?.invalidate()
+			self.currentScene?.clearPlayerCache()
+			self.dismiss(animated: true)
+		}
 	}
 
 	@IBAction func chatSendPressed(_ sender: UIButton) {
@@ -137,6 +150,31 @@ class ViewController: UIViewController {
 	}
 }
 
+extension ViewController: LiveConnectionControllerDelegate {
+	func socketDisconnected() {
+		disconnectTimer?.invalidate()
+		// this is error prone at best. it's intended to allow the short disconnect from websockets as a player
+		// navigates from one room to another, then check to see if the user is still disconnected in a few seconds
+		// and only THEN dismiss and end the session... but if the ws reconnects and enters another room, no dismissal
+		// and no session end. however, it fires multiple times on a disconnect and invalidating the previous timer
+		// doesn't seem to work, so multiple timers end up running simultaneously
+		DispatchQueue.main.async { [weak self] in
+			guard let self = self else { return }
+			self.disconnectTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { [weak self] timer in
+//				print("if still disconnected, dismissing view: \(timer)")
+				guard let self = self else { return }
+				if self.liveConntroller?.connected != true {
+//					print("disconnected")
+					self.disconnectAndDismiss()
+				} else {
+//					print("reconnected")
+				}
+				timer.invalidate()
+				self.disconnectTimer?.invalidate()
+			})
+		}
+	}
+}
 
 extension ViewController: RoomSceneDelegate {
 	func player(_ currentPlayer: Player, enteredDoor: DoorSprite) {

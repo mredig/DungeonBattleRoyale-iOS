@@ -13,8 +13,10 @@ let doorBitmask: UInt32 = 1 << 0
 let wallBitmask: UInt32 = 1 << 1
 let playerBitmask: UInt32 = 1 << 2
 
-//let backendDomain = "localhost:8000" //local
-//let backendDomain = "bsvbattle.redig.me:8040" //dev
-let backendDomain = "bsvbattle.redig.me:8000" //testflight
-let backendBaseURL = URL(string: "http://\(backendDomain)/")
-let backendWSURL = URL(string: "ws://\(backendDomain)")
+let backendDomain = "localhost:8080" //local
+//let backendDomain = "dev.bsvbattle.redig.me" //dev
+//let backendDomain = "bsvbattle.herokuapp.com" //testflight
+fileprivate let restProtocol = "http"
+fileprivate let wsProtocol = "ws"
+let backendBaseURL = URL(string: "\(restProtocol)://\(backendDomain)/")
+let backendWSURL = URL(string: "\(wsProtocol)://\(backendDomain)")
