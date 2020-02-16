@@ -26,12 +26,15 @@ class LiveConnectionController {
 	private(set) var connected = false
 	weak var delegate: LiveConnectionControllerDelegate?
 	weak var liveInteractionDelegate: LiveInteractionDelegate?
+	private let playerID: String
 
 	init?(playerID: String) {
 		guard let url = backendWSURL?
 			.appendingPathComponent("ws")
 			.appendingPathComponent("rooms")
 			.appendingPathComponent(playerID) else { return nil }
+
+		self.playerID = playerID
 
 		webSocketConnection = WebSocketTaskConnection(url: url)
 		webSocketConnection.delegate = self
@@ -57,6 +60,12 @@ class LiveConnectionController {
 		encodeAndSend(binaryMessage: message)
 	}
 
+	func sendChatMessage(_ message: String) {
+		guard connected else { return }
+		let message = WSMessage(messageType: .chatMessage, payload: ChatMessage(message: message, playerID: playerID))
+		encodeAndSend(binaryMessage: message)
+	}
+
 	private func encodeAndSend<Payload: Codable>(binaryMessage message: WSMessage<Payload>) {
 		do {
 			let bin = try message.encode()
@@ -66,11 +75,6 @@ class LiveConnectionController {
 		}
 	}
 
-	func sendChatMessage(_ message: String) {
-		guard connected else { return }
-		guard let packet = WSPacket(type: .chatMessage, content: ["message" : message]).json else { return }
-		webSocketConnection.send(text: packet)
-	}
 
 	func playerAttacked(facing: PlayerDirection, hit players: [Player]) {
 		guard connected else { return }
@@ -111,7 +115,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			case .positionPulse:
 				handlePositionPulse(from: data)
 			case .chatMessage:
-				break
+				handleChatMessage(from: data)
 			case .playerAttack:
 				break
 			case .positionUpdate:
@@ -139,6 +143,11 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	private func handlePlayerPositionUpdate(from data: Data) {
 		guard let playerPosition = extractPayload(of: PositionPulseUpdate.self, from: data) else { return }
 		liveInteractionDelegate?.otherPlayerMoved(on: self, update: playerPosition)
+	}
+
+	private func handleChatMessage(from data: Data) {
+		guard let chatMessage = extractPayload(of: ChatMessage.self, from: data) else { return }
+		liveInteractionDelegate?.chatReceived(on: self, message: chatMessage.message, playerID: chatMessage.playerID)
 	}
 
 	private func distributechatData(data: Any) {

@@ -48,6 +48,11 @@ struct PositionPulseUpdate: Codable {
 	}
 }
 
+struct ChatMessage: Codable {
+	let message: String
+	let playerID: String
+}
+
 struct PlayerInfo: Codable {
 	let avatar: Int
 	let username: String
