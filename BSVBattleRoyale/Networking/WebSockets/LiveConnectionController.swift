@@ -48,10 +48,17 @@ class LiveConnectionController {
 	func sendPositionPulse(_ position: CGPoint, destination: CGPoint) {
 		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
-		guard let packet = WSPacket(type: .positionPulse, content: ["position": [position.x, position.y], "destination": [destination.x, destination.y]]).json,
-		currentTime > lastSend + sendDelta else { return }
-		webSocketConnection.send(text: packet)
-		lastSend = currentTime
+
+		guard currentTime > lastSend + sendDelta else { return }
+		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, destination: destination))
+
+		do {
+			let bin = try message.encode()
+			webSocketConnection.send(data: bin)
+			lastSend = currentTime
+		} catch {
+			NSLog("Error encoding position pulse: \(error)")
+		}
 	}
 
 	func sendChatMessage(_ message: String) {
@@ -89,36 +96,36 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	}
 
 	func onMessage(connection: WebSocketConnection, text: String) {
-//		print("got text: \(text)")
-		guard let jsonData = text.data(using: .utf8) else { return }
-		do {
-			let jsonObj = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
-
-			guard let messageType = jsonObj?["messageType"] as? String else { return }
-			guard let dataObj = jsonObj?["data"] else { return }
-
-			switch messageType {
-			case "positionPulse":
-				distributePositionPulseData(data: dataObj)
-			case "roomchat":
-				distributechatData(data: dataObj)
-			case "playerAttackBroadcast":
-				distributeAttackBroadcast(data: dataObj)
-			default:
-				print("unclassified message: \(text)")
-				break
-			}
-		} catch {
-			NSLog("Invalid json: \(text) (\(error))")
-		}
+		print("got text: \(text)")
 	}
 
 	func onMessage(connection: WebSocketConnection, data: Data) {
 		if let magic = data.getMagic() {
-			print("got a \(magic)")
+			switch magic {
+			case .positionPulse:
+				handlePositionPulse(from: data)
+			case .chatMessage:
+				break
+			case .playerAttack:
+				break
+			case .positionUpdate:
+				break
+			}
 		} else {
 			print("got data: \(data)")
 		}
+	}
+
+	private func handlePositionPulse(from data: Data) {
+		let playerPositions: [String: PositionPulseUpdate]
+		do {
+			playerPositions = try data.extractPayload(payloadType: [String: PositionPulseUpdate].self)
+		} catch {
+			NSLog("Error decoding player positions from pulse: \(error)")
+			return
+		}
+		print(playerPositions)
+		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: playerPositions)
 	}
 
 	private func distributechatData(data: Any) {
