@@ -23,7 +23,7 @@ protocol LiveInteractionDelegate: AnyObject {
 class LiveConnectionController {
 	var webSocketConnection: WebSocketConnection
 
-	private var connected = false
+	private(set) var connected = false
 	weak var delegate: LiveConnectionControllerDelegate?
 	weak var liveInteractionDelegate: LiveInteractionDelegate?
 

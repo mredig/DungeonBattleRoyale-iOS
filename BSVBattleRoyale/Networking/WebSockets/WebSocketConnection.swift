@@ -48,9 +48,11 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     }
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
-		connected = false
-        self.delegate?.onDisconnected(connection: self, error: nil)
-    }
+		if connected {
+			connected = false
+			self.delegate?.onDisconnected(connection: self, error: nil)
+		}
+	}
     
     func connect() {
         webSocketTask.resume()
@@ -60,8 +62,10 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     
     func disconnect() {
         webSocketTask.cancel(with: .goingAway, reason: nil)
-		connected = false
-		self.delegate?.onDisconnected(connection: self, error: nil)
+		if connected {
+			connected = false
+			self.delegate?.onDisconnected(connection: self, error: nil)
+		}
     }
     
     func listen()  {
