@@ -106,7 +106,7 @@
 		33FB437E23EA35D000D1DDC8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		33FB438023EA362100D1DDC8 /* RoomCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomCollection.swift; sourceTree = "<group>"; };
 		DC07B4AC23EB186000A4755D /* SignInWithAppleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleViewController.swift; sourceTree = "<group>"; };
-		DCCE536B23E9F4610098464D /* BSVBattleRoyale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSVBattleRoyale.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DungeonBattleRoyale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE536E23E9F4610098464D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCCE537023E9F4610098464D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DCCE537223E9F4610098464D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -244,7 +244,7 @@
 		DCCE536C23E9F4610098464D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DCCE536B23E9F4610098464D /* BSVBattleRoyale.app */,
+				DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */,
 				DCCE538123E9F4630098464D /* BSVBattleRoyaleTests.xctest */,
 				DCCE538C23E9F4630098464D /* BSVBattleRoyaleUITests.xctest */,
 			);
@@ -365,7 +365,7 @@
 				DCCE53AB23E9F8470098464D /* NIOWebSocket */,
 			);
 			productName = BSVBattleRoyale;
-			productReference = DCCE536B23E9F4610098464D /* BSVBattleRoyale.app */;
+			productReference = DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DCCE538023E9F4630098464D /* BSVBattleRoyaleTests */ = {
@@ -729,8 +729,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyale;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyale;
+				PRODUCT_NAME = DungeonBattleRoyale;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -757,8 +757,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyale;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyale;
+				PRODUCT_NAME = DungeonBattleRoyale;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
