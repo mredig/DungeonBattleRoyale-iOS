@@ -28,6 +28,8 @@ class ViewController: UIViewController {
 
 	override var prefersStatusBarHidden: Bool { true }
 
+	private var disconnectTimer: Timer?
+
 	// MARK: - Outlets
 	@IBOutlet weak var gameView: SKView!
 	@IBOutlet weak var mapGroup: UIView!
@@ -67,6 +69,7 @@ class ViewController: UIViewController {
 		liveConntroller?.delegate = self
 		scene.liveController = liveConntroller
 		scene.roomDelegate = self
+		disconnectTimer?.invalidate()
 
 		currentRoomMapImage.image = mapController?.generateCurrentRoomOverlay()
 	}
@@ -132,6 +135,7 @@ class ViewController: UIViewController {
 			self.apiController?.token = nil
 			self.liveConntroller?.disconnect()
 			self.liveConntroller = nil
+			self.disconnectTimer?.invalidate()
 			self.currentScene?.clearPlayerCache()
 			self.dismiss(animated: true)
 		}
@@ -148,7 +152,27 @@ class ViewController: UIViewController {
 
 extension ViewController: LiveConnectionControllerDelegate {
 	func socketDisconnected() {
-		disconnectAndDismiss()
+		disconnectTimer?.invalidate()
+		// this is error prone at best. it's intended to allow the short disconnect from websockets as a player
+		// navigates from one room to another, then check to see if the user is still disconnected in a few seconds
+		// and only THEN dismiss and end the session... but if the ws reconnects and enters another room, no dismissal
+		// and no session end. however, it fires multiple times on a disconnect and invalidating the previous timer
+		// doesn't seem to work, so multiple timers end up running simultaneously
+		DispatchQueue.main.async { [weak self] in
+			guard let self = self else { return }
+			self.disconnectTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { [weak self] timer in
+//				print("if still disconnected, dismissing view: \(timer)")
+				guard let self = self else { return }
+				if self.liveConntroller?.connected != true {
+//					print("disconnected")
+					self.disconnectAndDismiss()
+				} else {
+//					print("reconnected")
+				}
+				timer.invalidate()
+				self.disconnectTimer?.invalidate()
+			})
+		}
 	}
 }
 
