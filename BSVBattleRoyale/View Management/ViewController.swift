@@ -12,17 +12,7 @@ import NetworkHandler
 
 class ViewController: UIViewController {
 
-	@IBOutlet weak var gameView: SKView!
-	@IBOutlet weak var mapGroup: UIView!
-	@IBOutlet weak var mapImage: UIImageView!
-	@IBOutlet weak var currentRoomMapImage: UIImageView!
-
-	@IBOutlet weak var chatTextField: UITextField!
-	@IBOutlet weak var chatSendButton: UIButton!
-	@IBOutlet weak var textFieldInputConstraint: NSLayoutConstraint!
-
-
-
+	// MARK: - Properties
 	var mapController: MapController?
 	var liveConntroller: LiveConnectionController?
 	var apiController: APIController?
@@ -38,6 +28,17 @@ class ViewController: UIViewController {
 
 	override var prefersStatusBarHidden: Bool { true }
 
+	// MARK: - Outlets
+	@IBOutlet weak var gameView: SKView!
+	@IBOutlet weak var mapGroup: UIView!
+	@IBOutlet weak var mapImage: UIImageView!
+	@IBOutlet weak var currentRoomMapImage: UIImageView!
+
+	@IBOutlet weak var chatTextField: UITextField!
+	@IBOutlet weak var chatSendButton: UIButton!
+	@IBOutlet weak var textFieldInputConstraint: NSLayoutConstraint!
+
+	// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -48,20 +49,6 @@ class ViewController: UIViewController {
 
 	private func setupKeyboardInputStuff() {
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
-	}
-
-	@objc func keyboardFrameWillChange(notification: NSNotification) {
-		guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-		let duration: NSNumber = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber ?? 0.2
-
-		animateTextField(to: keyboardRect.height, duration: TimeInterval(truncating: duration))
-	}
-
-	func animateTextField(to height: CGFloat, duration: TimeInterval) {
-		UIView.animate(withDuration: duration) {
-			self.textFieldInputConstraint.constant = height
-			self.view.layoutSubviews()
-		}
 	}
 
 	func updateSpriteKit() {
@@ -77,6 +64,7 @@ class ViewController: UIViewController {
 		scene.apiController = apiController
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
 		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
+		liveConntroller?.delegate = self
 		scene.liveController = liveConntroller
 		scene.roomDelegate = self
 
@@ -116,16 +104,37 @@ class ViewController: UIViewController {
 		}
 	}
 
+	// MARK: - Actions
+	@objc func keyboardFrameWillChange(notification: NSNotification) {
+		guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+		let duration: NSNumber = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber ?? 0.2
+
+		animateTextField(to: keyboardRect.height, duration: TimeInterval(truncating: duration))
+	}
+
+	func animateTextField(to height: CGFloat, duration: TimeInterval) {
+		UIView.animate(withDuration: duration) {
+			self.textFieldInputConstraint.constant = height
+			self.view.layoutSubviews()
+		}
+	}
+
 	@IBAction func mapButtonPressed(_ sender: UIButton) {
 		mapGroup.isHidden.toggle()
 	}
 
 	@IBAction func disconnectButtonPressed(_ sender: UIButton) {
-		apiController?.token = nil
-		liveConntroller?.disconnect()
-		liveConntroller = nil
-		currentScene?.clearPlayerCache()
-		dismiss(animated: true)
+		disconnectAndDismiss()
+	}
+
+	private func disconnectAndDismiss() {
+		DispatchQueue.main.async {
+			self.apiController?.token = nil
+			self.liveConntroller?.disconnect()
+			self.liveConntroller = nil
+			self.currentScene?.clearPlayerCache()
+			self.dismiss(animated: true)
+		}
 	}
 
 	@IBAction func chatSendPressed(_ sender: UIButton) {
@@ -137,6 +146,11 @@ class ViewController: UIViewController {
 	}
 }
 
+extension ViewController: LiveConnectionControllerDelegate {
+	func socketDisconnected() {
+		disconnectAndDismiss()
+	}
+}
 
 extension ViewController: RoomSceneDelegate {
 	func player(_ currentPlayer: Player, enteredDoor: DoorSprite) {

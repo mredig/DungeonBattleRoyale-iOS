@@ -10,6 +10,7 @@ import Foundation
 import CoreGraphics
 
 protocol LiveConnectionControllerDelegate: AnyObject {
+	func socketDisconnected()
 }
 
 protocol LiveInteractionDelegate: AnyObject {
@@ -89,6 +90,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	func onDisconnected(connection: WebSocketConnection, error: Error?) {
 		print("disconnected: \(String(describing: error))")
 		connected = false
+		delegate?.socketDisconnected()
 	}
 
 	func onError(connection: WebSocketConnection, error: Error) {
@@ -124,7 +126,6 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			NSLog("Error decoding player positions from pulse: \(error)")
 			return
 		}
-		print(playerPositions)
 		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: playerPositions)
 	}
 
@@ -134,22 +135,22 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		liveInteractionDelegate?.chatReceived(on: self, message: message, playerID: playerID)
 	}
 
-	private func distributePositionPulseData(data: Any) {
-		guard let dict = data as? [String: [String: [CGFloat]]] else { return }
-
-		var otherPlayers = [String: PositionPulseUpdate]()
-		for (playerID, positionDict) in dict {
-			guard let positions = positionDict["position"],
-				positions.count == 2,
-				let destinationList = positionDict["destination"],
-				destinationList.count == 2 else { continue }
-			let position = CGPoint(x: positions[0], y: positions[1])
-			let destination = CGPoint(x: destinationList[0], y: destinationList[1])
-			otherPlayers[playerID] = PositionPulseUpdate(position: position, destination: destination)
-		}
-
-		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)
-	}
+//	private func distributePositionPulseData(data: Any) {
+//		guard let dict = data as? [String: [String: [CGFloat]]] else { return }
+//
+//		var otherPlayers = [String: PositionPulseUpdate]()
+//		for (playerID, positionDict) in dict {
+//			guard let positions = positionDict["position"],
+//				positions.count == 2,
+//				let destinationList = positionDict["destination"],
+//				destinationList.count == 2 else { continue }
+//			let position = CGPoint(x: positions[0], y: positions[1])
+//			let destination = CGPoint(x: destinationList[0], y: destinationList[1])
+//			otherPlayers[playerID] = PositionPulseUpdate(position: position, destination: destination)
+//		}
+//
+//		liveInteractionDelegate?.otherPlayersUpdated(on: self, updatedPositions: otherPlayers)
+//	}
 
 	private func distributeAttackBroadcast(data: Any) {
 		guard let dict = data as? [String: Any] else { return }
