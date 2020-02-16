@@ -114,10 +114,10 @@
 		DCCE537723E9F4630098464D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DCCE537A23E9F4630098464D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DCCE537C23E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DCCE538123E9F4630098464D /* BSVBattleRoyaleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BSVBattleRoyaleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCCE538123E9F4630098464D /* DungeonBattleRoyaleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonBattleRoyaleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE538523E9F4630098464D /* BSVBattleRoyaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSVBattleRoyaleTests.swift; sourceTree = "<group>"; };
 		DCCE538723E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DCCE538C23E9F4630098464D /* BSVBattleRoyaleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BSVBattleRoyaleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCCE538C23E9F4630098464D /* DungeonBattleRoyaleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonBattleRoyaleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE539023E9F4630098464D /* BSVBattleRoyaleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSVBattleRoyaleUITests.swift; sourceTree = "<group>"; };
 		DCCE539223E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
@@ -245,8 +245,8 @@
 			isa = PBXGroup;
 			children = (
 				DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */,
-				DCCE538123E9F4630098464D /* BSVBattleRoyaleTests.xctest */,
-				DCCE538C23E9F4630098464D /* BSVBattleRoyaleUITests.xctest */,
+				DCCE538123E9F4630098464D /* DungeonBattleRoyaleTests.xctest */,
+				DCCE538C23E9F4630098464D /* DungeonBattleRoyaleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -342,9 +342,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DCCE536A23E9F4610098464D /* BSVBattleRoyale */ = {
+		DCCE536A23E9F4610098464D /* DungeonBattleRoyale */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCCE539523E9F4630098464D /* Build configuration list for PBXNativeTarget "BSVBattleRoyale" */;
+			buildConfigurationList = DCCE539523E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyale" */;
 			buildPhases = (
 				DCCE536723E9F4610098464D /* Sources */,
 				DCCE536823E9F4610098464D /* Frameworks */,
@@ -355,7 +355,7 @@
 			);
 			dependencies = (
 			);
-			name = BSVBattleRoyale;
+			name = DungeonBattleRoyale;
 			packageProductDependencies = (
 				DCCE53A123E9F8470098464D /* NIO */,
 				DCCE53A323E9F8470098464D /* NIOHTTP1 */,
@@ -368,9 +368,9 @@
 			productReference = DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DCCE538023E9F4630098464D /* BSVBattleRoyaleTests */ = {
+		DCCE538023E9F4630098464D /* DungeonBattleRoyaleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCCE539823E9F4630098464D /* Build configuration list for PBXNativeTarget "BSVBattleRoyaleTests" */;
+			buildConfigurationList = DCCE539823E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyaleTests" */;
 			buildPhases = (
 				DCCE537D23E9F4630098464D /* Sources */,
 				DCCE537E23E9F4630098464D /* Frameworks */,
@@ -381,14 +381,14 @@
 			dependencies = (
 				DCCE538323E9F4630098464D /* PBXTargetDependency */,
 			);
-			name = BSVBattleRoyaleTests;
+			name = DungeonBattleRoyaleTests;
 			productName = BSVBattleRoyaleTests;
-			productReference = DCCE538123E9F4630098464D /* BSVBattleRoyaleTests.xctest */;
+			productReference = DCCE538123E9F4630098464D /* DungeonBattleRoyaleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		DCCE538B23E9F4630098464D /* BSVBattleRoyaleUITests */ = {
+		DCCE538B23E9F4630098464D /* DungeonBattleRoyaleUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCCE539B23E9F4630098464D /* Build configuration list for PBXNativeTarget "BSVBattleRoyaleUITests" */;
+			buildConfigurationList = DCCE539B23E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyaleUITests" */;
 			buildPhases = (
 				DCCE538823E9F4630098464D /* Sources */,
 				DCCE538923E9F4630098464D /* Frameworks */,
@@ -399,9 +399,9 @@
 			dependencies = (
 				DCCE538E23E9F4630098464D /* PBXTargetDependency */,
 			);
-			name = BSVBattleRoyaleUITests;
+			name = DungeonBattleRoyaleUITests;
 			productName = BSVBattleRoyaleUITests;
-			productReference = DCCE538C23E9F4630098464D /* BSVBattleRoyaleUITests.xctest */;
+			productReference = DCCE538C23E9F4630098464D /* DungeonBattleRoyaleUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -427,7 +427,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DCCE536623E9F4610098464D /* Build configuration list for PBXProject "BSVBattleRoyale" */;
+			buildConfigurationList = DCCE536623E9F4610098464D /* Build configuration list for PBXProject "DungeonBattleRoyale" */;
 			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -443,9 +443,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DCCE536A23E9F4610098464D /* BSVBattleRoyale */,
-				DCCE538023E9F4630098464D /* BSVBattleRoyaleTests */,
-				DCCE538B23E9F4630098464D /* BSVBattleRoyaleUITests */,
+				DCCE536A23E9F4610098464D /* DungeonBattleRoyale */,
+				DCCE538023E9F4630098464D /* DungeonBattleRoyaleTests */,
+				DCCE538B23E9F4630098464D /* DungeonBattleRoyaleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -565,12 +565,12 @@
 /* Begin PBXTargetDependency section */
 		DCCE538323E9F4630098464D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DCCE536A23E9F4610098464D /* BSVBattleRoyale */;
+			target = DCCE536A23E9F4610098464D /* DungeonBattleRoyale */;
 			targetProxy = DCCE538223E9F4630098464D /* PBXContainerItemProxy */;
 		};
 		DCCE538E23E9F4630098464D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DCCE536A23E9F4610098464D /* BSVBattleRoyale */;
+			target = DCCE536A23E9F4610098464D /* DungeonBattleRoyale */;
 			targetProxy = DCCE538D23E9F4630098464D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -783,7 +783,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BSVBattleRoyale.app/BSVBattleRoyale";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DungeonBattleRoyale.app/DungeonBattleRoyale";
 			};
 			name = Debug;
 		};
@@ -805,7 +805,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BSVBattleRoyale.app/BSVBattleRoyale";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DungeonBattleRoyale.app/DungeonBattleRoyale";
 			};
 			name = Release;
 		};
@@ -852,7 +852,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DCCE536623E9F4610098464D /* Build configuration list for PBXProject "BSVBattleRoyale" */ = {
+		DCCE536623E9F4610098464D /* Build configuration list for PBXProject "DungeonBattleRoyale" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCCE539323E9F4630098464D /* Debug */,
@@ -861,7 +861,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DCCE539523E9F4630098464D /* Build configuration list for PBXNativeTarget "BSVBattleRoyale" */ = {
+		DCCE539523E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyale" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCCE539623E9F4630098464D /* Debug */,
@@ -870,7 +870,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DCCE539823E9F4630098464D /* Build configuration list for PBXNativeTarget "BSVBattleRoyaleTests" */ = {
+		DCCE539823E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyaleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCCE539923E9F4630098464D /* Debug */,
@@ -879,7 +879,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DCCE539B23E9F4630098464D /* Build configuration list for PBXNativeTarget "BSVBattleRoyaleUITests" */ = {
+		DCCE539B23E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyaleUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCCE539C23E9F4630098464D /* Debug */,
