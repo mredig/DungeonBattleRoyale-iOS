@@ -73,7 +73,7 @@ class Player: SKNode {
 
 	weak var interactionDelegate: PlayerInteractionDelegate?
 
-	var destination: CGPoint
+	var trajectory: CGVector
 
 	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
 		self.avatar = avatar
@@ -89,7 +89,7 @@ class Player: SKNode {
 		nameSprite.fontSize = 20
 		nameSprite.fontName = "Verdana"
 		chatBubbleSprite = ChatBubble()
-		destination = position
+		trajectory = .zero
 		super.init()
 		self.position = position
 		addChild(playerSprite)
@@ -144,19 +144,19 @@ class Player: SKNode {
 	}
 
 	func setPosition(to position: CGPoint) {
-		destination = position
+		trajectory = .zero
 		self.position = position
 	}
 
 	private func stepTowardsDestination(interval: TimeInterval) {
-		guard !position.distance(to: destination, isWithin: 3) else {
+		guard trajectory != .zero else {
 			currentAnimations.remove(.walk)
 			currentAnimations.remove(.run)
 			return
 		}
-		direction = destination.x > position.x ? .right : .left
+		direction = trajectory.dx > 0 ? .right : .left
 
-		position.step(toward: destination, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
+		position.step(withNormalizedVector: trajectory, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
 		currentAnimations.insert(.walk)
 	}
 

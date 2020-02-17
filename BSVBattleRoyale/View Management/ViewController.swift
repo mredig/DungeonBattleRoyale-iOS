@@ -58,6 +58,7 @@ class ViewController: UIViewController {
 		currentScene = scene
 		scene.scaleMode = .aspectFit
 		gameView.presentScene(scene, transition: .fade(with: .black, duration: 0.5))
+		gameView.isMultipleTouchEnabled = true
 		// ⬇⬇⬇ Comment out for screengrabs
 //		gameView.showsFPS = true
 //		gameView.showsPhysics = true

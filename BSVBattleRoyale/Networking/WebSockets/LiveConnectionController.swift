@@ -48,21 +48,21 @@ class LiveConnectionController {
 	}
 
 	// MARK: - Outgoing messages
-	func updatePlayerPosition(_ position: CGPoint, destination: CGPoint) {
+	func updatePlayerPosition(_ position: CGPoint, trajectory: CGVector) {
 		guard connected else { return }
-		let message = WSMessage(messageType: .positionUpdate, payload: PositionPulseUpdate(position: position, destination: destination))
+		let message = WSMessage(messageType: .positionUpdate, payload: PositionPulseUpdate(position: position, trajectory: trajectory))
 
 		encodeAndSend(binaryMessage: message)
 	}
 
 	private var lastSend = TimeInterval(0)
 	let sendDelta: TimeInterval = 1/3
-	func sendPositionPulse(_ position: CGPoint, destination: CGPoint) {
+	func sendPositionPulse(_ position: CGPoint, trajectory: CGVector) {
 		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
 
 		guard currentTime > lastSend + sendDelta else { return }
-		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, destination: destination))
+		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, trajectory: trajectory))
 
 		encodeAndSend(binaryMessage: message)
 	}

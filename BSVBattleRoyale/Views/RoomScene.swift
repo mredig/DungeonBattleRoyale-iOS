@@ -69,32 +69,35 @@ class RoomScene: SKScene {
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesBegan(touches, with: event)
-		for touch in touches {
-			let location = touch.location(in: self)
-			changePlayerDestination(to: location)
-		}
+		touches.forEach { setPlayerTrajectory(towards: $0.location(in: self)) }
 	}
 
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesMoved(touches, with: event)
-		for touch in touches {
-			let location = touch.location(in: self)
-			changePlayerDestination(to: location)
-		}
+		touches.forEach { setPlayerTrajectory(towards: $0.location(in: self)) }
 	}
 
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesEnded(touches, with: event)
-		for touch in touches {
-			let location = touch.location(in: self)
-			changePlayerDestination(to: location)
-		}
+		setPlayerTrajectory(to: .zero)
 	}
 
-	private func changePlayerDestination(to location: CGPoint) {
-		currentPlayer?.destination = location
+	override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesCancelled(touches, with: event)
+		setPlayerTrajectory(to: .zero)
+	}
+
+	private func setPlayerTrajectory(towards location: CGPoint) {
+		guard let trajectory = currentPlayer?.position.vector(facing: location) else { return }
+		currentPlayer?.trajectory = trajectory
 		guard let player = currentPlayer else { return }
-		liveController?.updatePlayerPosition(player.position, destination: location)
+		liveController?.updatePlayerPosition(player.position, trajectory: trajectory)
+	}
+
+	private func setPlayerTrajectory(to trajectory: CGVector) {
+		currentPlayer?.trajectory = trajectory
+		guard let player = currentPlayer else { return }
+		liveController?.updatePlayerPosition(player.position, trajectory: trajectory)
 	}
 
 	override func update(_ currentTime: TimeInterval) {
@@ -102,7 +105,7 @@ class RoomScene: SKScene {
 
 		// send player position
 		guard let player = currentPlayer else { return }
-		liveController?.sendPositionPulse(player.position, destination: player.destination)
+		liveController?.sendPositionPulse(player.position, trajectory: player.trajectory)
 	}
 
 	func updateOtherPlayers(updatePlayers: [String: PositionPulseUpdate]) {
@@ -144,7 +147,7 @@ class RoomScene: SKScene {
 	private func updateExistingPlayer(_ player: Player, pulseInfo: PositionPulseUpdate) {
 		// update any other consistent player's position
 		if player.position.distance(to: pulseInfo.position, isWithin: 150) {
-			player.destination = pulseInfo.destination
+			player.trajectory = pulseInfo.trajectory
 		} else {
 			player.setPosition(to: pulseInfo.position)
 		}
