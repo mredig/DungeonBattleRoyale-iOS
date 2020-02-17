@@ -173,7 +173,8 @@ class SignInWithAppleViewController: UIViewController {
 			let password2 = password2TextField.text,
 			password2 == password else { return }
 
-		apiController.register(with: username, password: password) { (error) in
+		apiController.register(with: username, password: password) { [weak self] (error) in
+			guard let self = self else { return }
 			if let error = error {
 				if let terror = error as? NetworkError {
 					switch terror {
@@ -184,8 +185,18 @@ class SignInWithAppleViewController: UIViewController {
 						break
 					}
 				}
+				DispatchQueue.main.async {
+					let alert = UIAlertController(error: error)
+					self.present(alert, animated: true)
+				}
 				NSLog("Error registering \(error)")
 				return
+			}
+			DispatchQueue.main.async {
+				let alert = UIAlertController(title: "Signed up", message: "Please sign in!", preferredStyle: .alert)
+				let action = UIAlertAction(title: "Okay", style: .default)
+				alert.addAction(action)
+				self.present(alert, animated: true)
 			}
 			if self.apiController.token != nil {
 				self.startGame()
