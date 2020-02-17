@@ -50,31 +50,61 @@ extension CGPoint {
 		(x - point.x) * (x - point.x) + (y - point.y) * (y - point.y) <= (value * value)
 	}
 
+	///
+	func distance(to point: CGPoint, is value: CGFloat, slop: CGFloat = 0.000001) -> Bool {
+		let distanceIsh = (x - point.x) * (x - point.x) + (y - point.y) * (y - point.y)
+		let valueIsh = value * value
+		return abs(valueIsh - distanceIsh) < slop
+	}
+
 	/**
 	returns a point in the direction of the `toward` CGPoint, iterated at a speed of `speed` points per second. `interval`
 	is the duration of time since the last frame was updated
 	*/
 	func stepped(toward destination: CGPoint, interval: TimeInterval, speed: CGFloat) -> CGPoint {
-		let adjustedSpeed = speed * CGFloat(interval)
+		let adjustedSpeed = speed * interval.cgFloat
 		let vectorBetweenPoints = vector(facing: destination)
-		let adjustedVector = vectorBetweenPoints * adjustedSpeed
 
 		if distance(to: destination, isWithin: adjustedSpeed) {
 			return destination
 		}
 
+		return self.stepped(withNormalizedVector: vectorBetweenPoints, interval: interval, speed: speed)
+	}
+
+	/// See `stepped` variation, just mutates self with the result
+	mutating func step(toward destination: CGPoint, interval: TimeInterval, speed: CGFloat) {
+		self = stepped(toward: destination, interval: interval, speed: speed)
+	}
+
+	/// Steps in the direction of the vector at a rate of `speed` distance points per second. Assumes the vector is
+	/// normalized - does NOT check - it is YOUR responsibility to assure that the vector is normal!
+	func stepped(withNormalizedVector vector: CGVector, interval: TimeInterval, speed: CGFloat) -> CGPoint {
+		let adjustedVector = vector * speed
+		return self.stepped(withVector: adjustedVector, interval: interval)
+	}
+
+	/// See `stepped` variation, just mutates self with the result
+	mutating func step(withNormalizedVector vector: CGVector, interval: TimeInterval, speed: CGFloat) {
+		self = stepped(withNormalizedVector: vector, interval: interval, speed: speed)
+	}
+
+	/// The vector is the rate the point will step per second. This function assumes the speed is baked into the vector.
+	func stepped(withVector vector: CGVector, interval: TimeInterval) -> CGPoint {
+		let adjustedVector = vector * interval.cgFloat
 		return self + adjustedVector
 	}
 
-	/// See `stepped`, just mutates self with the result
-	mutating func step(toward destination: CGPoint, interval: TimeInterval, speed: CGFloat) {
-		self = stepped(toward: destination, interval: interval, speed: speed)
+	/// See `stepped` variation, just mutates self with the result
+	mutating func step(withVector vector: CGVector, interval: TimeInterval) {
+		self = stepped(withVector: vector, interval: interval)
 	}
 
 	var vector: CGVector {
 		CGVector(dx: x, dy: y)
 	}
 
+	/// Generates a vector in the direction of `facing`, optionally (default) normalized.
 	func vector(facing point: CGPoint, normalized normalize: Bool = true) -> CGVector {
 		let direction = vector.inverted + point.vector
 		return normalize ? direction.normalized : direction
@@ -112,10 +142,34 @@ extension CGVector {
 	var inverted: CGVector {
 		CGVector(dx: -dx, dy: -dy)
 	}
+
+	var point: CGPoint {
+		CGPoint(x: dx, y: dy)
+	}
+
+	var isNormal: Bool {
+		CGPoint.zero.distance(to: self.point, is: 1.0)
+	}
+
+	init(fromRadian radian: CGFloat) {
+		self.init(dx: -sin(radian), dy: cos(radian))
+	}
+
+	init(fromDegree degree: CGFloat) {
+		self.init(fromRadian: degree * (CGFloat.pi / 180))
+	}
 }
 
 extension CGRect {
 	var maxXY: CGPoint {
 		CGPoint(x: maxX, y: maxY)
 	}
+}
+
+extension Double {
+	var cgFloat: CGFloat { CGFloat(self) }
+}
+
+extension CGFloat {
+	var double: Double { Double(self) }
 }

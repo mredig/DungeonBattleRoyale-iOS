@@ -158,7 +158,5 @@ class DungeonBattleRoyaleTests: XCTestCase {
 		XCTAssertEqual(stack.count, 0)
 		XCTAssertEqual(stack.pop(), nil)
 		XCTAssertEqual(stack.count, 0)
-
-
 	}
 }

@@ -16,6 +16,7 @@
 		3301029323EB3D0C00400F34 /* input.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029123EB3D0C00400F34 /* input.xcfilelist */; };
 		3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029223EB3D0C00400F34 /* output.xcfilelist */; };
 		3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3301029723EB3DE200400F34 /* NetworkHandler.framework */; };
+		3318AEF423FA4FCB001E1BC5 /* VectorExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3318AEF323FA4FCB001E1BC5 /* VectorExtensionsTests.swift */; };
 		331B868F23ECD75B00B45F18 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B868E23ECD75A00B45F18 /* ChatBubble.swift */; };
 		331B869323ED043A00B45F18 /* AvatarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */; };
 		331B869723ED194800B45F18 /* AvatarSelectionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B869623ED194800B45F18 /* AvatarSelectionContainer.swift */; };
@@ -46,7 +47,6 @@
 		DCCE537823E9F4630098464D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCCE537723E9F4630098464D /* Assets.xcassets */; };
 		DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCCE537923E9F4630098464D /* LaunchScreen.storyboard */; };
 		DCCE538623E9F4630098464D /* DungeonBattleRoyaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE538523E9F4630098464D /* DungeonBattleRoyaleTests.swift */; };
-		DCCE539123E9F4630098464D /* DungeonBattleRoyaleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE539023E9F4630098464D /* DungeonBattleRoyaleUITests.swift */; };
 		DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */; };
 		DCCE53A223E9F8470098464D /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A123E9F8470098464D /* NIO */; };
 		DCCE53A423E9F8470098464D /* NIOHTTP1 in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A323E9F8470098464D /* NIOHTTP1 */; };
@@ -66,13 +66,6 @@
 			remoteGlobalIDString = DCCE536A23E9F4610098464D;
 			remoteInfo = BSVBattleRoyale;
 		};
-		DCCE538D23E9F4630098464D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DCCE536323E9F4610098464D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DCCE536A23E9F4610098464D;
-			remoteInfo = BSVBattleRoyale;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +78,7 @@
 		3301029123EB3D0C00400F34 /* input.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = input.xcfilelist; sourceTree = "<group>"; };
 		3301029223EB3D0C00400F34 /* output.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = output.xcfilelist; sourceTree = "<group>"; };
 		3301029723EB3DE200400F34 /* NetworkHandler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkHandler.framework; path = Carthage/Build/iOS/NetworkHandler.framework; sourceTree = "<group>"; };
+		3318AEF323FA4FCB001E1BC5 /* VectorExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensionsTests.swift; sourceTree = "<group>"; };
 		331B868E23ECD75A00B45F18 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatBubble.swift; path = BSVBattleRoyale/Views/ChatBubble.swift; sourceTree = SOURCE_ROOT; };
 		331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCollectionViewCell.swift; sourceTree = "<group>"; };
 		331B869623ED194800B45F18 /* AvatarSelectionContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarSelectionContainer.swift; sourceTree = "<group>"; };
@@ -119,9 +113,6 @@
 		DCCE538123E9F4630098464D /* DungeonBattleRoyaleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonBattleRoyaleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCCE538523E9F4630098464D /* DungeonBattleRoyaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonBattleRoyaleTests.swift; sourceTree = "<group>"; };
 		DCCE538723E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DCCE538C23E9F4630098464D /* DungeonBattleRoyaleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonBattleRoyaleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCCE539023E9F4630098464D /* DungeonBattleRoyaleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonBattleRoyaleUITests.swift; sourceTree = "<group>"; };
-		DCCE539223E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
 		FCED98D523EB974300E321FC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FCED98D723EB975600E321FC /* Bearer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bearer.swift; sourceTree = "<group>"; };
@@ -143,13 +134,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DCCE537E23E9F4630098464D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DCCE538923E9F4630098464D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -238,7 +222,6 @@
 				3301029223EB3D0C00400F34 /* output.xcfilelist */,
 				DCCE536D23E9F4610098464D /* BSVBattleRoyale */,
 				DCCE538423E9F4630098464D /* DungeonBattleRoyaleTests */,
-				DCCE538F23E9F4630098464D /* DungeonBattleRoyaleUITests */,
 				DCCE536C23E9F4610098464D /* Products */,
 				3301029623EB3DDA00400F34 /* Frameworks */,
 			);
@@ -249,7 +232,6 @@
 			children = (
 				DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */,
 				DCCE538123E9F4630098464D /* DungeonBattleRoyaleTests.xctest */,
-				DCCE538C23E9F4630098464D /* DungeonBattleRoyaleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -274,18 +256,10 @@
 			isa = PBXGroup;
 			children = (
 				DCCE538523E9F4630098464D /* DungeonBattleRoyaleTests.swift */,
+				3318AEF323FA4FCB001E1BC5 /* VectorExtensionsTests.swift */,
 				DCCE538723E9F4630098464D /* Info.plist */,
 			);
 			path = DungeonBattleRoyaleTests;
-			sourceTree = "<group>";
-		};
-		DCCE538F23E9F4630098464D /* DungeonBattleRoyaleUITests */ = {
-			isa = PBXGroup;
-			children = (
-				DCCE539023E9F4630098464D /* DungeonBattleRoyaleUITests.swift */,
-				DCCE539223E9F4630098464D /* Info.plist */,
-			);
-			path = DungeonBattleRoyaleUITests;
 			sourceTree = "<group>";
 		};
 		DCCE53AD23E9F8FA0098464D /* WebSockets */ = {
@@ -353,6 +327,7 @@
 				DCCE536823E9F4610098464D /* Frameworks */,
 				DCCE536923E9F4610098464D /* Resources */,
 				3301029523EB3D1C00400F34 /* Run Script - Carthage */,
+				331E7E5D23FA220E0091026F /* Run Script - Increment Build Script */,
 			);
 			buildRules = (
 			);
@@ -389,24 +364,6 @@
 			productReference = DCCE538123E9F4630098464D /* DungeonBattleRoyaleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		DCCE538B23E9F4630098464D /* DungeonBattleRoyaleUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DCCE539B23E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyaleUITests" */;
-			buildPhases = (
-				DCCE538823E9F4630098464D /* Sources */,
-				DCCE538923E9F4630098464D /* Frameworks */,
-				DCCE538A23E9F4630098464D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DCCE538E23E9F4630098464D /* PBXTargetDependency */,
-			);
-			name = DungeonBattleRoyaleUITests;
-			productName = BSVBattleRoyaleUITests;
-			productReference = DCCE538C23E9F4630098464D /* DungeonBattleRoyaleUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -421,10 +378,6 @@
 						CreatedOnToolsVersion = 11.3.1;
 					};
 					DCCE538023E9F4630098464D = {
-						CreatedOnToolsVersion = 11.3.1;
-						TestTargetID = DCCE536A23E9F4610098464D;
-					};
-					DCCE538B23E9F4630098464D = {
 						CreatedOnToolsVersion = 11.3.1;
 						TestTargetID = DCCE536A23E9F4610098464D;
 					};
@@ -448,7 +401,6 @@
 			targets = (
 				DCCE536A23E9F4610098464D /* DungeonBattleRoyale */,
 				DCCE538023E9F4630098464D /* DungeonBattleRoyaleTests */,
-				DCCE538B23E9F4630098464D /* DungeonBattleRoyaleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -481,13 +433,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DCCE538A23E9F4630098464D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -510,6 +455,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n#/usr/local/bin/carthage outdated --xcode-warnings\n";
+		};
+		331E7E5D23FA220E0091026F /* Run Script - Increment Build Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Increment Build Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nbN=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbN=$((bN += 1))\nbN=$(printf \"%d\" $bN)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $bN\" \"$INFOPLIST_FILE\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -552,15 +515,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3318AEF423FA4FCB001E1BC5 /* VectorExtensionsTests.swift in Sources */,
 				DCCE538623E9F4630098464D /* DungeonBattleRoyaleTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DCCE538823E9F4630098464D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DCCE539123E9F4630098464D /* DungeonBattleRoyaleUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,11 +527,6 @@
 			isa = PBXTargetDependency;
 			target = DCCE536A23E9F4610098464D /* DungeonBattleRoyale */;
 			targetProxy = DCCE538223E9F4630098464D /* PBXContainerItemProxy */;
-		};
-		DCCE538E23E9F4630098464D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DCCE536A23E9F4610098464D /* DungeonBattleRoyale */;
-			targetProxy = DCCE538D23E9F4630098464D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -720,8 +671,8 @@
 				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1.6;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L5UZAT7KA9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -748,8 +699,8 @@
 				CODE_SIGN_ENTITLEMENTS = BSVBattleRoyale/BSVBattleRoyaleRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1.6;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L5UZAT7KA9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -775,7 +726,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				DEVELOPMENT_TEAM = L5UZAT7KA9;
 				INFOPLIST_FILE = DungeonBattleRoyaleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -797,7 +748,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				DEVELOPMENT_TEAM = L5UZAT7KA9;
 				INFOPLIST_FILE = DungeonBattleRoyaleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -810,46 +761,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DungeonBattleRoyale.app/DungeonBattleRoyale";
-			};
-			name = Release;
-		};
-		DCCE539C23E9F4630098464D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
-				INFOPLIST_FILE = DungeonBattleRoyaleUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyaleUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = BSVBattleRoyale;
-			};
-			name = Debug;
-		};
-		DCCE539D23E9F4630098464D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
-				INFOPLIST_FILE = DungeonBattleRoyaleUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyaleUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = BSVBattleRoyale;
 			};
 			name = Release;
 		};
@@ -879,15 +790,6 @@
 			buildConfigurations = (
 				DCCE539923E9F4630098464D /* Debug */,
 				DCCE539A23E9F4630098464D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DCCE539B23E9F4630098464D /* Build configuration list for PBXNativeTarget "DungeonBattleRoyaleUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DCCE539C23E9F4630098464D /* Debug */,
-				DCCE539D23E9F4630098464D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

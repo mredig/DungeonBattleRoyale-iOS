@@ -230,6 +230,10 @@ class SignInWithAppleViewController: UIViewController {
 						break
 					}
 				}
+				DispatchQueue.main.async {
+					let alert = UIAlertController(error: error)
+					self.present(alert, animated: true)
+				}
 				NSLog("Error logging in user \(error)")
 				return
 			}
