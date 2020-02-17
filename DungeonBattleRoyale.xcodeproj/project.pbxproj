@@ -28,7 +28,6 @@
 		334FA63423EC025000CAEDC4 /* PurpleMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 334FA63123EC025000CAEDC4 /* PurpleMonster.atlas */; };
 		3366ECB023EA22EF00953583 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3366ECAF23EA22EF00953583 /* Login.storyboard */; };
 		3366ECB223EA265C00953583 /* LiveConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB123EA265C00953583 /* LiveConnectionController.swift */; };
-		3366ECB423EA284900953583 /* WSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB323EA284900953583 /* WSPacket.swift */; };
 		3366ECB623EA2BB400953583 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB523EA2BB400953583 /* Player.swift */; };
 		3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECB923EA2BDC00953583 /* RoomScene.swift */; };
 		3366ECBD23EA2CDC00953583 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBC23EA2CDC00953583 /* Room.swift */; };
@@ -490,7 +489,6 @@
 				3301028D23EB3ACC00400F34 /* APIModels.swift in Sources */,
 				33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */,
 				DCCE537323E9F4610098464D /* ViewController.swift in Sources */,
-				3366ECB423EA284900953583 /* WSPacket.swift in Sources */,
 				331B868F23ECD75B00B45F18 /* ChatBubble.swift in Sources */,
 				FCED98D823EB975600E321FC /* Bearer.swift in Sources */,
 				3366ECBA23EA2BDC00953583 /* RoomScene.swift in Sources */,

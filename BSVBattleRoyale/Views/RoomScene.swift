@@ -146,7 +146,7 @@ class RoomScene: SKScene {
 
 	private func updateExistingPlayer(_ player: Player, pulseInfo: PositionPulseUpdate) {
 		// update any other consistent player's position
-		if player.position.distance(to: pulseInfo.position, isWithin: 150) {
+		if player.position.distance(to: pulseInfo.position, isWithin: 20) {
 			player.trajectory = pulseInfo.trajectory
 		} else {
 			player.setPosition(to: pulseInfo.position)

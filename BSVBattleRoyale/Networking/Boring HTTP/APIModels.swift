@@ -62,3 +62,7 @@ struct PlayerAttack: Codable {
 	let attacker: String
 	let hitPlayers: [String]
 }
+
+struct LatencyPing: Codable {
+	let timestamp: Date
+}

@@ -51,6 +51,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
 		if connected {
 			connected = false
 			self.delegate?.onDisconnected(connection: self, error: nil)
+			disconnect()
 		}
 	}
     
@@ -66,6 +67,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
 			connected = false
 			self.delegate?.onDisconnected(connection: self, error: nil)
 		}
+		delegate = nil
     }
     
     func listen()  {

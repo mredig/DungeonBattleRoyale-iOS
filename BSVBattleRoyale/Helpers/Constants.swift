@@ -13,7 +13,7 @@ let doorBitmask: UInt32 = 1 << 0
 let wallBitmask: UInt32 = 1 << 1
 let playerBitmask: UInt32 = 1 << 2
 
-//let backendDomain = "localhost:8080" //local
+//let backendDomain = "imac.nl.redig.me:8080" //local
 //let backendDomain = "dev.bsvbattle.redig.me" //dev
 let backendDomain = "bsvbattle.herokuapp.com" //testflight
 fileprivate let restProtocol = "https"

@@ -29,6 +29,8 @@ class LiveConnectionController {
 	weak var liveInteractionDelegate: LiveInteractionDelegate?
 	private let playerID: String
 
+	private var latencyPingTimer: Timer?
+
 	// MARK: - Lifecycle
 	init?(playerID: String) {
 		guard let url = backendWSURL?
@@ -41,6 +43,16 @@ class LiveConnectionController {
 		webSocketConnection = WebSocketTaskConnection(url: url)
 		webSocketConnection.delegate = self
 		webSocketConnection.connect()
+
+		latencyPingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
+			self?.checkLatency()
+		})
+	}
+
+	deinit {
+		print("bye live conn")
+		latencyPingTimer?.invalidate()
+		latencyPingTimer = nil
 	}
 
 	func disconnect() {
@@ -77,6 +89,12 @@ class LiveConnectionController {
 		guard connected else { return }
 		let victimIDs = players.map { $0.id }
 		let message = WSMessage(messageType: .playerAttack, payload: PlayerAttack(attacker: playerID, hitPlayers: victimIDs))
+		encodeAndSend(binaryMessage: message)
+	}
+
+	private func checkLatency() {
+		guard connected else { return }
+		let message = WSMessage(messageType: .latencyPing, payload: LatencyPing(timestamp: Date()))
 		encodeAndSend(binaryMessage: message)
 	}
 
@@ -122,6 +140,8 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 				handleAttackMessage(from: data)
 			case .positionUpdate:
 				handlePlayerPositionUpdate(from: data)
+			case .latencyPing:
+				handleLatencyPingback(from: data)
 			}
 		} else {
 			print("got data: \(data)")
@@ -136,6 +156,12 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 			NSLog("Error decoding payload of type \(type): \(error)")
 			return nil
 		}
+	}
+
+	private func handleLatencyPingback(from data: Data) {
+		guard let pingTime = extractPayload(of: LatencyPing.self, from: data) else { return }
+		let difference = Date().timeIntervalSince(pingTime.timestamp) * 1000
+		print("latency: \(difference) ms")
 	}
 
 	private func handlePositionPulse(from data: Data) {
