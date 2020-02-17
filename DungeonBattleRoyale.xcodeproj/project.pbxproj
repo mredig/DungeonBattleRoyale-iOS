@@ -44,8 +44,8 @@
 		DCCE537623E9F4610098464D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCCE537423E9F4610098464D /* Main.storyboard */; };
 		DCCE537823E9F4630098464D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCCE537723E9F4630098464D /* Assets.xcassets */; };
 		DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCCE537923E9F4630098464D /* LaunchScreen.storyboard */; };
-		DCCE538623E9F4630098464D /* BSVBattleRoyaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE538523E9F4630098464D /* BSVBattleRoyaleTests.swift */; };
-		DCCE539123E9F4630098464D /* BSVBattleRoyaleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE539023E9F4630098464D /* BSVBattleRoyaleUITests.swift */; };
+		DCCE538623E9F4630098464D /* DungeonBattleRoyaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE538523E9F4630098464D /* DungeonBattleRoyaleTests.swift */; };
+		DCCE539123E9F4630098464D /* DungeonBattleRoyaleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE539023E9F4630098464D /* DungeonBattleRoyaleUITests.swift */; };
 		DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */; };
 		DCCE53A223E9F8470098464D /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A123E9F8470098464D /* NIO */; };
 		DCCE53A423E9F8470098464D /* NIOHTTP1 in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A323E9F8470098464D /* NIOHTTP1 */; };
@@ -115,10 +115,10 @@
 		DCCE537A23E9F4630098464D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DCCE537C23E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCCE538123E9F4630098464D /* DungeonBattleRoyaleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonBattleRoyaleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCCE538523E9F4630098464D /* BSVBattleRoyaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSVBattleRoyaleTests.swift; sourceTree = "<group>"; };
+		DCCE538523E9F4630098464D /* DungeonBattleRoyaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonBattleRoyaleTests.swift; sourceTree = "<group>"; };
 		DCCE538723E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCCE538C23E9F4630098464D /* DungeonBattleRoyaleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonBattleRoyaleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCCE539023E9F4630098464D /* BSVBattleRoyaleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSVBattleRoyaleUITests.swift; sourceTree = "<group>"; };
+		DCCE539023E9F4630098464D /* DungeonBattleRoyaleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonBattleRoyaleUITests.swift; sourceTree = "<group>"; };
 		DCCE539223E9F4630098464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
 		FCED98D523EB974300E321FC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -234,8 +234,8 @@
 				3301029123EB3D0C00400F34 /* input.xcfilelist */,
 				3301029223EB3D0C00400F34 /* output.xcfilelist */,
 				DCCE536D23E9F4610098464D /* BSVBattleRoyale */,
-				DCCE538423E9F4630098464D /* BSVBattleRoyaleTests */,
-				DCCE538F23E9F4630098464D /* BSVBattleRoyaleUITests */,
+				DCCE538423E9F4630098464D /* DungeonBattleRoyaleTests */,
+				DCCE538F23E9F4630098464D /* DungeonBattleRoyaleUITests */,
 				DCCE536C23E9F4610098464D /* Products */,
 				3301029623EB3DDA00400F34 /* Frameworks */,
 			);
@@ -267,22 +267,22 @@
 			path = BSVBattleRoyale;
 			sourceTree = "<group>";
 		};
-		DCCE538423E9F4630098464D /* BSVBattleRoyaleTests */ = {
+		DCCE538423E9F4630098464D /* DungeonBattleRoyaleTests */ = {
 			isa = PBXGroup;
 			children = (
-				DCCE538523E9F4630098464D /* BSVBattleRoyaleTests.swift */,
+				DCCE538523E9F4630098464D /* DungeonBattleRoyaleTests.swift */,
 				DCCE538723E9F4630098464D /* Info.plist */,
 			);
-			path = BSVBattleRoyaleTests;
+			path = DungeonBattleRoyaleTests;
 			sourceTree = "<group>";
 		};
-		DCCE538F23E9F4630098464D /* BSVBattleRoyaleUITests */ = {
+		DCCE538F23E9F4630098464D /* DungeonBattleRoyaleUITests */ = {
 			isa = PBXGroup;
 			children = (
-				DCCE539023E9F4630098464D /* BSVBattleRoyaleUITests.swift */,
+				DCCE539023E9F4630098464D /* DungeonBattleRoyaleUITests.swift */,
 				DCCE539223E9F4630098464D /* Info.plist */,
 			);
-			path = BSVBattleRoyaleUITests;
+			path = DungeonBattleRoyaleUITests;
 			sourceTree = "<group>";
 		};
 		DCCE53AD23E9F8FA0098464D /* WebSockets */ = {
@@ -548,7 +548,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCCE538623E9F4630098464D /* BSVBattleRoyaleTests.swift in Sources */,
+				DCCE538623E9F4630098464D /* DungeonBattleRoyaleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,7 +556,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCCE539123E9F4630098464D /* BSVBattleRoyaleUITests.swift in Sources */,
+				DCCE539123E9F4630098464D /* DungeonBattleRoyaleUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,14 +772,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
-				INFOPLIST_FILE = BSVBattleRoyaleTests/Info.plist;
+				INFOPLIST_FILE = DungeonBattleRoyaleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyaleTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyaleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -794,14 +794,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
-				INFOPLIST_FILE = BSVBattleRoyaleTests/Info.plist;
+				INFOPLIST_FILE = DungeonBattleRoyaleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyaleTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyaleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -815,13 +815,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
-				INFOPLIST_FILE = BSVBattleRoyaleUITests/Info.plist;
+				INFOPLIST_FILE = DungeonBattleRoyaleUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyaleUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyaleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -835,13 +835,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
-				INFOPLIST_FILE = BSVBattleRoyaleUITests/Info.plist;
+				INFOPLIST_FILE = DungeonBattleRoyaleUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uno.cuatrotresdos.BSVBattleRoyaleUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.DungeonBattleRoyaleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
