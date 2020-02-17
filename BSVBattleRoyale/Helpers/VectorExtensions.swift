@@ -36,24 +36,26 @@ extension CGPoint {
 		CGPoint(x: lhs.x + rhs.dx, y: lhs.y + rhs.dy)
 	}
 
-	/**
-	multiply two points together
-	*/
+	static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+		lhs + rhs.vector
+	}
+
+	/// multiply two points together
 	static func * (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
 		CGPoint(x: lhs.x * rhs.x, y: lhs.y * rhs.y)
 	}
 
-	/**
-	multiple both x and y by a single scalar
-	*/
+	/// multiple both x and y by a single scalar
 	static func * (lhs: CGPoint, rhs: CGFloat) -> CGPoint {
-		CGPoint(x: lhs.x * rhs, y: lhs.y * rhs)
+		lhs * CGPoint(x: rhs, y: rhs)
 	}
 
+	/// calculate the distance between points
 	func distance(to point: CGPoint) -> CGFloat {
 		sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y))
 	}
 
+	/// Determine if the distance between points is less than or equal to a comparison value. Quicker than actually calculating the distance
 	func distance(to point: CGPoint, isWithin value: CGFloat) -> Bool {
 		(x - point.x) * (x - point.x) + (y - point.y) * (y - point.y) <= (value * value)
 	}

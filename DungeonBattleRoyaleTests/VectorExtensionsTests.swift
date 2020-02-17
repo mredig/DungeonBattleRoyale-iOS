@@ -19,6 +19,61 @@ class VectorExtensionsTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+	func testCGPointUtilities() {
+		let pointA = CGPoint(x: 5, y: 7)
+		let pointB = CGPoint(x: 2.5, y: 5)
+
+		let randomVector = CGVector(dx: 2, dy: 10)
+
+		let pointAB = pointA + pointB
+		XCTAssertEqual(pointAB, CGPoint(x: 7.5, y: 12))
+
+		let pointVec = pointA + randomVector
+		XCTAssertEqual(pointVec, CGPoint(x: 7, y: 17))
+
+		let pointC = pointA * pointB
+		XCTAssertEqual(pointC, CGPoint(x: 12.5, y: 35))
+
+		let pointA2 = pointA * 2
+		XCTAssertEqual(pointA2, CGPoint(x: 10, y: 14))
+
+		let distance = CGPoint.zero.distance(to: pointA)
+		XCTAssertEqual(distance, 8.6023252670, accuracy: 0.00001)
+
+		// greater
+		XCTAssertTrue(CGPoint.zero.distance(to: pointA, isWithin: 9))
+		// exact
+		XCTAssertTrue(CGPoint.zero.distance(to: pointA, isWithin: 8.602325267042627))
+		// less
+		XCTAssertFalse(CGPoint.zero.distance(to: pointA, isWithin: 8))
+
+		// with slop
+		XCTAssertTrue(CGPoint.zero.distance(to: pointA, is: 8.6023252670))
+		// with slop
+		XCTAssertFalse(CGPoint.zero.distance(to: pointA, is: 9))
+		// without slop
+		XCTAssertFalse(CGPoint.zero.distance(to: pointA, is: 8.6023252670, slop: 0))
+		// without slop
+		XCTAssertTrue(CGPoint.zero.distance(to: pointA, is: 8.602325267042627, slop: 0))
+
+		let toSize = pointA.size
+		XCTAssertEqual(toSize, CGSize(width: 5, height: 7))
+	}
+
+	func testCGPointHashing() {
+		let point0 = CGPoint.zero
+		let point1 = CGPoint(x: 1, y: 0)
+		let point2 = CGPoint(x: 0, y: 1)
+
+		let hash0 = point0.hashValue
+		let hash1 = point1.hashValue
+		let hash2 = point2.hashValue
+
+		XCTAssertNotEqual(hash0, hash1)
+		XCTAssertNotEqual(hash0, hash2)
+		XCTAssertNotEqual(hash1, hash2)
+	}
+
 	func testCGPointTowardStepping() {
 		let pointA = CGPoint.zero
 		let pointB = CGPoint(x: 0, y: 100)
@@ -139,6 +194,9 @@ class VectorExtensionsTests: XCTestCase {
 		XCTAssertEqual(facing3.dy, -0.7071067, accuracy: 0.00001)
 		XCTAssertEqual(facing4.dx, 100, accuracy: 0.00001)
 		XCTAssertEqual(facing4.dy, -100, accuracy: 0.00001)
+
+		let toVector = pointC.vector
+		XCTAssertEqual(toVector, CGVector(dx: 100, dy: -100))
 	}
 
 	func testCGVectorUtilities() {
@@ -248,5 +306,10 @@ class VectorExtensionsTests: XCTestCase {
 
 		let point = sizeA.point
 		XCTAssertEqual(point, CGPoint(x: 3, y: 4))
+	}
+
+	func testCGAffineTransform() {
+		let transform = CGAffineTransform(translationX: 10, y: 20)
+		XCTAssertEqual(transform.offset, CGPoint(x: 10, y: 20))
 	}
 }
