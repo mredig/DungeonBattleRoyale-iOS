@@ -163,5 +163,90 @@ class VectorExtensionsTests: XCTestCase {
 
 		let six = two * 3
 		XCTAssertEqual(six, CGVector(dx: 6, dy: 6))
+
+		let inverted = notNormal.inverted
+		XCTAssertEqual(inverted, CGVector(dx: -1, dy: -1))
+
+		var rotationVector = CGVector(fromDegree: 0)
+		XCTAssertEqual(rotationVector.dx, 1, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 0, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromDegree: 45)
+		XCTAssertEqual(rotationVector.dx, 0.7071067811865476, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 0.7071067811865476, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromDegree: 90)
+		XCTAssertEqual(rotationVector.dx, 0, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 1, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromDegree: 180)
+		XCTAssertEqual(rotationVector.dx, -1, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 0, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromDegree: 270)
+		XCTAssertEqual(rotationVector.dx, 0, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, -1, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromDegree: 360)
+		XCTAssertEqual(rotationVector.dx, 1, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 0, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromRadian: 0)
+		XCTAssertEqual(rotationVector.dx, 1, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 0, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromRadian: CGFloat.pi / 2)
+		XCTAssertEqual(rotationVector.dx, 0, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 1, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromRadian: CGFloat.pi)
+		XCTAssertEqual(rotationVector.dx, -1, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 0, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromRadian: CGFloat.pi * 1.5)
+		XCTAssertEqual(rotationVector.dx, 0, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, -1, accuracy: 0.0000001)
+
+		rotationVector = CGVector(fromRadian: CGFloat.pi * 2)
+		XCTAssertEqual(rotationVector.dx, 1, accuracy: 0.0000001)
+		XCTAssertEqual(rotationVector.dy, 0, accuracy: 0.0000001)
+	}
+
+	func testRectUtilities() {
+		let size = CGSize(width: 10, height: 50)
+		let rect = CGRect(origin: .zero, size: size)
+		XCTAssertEqual(rect.maxXY, size.point)
+
+		let orig2 = CGPoint(x: 10, y: -10)
+		let rect2 = CGRect(origin: CGPoint(x: 10, y: -10), size: size)
+		XCTAssertEqual(rect2.maxXY, (size + orig2.size).point)
+	}
+
+	func testDoubleAndCGFloat() {
+		let valueCG: CGFloat = 12.34
+		let valueDouble = 12.34
+
+		XCTAssertEqual(valueCG.double, valueDouble)
+		XCTAssertEqual(valueDouble.cgFloat, valueCG)
+	}
+
+	func testCGSizeUtilities() {
+		let sizeA = CGSize(width: 3, height: 4)
+		let sizeB = CGSize(width: 10, height: 15)
+
+		let size2 = sizeA * 2
+		XCTAssertEqual(size2, CGSize(width: 6, height: 8))
+
+		let sizePlus2 = sizeA + 2
+		XCTAssertEqual(sizePlus2, CGSize(width: 5, height: 6))
+
+		let sizeAB = sizeA + sizeB
+		XCTAssertEqual(sizeAB, CGSize(width: 13, height: 19))
+
+		let sizeC = sizeA * sizeB
+		XCTAssertEqual(sizeC, CGSize(width: 30, height: 60))
+
+		let point = sizeA.point
+		XCTAssertEqual(point, CGPoint(x: 3, y: 4))
 	}
 }

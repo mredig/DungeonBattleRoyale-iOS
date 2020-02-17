@@ -14,11 +14,19 @@ extension CGSize {
 		CGSize(width: lhs.width * rhs, height: lhs.height * rhs)
 	}
 
+	static func * (lhs: CGSize, rhs: CGSize) -> CGSize {
+		CGSize(width: lhs.width * rhs.width, height: lhs.height * rhs.height)
+	}
+
 	static func + (lhs: CGSize, rhs: CGFloat) -> CGSize {
 		CGSize(width: lhs.width + rhs, height: lhs.height + rhs)
 	}
 
-	var toPoint: CGPoint {
+	static func + (lhs: CGSize, rhs: CGSize) -> CGSize {
+		CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
+	}
+
+	var point: CGPoint {
 		CGPoint(x: width, y: height)
 	}
 }
@@ -50,11 +58,11 @@ extension CGPoint {
 		(x - point.x) * (x - point.x) + (y - point.y) * (y - point.y) <= (value * value)
 	}
 
-	///
+	/// Since float values are sloppy, it's highly likely two values that can be considered equal will not be EXACTLY equal. Adjust the `slop` to your liking or set to `0` to disable.
 	func distance(to point: CGPoint, is value: CGFloat, slop: CGFloat = 0.000001) -> Bool {
 		let distanceIsh = (x - point.x) * (x - point.x) + (y - point.y) * (y - point.y)
 		let valueIsh = value * value
-		return abs(valueIsh - distanceIsh) < slop
+		return abs(valueIsh - distanceIsh) <= slop
 	}
 
 	/**
@@ -104,6 +112,10 @@ extension CGPoint {
 		CGVector(dx: x, dy: y)
 	}
 
+	var size: CGSize {
+		CGSize(width: x, height: y)
+	}
+
 	/// Generates a vector in the direction of `facing`, optionally (default) normalized.
 	func vector(facing point: CGPoint, normalized normalize: Bool = true) -> CGVector {
 		let direction = vector.inverted + point.vector
@@ -151,10 +163,12 @@ extension CGVector {
 		CGPoint.zero.distance(to: self.point, is: 1.0)
 	}
 
+	/// 0 is facing right. Moves CCW
 	init(fromRadian radian: CGFloat) {
-		self.init(dx: -sin(radian), dy: cos(radian))
+		self.init(dx: cos(radian), dy: sin(radian))
 	}
 
+	/// 0 is facing right. Moves CCW
 	init(fromDegree degree: CGFloat) {
 		self.init(fromRadian: degree * (CGFloat.pi / 180))
 	}
