@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BSVBattleRoyale" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DungeonBattleRoyale" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -53,7 +53,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bB5-Jp-Yw5">
-                                <rect key="frame" x="319" y="64" width="55" height="35"/>
+                                <rect key="frame" x="319" y="72" width="55" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="BaI-k0-SuR"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="h5F-je-JCb"/>
@@ -63,8 +63,17 @@
                                     <action selector="mapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dnY-ij-M1K"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 ms" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rjk-ID-gz0">
+                                <rect key="frame" x="20" y="16" width="45" height="15.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="Oio-El-hdj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pY1-Dr-mfP">
-                                <rect key="frame" x="40" y="64" width="78" height="35"/>
+                                <rect key="frame" x="40" y="72" width="78" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="rCA-A2-200"/>
                                 </constraints>
@@ -97,7 +106,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bB5-Jp-Yw5" secondAttribute="trailing" constant="40" id="0Un-vF-gJM"/>
                             <constraint firstAttribute="bottom" secondItem="hdR-J4-3VW" secondAttribute="bottom" id="3MX-1P-l1R"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="leading" secondItem="hdR-J4-3VW" secondAttribute="leading" id="3Od-hb-3vq"/>
-                            <constraint firstItem="bB5-Jp-Yw5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="6oB-WQ-nYM"/>
+                            <constraint firstItem="bB5-Jp-Yw5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="28" id="6oB-WQ-nYM"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="bottom" secondItem="hdR-J4-3VW" secondAttribute="bottom" id="8Rj-tA-lSd"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="A0r-1F-rEZ"/>
                             <constraint firstItem="Plg-SQ-GXv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ckc-s1-Yjf"/>
@@ -105,11 +114,14 @@
                             <constraint firstItem="E8G-Au-edL" firstAttribute="top" secondItem="hdR-J4-3VW" secondAttribute="top" id="S8y-7E-bPz"/>
                             <constraint firstAttribute="trailing" secondItem="hdR-J4-3VW" secondAttribute="trailing" id="ZJr-pE-p97"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="trailing" secondItem="hdR-J4-3VW" secondAttribute="trailing" id="ak2-zQ-bkI"/>
+                            <constraint firstItem="Rjk-ID-gz0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="dWt-vp-LSH"/>
+                            <constraint firstItem="Rjk-ID-gz0" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="16" id="fqz-sV-464"/>
                             <constraint firstItem="bB5-Jp-Yw5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pY1-Dr-mfP" secondAttribute="trailing" constant="8" id="fuC-uD-qNN"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pZB-BX-pWz"/>
                             <constraint firstItem="pY1-Dr-mfP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="pZX-Bc-QlD"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Plg-SQ-GXv" secondAttribute="trailing" constant="20" id="s04-r1-LHp"/>
                             <constraint firstItem="pY1-Dr-mfP" firstAttribute="centerY" secondItem="bB5-Jp-Yw5" secondAttribute="centerY" id="weV-GQ-BJ0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Rjk-ID-gz0" secondAttribute="trailing" constant="8" id="xpe-6w-wuP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -118,6 +130,7 @@
                         <outlet property="chatTextField" destination="JNo-3n-WW4" id="NZA-SA-bem"/>
                         <outlet property="currentRoomMapImage" destination="3pp-q0-uRX" id="jgy-4Z-qz3"/>
                         <outlet property="gameView" destination="hdR-J4-3VW" id="aLG-Ix-uQp"/>
+                        <outlet property="latencyLabel" destination="Rjk-ID-gz0" id="zrN-j4-6wV"/>
                         <outlet property="mapGroup" destination="E8G-Au-edL" id="nKX-6N-iOq"/>
                         <outlet property="mapImage" destination="r9A-6E-UFe" id="qbZ-GB-I6w"/>
                         <outlet property="textFieldInputConstraint" destination="Kgd-0C-I1X" id="byt-ZI-aZw"/>

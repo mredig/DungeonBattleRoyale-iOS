@@ -39,7 +39,8 @@ class ViewController: UIViewController {
 	@IBOutlet weak var chatTextField: UITextField!
 	@IBOutlet weak var chatSendButton: UIButton!
 	@IBOutlet weak var textFieldInputConstraint: NSLayoutConstraint!
-
+	@IBOutlet weak var latencyLabel: UILabel!
+	
 	// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -192,6 +193,12 @@ extension ViewController: LiveConnectionControllerDelegate {
 				timer.invalidate()
 				self.disconnectTimer?.invalidate()
 			})
+		}
+	}
+
+	func socketLatencyUpdated(_ connection: LiveConnectionController, latency ms: Double) {
+		DispatchQueue.main.async {
+			self.latencyLabel.text = "\(Int(ms)) ms"
 		}
 	}
 }

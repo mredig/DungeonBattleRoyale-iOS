@@ -12,6 +12,7 @@ import CoreGraphics
 protocol LiveConnectionControllerDelegate: AnyObject {
 	func socketDisconnected()
 	func socketConnected(_ connection: LiveConnectionController)
+	func socketLatencyUpdated(_ connection: LiveConnectionController, latency ms: Double)
 }
 
 protocol LiveInteractionDelegate: AnyObject {
@@ -221,6 +222,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		let dataRate = tabulateDataRate()
 		pings.remove(pingTime)
 		print("latency: \(difference) ms, datarate: sending \(dataRate.sendRate) kBps | rec \(dataRate.receiveRate) kBps | awaiting pings: \(pings.count)")
+		delegate?.socketLatencyUpdated(self, latency: difference)
 	}
 
 	private func handlePositionPulse(from data: Data) {
