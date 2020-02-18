@@ -11,6 +11,7 @@ import CoreGraphics
 
 protocol LiveConnectionControllerDelegate: AnyObject {
 	func socketDisconnected()
+	func socketConnected(_ connection: LiveConnectionController)
 }
 
 protocol LiveInteractionDelegate: AnyObject {
@@ -32,6 +33,7 @@ class LiveConnectionController {
 	private var totalDataReceived = 0
 
 	private var latencyPingTimer: Timer?
+	private var pings = Set<LatencyPing>()
 
 	private let genesisTime: CFAbsoluteTime
 
@@ -49,9 +51,14 @@ class LiveConnectionController {
 		webSocketConnection.delegate = self
 		webSocketConnection.connect()
 
-		latencyPingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
-			self?.checkLatency()
-		})
+		DispatchQueue.global(qos: .background).async {
+			let latencyTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
+				self?.checkLatency()
+			})
+			self.latencyPingTimer = latencyTimer
+			RunLoop.current.add(latencyTimer, forMode: .default)
+			RunLoop.current.run()
+		}
 	}
 
 	deinit {
@@ -123,8 +130,15 @@ class LiveConnectionController {
 
 	private func checkLatency() {
 		guard connected else { return }
-		let message = WSMessage(messageType: .latencyPing, payload: LatencyPing(timestamp: Date()))
+		let ping = LatencyPing(timestamp: Date())
+		let message = WSMessage(messageType: .latencyPing, payload: ping)
 		encodeAndSend(binaryMessage: message)
+		pings.insert(ping)
+
+		if pings.count > 10 {
+			NSLog("Too many dropped pings.")
+			disconnect()
+		}
 	}
 
 	private func encodeAndSend<Payload: Codable>(binaryMessage message: WSMessage<Payload>) {
@@ -154,6 +168,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	func onConnected(connection: WebSocketConnection) {
 		print("connected!")
 		connected = true
+		delegate?.socketConnected(self)
 	}
 
 	func onDisconnected(connection: WebSocketConnection, error: Error?) {
@@ -204,7 +219,8 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		guard let pingTime = extractPayload(of: LatencyPing.self, from: data) else { return }
 		let difference = Date().timeIntervalSince(pingTime.timestamp) * 1000
 		let dataRate = tabulateDataRate()
-		print("latency: \(difference) ms, datarate: sending \(dataRate.sendRate) kBps | rec \(dataRate.receiveRate) kBps")
+		pings.remove(pingTime)
+		print("latency: \(difference) ms, datarate: sending \(dataRate.sendRate) kBps | rec \(dataRate.receiveRate) kBps | awaiting pings: \(pings.count)")
 	}
 
 	private func handlePositionPulse(from data: Data) {

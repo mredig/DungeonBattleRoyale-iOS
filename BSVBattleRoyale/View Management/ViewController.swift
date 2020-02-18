@@ -20,9 +20,7 @@ class ViewController: UIViewController {
 
 	var playerInfo = PlayerState(playerID: "", spawnLocation: .zero) {
 		didSet {
-			DispatchQueue.main.async {
-				self.updateSpriteKit()
-			}
+			initiateNewWSConnection()
 		}
 	}
 
@@ -54,6 +52,11 @@ class ViewController: UIViewController {
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
 	}
 
+	func initiateNewWSConnection() {
+		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
+		liveConntroller?.delegate = self
+	}
+
 	func updateSpriteKit() {
 		let scene = RoomScene(size: gameView.frame.size)
 		currentScene = scene
@@ -67,8 +70,8 @@ class ViewController: UIViewController {
 
 		scene.apiController = apiController
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
-		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
-		liveConntroller?.delegate = self
+//		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
+//		liveConntroller?.delegate = self
 		scene.liveController = liveConntroller
 		scene.roomDelegate = self
 		disconnectTimer?.invalidate()
@@ -164,6 +167,13 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension ViewController: LiveConnectionControllerDelegate {
+
+	func socketConnected(_ connection: LiveConnectionController) {
+		DispatchQueue.main.async {
+			self.updateSpriteKit()
+		}
+	}
+
 	func socketDisconnected() {
 		disconnectTimer?.invalidate()
 		// this is error prone at best. it's intended to allow the short disconnect from websockets as a player
