@@ -103,11 +103,13 @@ class SignInWithAppleViewController: UIViewController {
 		collectionView.delegate = self
 		collectionView.dataSource = self
 
-		//FIXME: TEST ONLY
-		//		usernameTextField.text = "ffff"
-		//		password1TextField.text = "Aabc123!"
-		//		segmentedControl.selectedSegmentIndex = 1
-	}
+		#if DEBUG
+		usernameTextField.text = "ffff"
+		password1TextField.text = "Aabc123!"
+		password2TextField.text = "Aabc123!"
+		segmentedControl.selectedSegmentIndex = 1
+		#endif
+    }
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
