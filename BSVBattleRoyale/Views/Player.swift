@@ -150,6 +150,7 @@ class Player: SKNode {
 	func setPosition(to position: CGPoint) {
 		trajectory = .zero
 		self.position = position
+		destination = nil
 	}
 
 	private func stepInTrajectory(interval: TimeInterval) {
