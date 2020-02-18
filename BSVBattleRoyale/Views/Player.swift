@@ -74,6 +74,7 @@ class Player: SKNode {
 	weak var interactionDelegate: PlayerInteractionDelegate?
 
 	var trajectory: CGVector
+	var destination: CGPoint?
 
 	// MARK: - Lifecycle
 	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
@@ -110,7 +111,7 @@ class Player: SKNode {
 		moverMaintainer = Timer.scheduledTimer(withTimeInterval: 1/60, repeats: true, block: { [weak self] _ in
 			guard let self = self else { return }
 			let currentTime = CFAbsoluteTimeGetCurrent()
-			self.stepTowardsDestination(interval: min(currentTime - self.lastTimerFire, 1))
+			self.stepInTrajectory(interval: min(currentTime - self.lastTimerFire, 1))
 			self.lastTimerFire = currentTime
 		})
 	}
@@ -151,16 +152,28 @@ class Player: SKNode {
 		self.position = position
 	}
 
-	private func stepTowardsDestination(interval: TimeInterval) {
-		guard trajectory != .zero else {
-			currentAnimations.remove(.walk)
-			currentAnimations.remove(.run)
+	private func stepInTrajectory(interval: TimeInterval) {
+		if trajectory == .zero {
+			if let destination = destination, destination != position {
+				stepTowardsDestination(interval: interval, destination: destination)
+			} else {
+				currentAnimations.remove(.walk)
+				currentAnimations.remove(.run)
+			}
 			return
 		}
+
 		direction = trajectory.dx > 0 ? .right : .left
 
 		position.step(withNormalizedVector: trajectory, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
 		currentAnimations.insert(.walk)
+	}
+
+	private func stepTowardsDestination(interval: TimeInterval, destination: CGPoint) {
+		position.step(toward: destination, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
+		if destination == position {
+			self.destination = nil
+		}
 	}
 
 	// MARK: - chat
