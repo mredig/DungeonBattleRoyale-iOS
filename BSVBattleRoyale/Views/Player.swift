@@ -75,6 +75,7 @@ class Player: SKNode {
 
 	var trajectory: CGVector
 
+	// MARK: - Lifecycle
 	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
 		self.avatar = avatar
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
@@ -125,6 +126,7 @@ class Player: SKNode {
 		super.removeFromParent()
 	}
 
+	// MARK: - cosmetics
 	private func updateFacing() {
 		playerSprite.xScale = direction == .left ? 1.0 : -1.0
 	}
@@ -143,6 +145,7 @@ class Player: SKNode {
 		}
 	}
 
+	// MARK: - location and movement
 	func setPosition(to position: CGPoint) {
 		trajectory = .zero
 		self.position = position
@@ -160,11 +163,12 @@ class Player: SKNode {
 		currentAnimations.insert(.walk)
 	}
 
+	// MARK: - chat
 	func say(message: String) {
 		chatBubbleSprite.text = message
 	}
 
-
+	// MARK: - interaction
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesBegan(touches, with: event)
 		attack()
@@ -190,6 +194,7 @@ class Player: SKNode {
 	}
 }
 
+// MARK: - Static class setup
 extension Player {
 	private static let animationKey = "animation"
 	private static let moveKey = "move"
