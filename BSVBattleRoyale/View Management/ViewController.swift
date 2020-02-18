@@ -20,7 +20,9 @@ class ViewController: UIViewController {
 
 	var playerInfo = PlayerState(playerID: "", spawnLocation: .zero) {
 		didSet {
-			initiateNewWSConnection()
+			DispatchQueue.main.async {
+				self.updateSpriteKit()
+			}
 		}
 	}
 
@@ -52,11 +54,6 @@ class ViewController: UIViewController {
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
 	}
 
-	func initiateNewWSConnection() {
-		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
-		liveConntroller?.delegate = self
-	}
-
 	func updateSpriteKit() {
 		let scene = RoomScene(size: gameView.frame.size)
 		currentScene = scene
@@ -68,10 +65,13 @@ class ViewController: UIViewController {
 //		gameView.showsPhysics = true
         // ⬆⬆⬆ Comment out for screengrabs
 
+		if liveConntroller == nil {
+			liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
+		}
+		liveConntroller?.delegate = self
+
 		scene.apiController = apiController
 		scene.loadRoom(room: mapController?.currentRoom, playerPosition: playerInfo.spawnLocation, playerID: playerInfo.playerID)
-//		liveConntroller = LiveConnectionController(playerID: playerInfo.playerID)
-//		liveConntroller?.delegate = self
 		scene.liveController = liveConntroller
 		scene.roomDelegate = self
 		disconnectTimer?.invalidate()
@@ -169,9 +169,6 @@ extension ViewController: UITextFieldDelegate {
 extension ViewController: LiveConnectionControllerDelegate {
 
 	func socketConnected(_ connection: LiveConnectionController) {
-		DispatchQueue.main.async {
-			self.updateSpriteKit()
-		}
 	}
 
 	func socketDisconnected() {
@@ -202,7 +199,6 @@ extension ViewController: LiveConnectionControllerDelegate {
 extension ViewController: RoomSceneDelegate {
 	func player(_ currentPlayer: Player, enteredDoor: DoorSprite) {
 		let oldRoom = mapController?.currentRoom?.id
-		liveConntroller?.disconnect()
 		apiController?.movePlayer(to: enteredDoor.id) { [weak self] result in
 			print("Entering \(enteredDoor.id) from \(oldRoom!)")
 			guard let self = self else { return }
