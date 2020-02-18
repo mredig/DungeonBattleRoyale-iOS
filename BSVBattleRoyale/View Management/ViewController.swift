@@ -113,6 +113,11 @@ class ViewController: UIViewController {
 		}
 	}
 
+	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+		super.viewWillTransition(to: size, with: coordinator)
+		gameView.scene?.size = size
+	}
+
 	// MARK: - Actions
 	@objc func keyboardFrameWillChange(notification: NSNotification) {
 		guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
