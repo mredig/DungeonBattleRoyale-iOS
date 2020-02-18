@@ -83,7 +83,6 @@
 		334FA63123EC025000CAEDC4 /* PurpleMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PurpleMonster.atlas; sourceTree = "<group>"; };
 		3366ECAF23EA22EF00953583 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3366ECB123EA265C00953583 /* LiveConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectionController.swift; sourceTree = "<group>"; };
-		3366ECB323EA284900953583 /* WSPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPacket.swift; sourceTree = "<group>"; };
 		3366ECB523EA2BB400953583 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = BSVBattleRoyale/Views/Player.swift; sourceTree = SOURCE_ROOT; };
 		3366ECB923EA2BDC00953583 /* RoomScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScene.swift; sourceTree = "<group>"; };
 		3366ECBB23EA2C6700953583 /* RoomSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSprite.swift; sourceTree = "<group>"; };
@@ -254,7 +253,6 @@
 			children = (
 				3366ECB123EA265C00953583 /* LiveConnectionController.swift */,
 				331E79BB23F7F2740091026F /* WSMessage.swift */,
-				3366ECB323EA284900953583 /* WSPacket.swift */,
 				DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */,
 			);
 			path = WebSockets;
