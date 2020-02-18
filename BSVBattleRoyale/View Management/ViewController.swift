@@ -50,6 +50,7 @@ class ViewController: UIViewController {
 	}
 
 	private func setupKeyboardInputStuff() {
+		chatTextField.delegate = self
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
 	}
 
@@ -143,11 +144,22 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func chatSendPressed(_ sender: UIButton) {
+		sendChatMessage()
+	}
+
+	private func sendChatMessage() {
 		animateTextField(to: 0, duration: 0.2)
 		chatTextField.resignFirstResponder()
 		guard let text = chatTextField.text, !text.isEmpty else { return }
 		liveConntroller?.sendChatMessage(text)
 		chatTextField.text = ""
+	}
+}
+
+extension ViewController: UITextFieldDelegate {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		sendChatMessage()
+		return true
 	}
 }
 
