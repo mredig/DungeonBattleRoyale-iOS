@@ -101,8 +101,8 @@ class Player: SKNode {
 
 		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
 		physicsBody?.categoryBitMask = playerBitmask
-		physicsBody?.contactTestBitMask = wallBitmask | doorBitmask // | playerBitmask
-		physicsBody?.collisionBitMask = wallBitmask | doorBitmask
+		physicsBody?.contactTestBitMask = wallBitmask | doorBitmask //| playerBitmask
+		physicsBody?.collisionBitMask = wallBitmask | doorBitmask | playerBitmask
 
 		animationMaintainer = Timer.scheduledTimer(withTimeInterval: 1/15, repeats: true, block: { [weak self] _ in
 			self?.updateCurrentAnimation()
