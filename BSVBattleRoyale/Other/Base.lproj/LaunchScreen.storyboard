@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="title" translatesAutoresizingMaskIntoConstraints="NO" id="RNU-L9-MaN">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newtitle" translatesAutoresizingMaskIntoConstraints="NO" id="RNU-L9-MaN">
                                 <rect key="frame" x="20" y="261" width="374" height="374"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RNU-L9-MaN" secondAttribute="height" id="HKL-VW-I5H"/>
@@ -38,7 +38,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="title" width="359.5" height="242"/>
+        <image name="newtitle" width="359.5" height="242"/>
         <namedColor name="MenuColor">
             <color red="0.23399999737739563" green="0.56999999284744263" blue="0.79699999094009399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
