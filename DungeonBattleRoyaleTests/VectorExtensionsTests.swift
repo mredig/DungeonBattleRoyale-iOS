@@ -58,6 +58,12 @@ class VectorExtensionsTests: XCTestCase {
 
 		let toSize = pointA.size
 		XCTAssertEqual(toSize, CGSize(width: 5, height: 7))
+
+		let scalar3 = CGPoint(scalar: 3)
+		let scalar35 = CGPoint(scalar: 3.5)
+
+		XCTAssertEqual(scalar3, CGPoint(x: 3, y: 3))
+		XCTAssertEqual(scalar35, CGPoint(x: 3.5, y: 3.5))
 	}
 
 	func testCGPointHashing() {
@@ -268,6 +274,12 @@ class VectorExtensionsTests: XCTestCase {
 		rotationVector = CGVector(fromRadian: CGFloat.pi * 2)
 		XCTAssertEqual(rotationVector.dx, 1, accuracy: 0.0000001)
 		XCTAssertEqual(rotationVector.dy, 0, accuracy: 0.0000001)
+
+		let scalar3 = CGVector(scalar: 3)
+		let scalar35 = CGVector(scalar: 3.5)
+
+		XCTAssertEqual(scalar3, CGVector(dx: 3, dy: 3))
+		XCTAssertEqual(scalar35, CGVector(dx: 3.5, dy: 3.5))
 	}
 
 	func testRectUtilities() {
@@ -278,6 +290,9 @@ class VectorExtensionsTests: XCTestCase {
 		let orig2 = CGPoint(x: 10, y: -10)
 		let rect2 = CGRect(origin: CGPoint(x: 10, y: -10), size: size)
 		XCTAssertEqual(rect2.maxXY, (size + orig2.size).point)
+
+		let scalar = CGRect(scalarOrigin: 3.5, scalarSize: 4.5)
+		XCTAssertEqual(scalar, CGRect(x: 3.5, y: 3.5, width: 4.5, height: 4.5))
 	}
 
 	func testDoubleAndCGFloat() {
@@ -306,6 +321,12 @@ class VectorExtensionsTests: XCTestCase {
 
 		let point = sizeA.point
 		XCTAssertEqual(point, CGPoint(x: 3, y: 4))
+
+		let scalar3 = CGSize(scalar: 3)
+		let scalar35 = CGSize(scalar: 3.5)
+
+		XCTAssertEqual(scalar3, CGSize(width: 3, height: 3))
+		XCTAssertEqual(scalar35, CGSize(width: 3.5, height: 3.5))
 	}
 
 	func testCGAffineTransform() {

@@ -10,6 +10,10 @@ import Foundation
 import CoreGraphics
 
 extension CGSize {
+	var point: CGPoint {
+		CGPoint(x: width, y: height)
+	}
+
 	static func * (lhs: CGSize, rhs: CGFloat) -> CGSize {
 		CGSize(width: lhs.width * rhs, height: lhs.height * rhs)
 	}
@@ -26,12 +30,26 @@ extension CGSize {
 		CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
 	}
 
-	var point: CGPoint {
-		CGPoint(x: width, y: height)
+	init<IntNumber: BinaryInteger>(scalar: IntNumber) {
+		let value = CGFloat(scalar)
+		self.init(width: value, height: value)
+	}
+
+	init<FloatNumber: BinaryFloatingPoint>(scalar: FloatNumber) {
+		let value = CGFloat(scalar)
+		self.init(width: value, height: value)
 	}
 }
 
 extension CGPoint {
+	var vector: CGVector {
+		CGVector(dx: x, dy: y)
+	}
+
+	var size: CGSize {
+		CGSize(width: x, height: y)
+	}
+
 	static func + (lhs: CGPoint, rhs: CGVector) -> CGPoint {
 		CGPoint(x: lhs.x + rhs.dx, y: lhs.y + rhs.dy)
 	}
@@ -48,6 +66,16 @@ extension CGPoint {
 	/// multiple both x and y by a single scalar
 	static func * (lhs: CGPoint, rhs: CGFloat) -> CGPoint {
 		lhs * CGPoint(x: rhs, y: rhs)
+	}
+
+	init<IntNumber: BinaryInteger>(scalar: IntNumber) {
+		let value = CGFloat(scalar)
+		self.init(x: value, y: value)
+	}
+
+	init<FloatNumber: BinaryFloatingPoint>(scalar: FloatNumber) {
+		let value = CGFloat(scalar)
+		self.init(x: value, y: value)
 	}
 
 	/// calculate the distance between points
@@ -110,14 +138,6 @@ extension CGPoint {
 		self = stepped(withVector: vector, interval: interval)
 	}
 
-	var vector: CGVector {
-		CGVector(dx: x, dy: y)
-	}
-
-	var size: CGSize {
-		CGSize(width: x, height: y)
-	}
-
 	/// Generates a vector in the direction of `facing`, optionally (default) normalized.
 	func vector(facing point: CGPoint, normalized normalize: Bool = true) -> CGVector {
 		let direction = vector.inverted + point.vector
@@ -139,14 +159,6 @@ extension CGAffineTransform {
 }
 
 extension CGVector {
-	static func + (lhs: CGVector, rhs: CGVector) -> CGVector {
-		CGVector(dx: lhs.dx + rhs.dx, dy: lhs.dy + rhs.dy)
-	}
-
-	static func * (lhs: CGVector, rhs: CGFloat) -> CGVector {
-		CGVector(dx: lhs.dx * rhs, dy: lhs.dy * rhs)
-	}
-
 	var normalized: CGVector {
 		guard !(dx == dy && dx == 0) else { return CGVector(dx: 0, dy: 1) }
 		let distance = sqrt(dx * dx + dy * dy)
@@ -165,6 +177,14 @@ extension CGVector {
 		CGPoint.zero.distance(to: self.point, is: 1.0)
 	}
 
+	static func + (lhs: CGVector, rhs: CGVector) -> CGVector {
+		CGVector(dx: lhs.dx + rhs.dx, dy: lhs.dy + rhs.dy)
+	}
+
+	static func * (lhs: CGVector, rhs: CGFloat) -> CGVector {
+		CGVector(dx: lhs.dx * rhs, dy: lhs.dy * rhs)
+	}
+
 	/// 0 is facing right. Moves CCW
 	init(fromRadian radian: CGFloat) {
 		self.init(dx: cos(radian), dy: sin(radian))
@@ -174,11 +194,25 @@ extension CGVector {
 	init(fromDegree degree: CGFloat) {
 		self.init(fromRadian: degree * (CGFloat.pi / 180))
 	}
+
+	init<IntNumber: BinaryInteger>(scalar: IntNumber) {
+		let value = CGFloat(scalar)
+		self.init(dx: value, dy: value)
+	}
+
+	init<FloatNumber: BinaryFloatingPoint>(scalar: FloatNumber) {
+		let value = CGFloat(scalar)
+		self.init(dx: value, dy: value)
+	}
 }
 
 extension CGRect {
 	var maxXY: CGPoint {
 		CGPoint(x: maxX, y: maxY)
+	}
+
+	init<FloatNumber: BinaryFloatingPoint>(scalarOrigin: FloatNumber, scalarSize: FloatNumber) {
+		self.init(origin: CGPoint(scalar: scalarOrigin), size: CGSize(scalar: scalarSize))
 	}
 }
 
