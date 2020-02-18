@@ -105,6 +105,7 @@ class LiveConnectionController {
 		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, trajectory: trajectory))
 
 		encodeAndSend(binaryMessage: message)
+		lastPositionPulseSend = currentTime
 	}
 
 	func sendChatMessage(_ message: String) {
