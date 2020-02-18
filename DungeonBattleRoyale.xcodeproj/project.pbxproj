@@ -47,12 +47,6 @@
 		DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCCE537923E9F4630098464D /* LaunchScreen.storyboard */; };
 		DCCE538623E9F4630098464D /* DungeonBattleRoyaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE538523E9F4630098464D /* DungeonBattleRoyaleTests.swift */; };
 		DCCE539F23E9F4FE0098464D /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCE539E23E9F4FE0098464D /* WebSocketConnection.swift */; };
-		DCCE53A223E9F8470098464D /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A123E9F8470098464D /* NIO */; };
-		DCCE53A423E9F8470098464D /* NIOHTTP1 in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A323E9F8470098464D /* NIOHTTP1 */; };
-		DCCE53A623E9F8470098464D /* NIOTLS in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A523E9F8470098464D /* NIOTLS */; };
-		DCCE53A823E9F8470098464D /* NIOConcurrencyHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A723E9F8470098464D /* NIOConcurrencyHelpers */; };
-		DCCE53AA23E9F8470098464D /* NIOFoundationCompat in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53A923E9F8470098464D /* NIOFoundationCompat */; };
-		DCCE53AC23E9F8470098464D /* NIOWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = DCCE53AB23E9F8470098464D /* NIOWebSocket */; };
 		FCED98D623EB974300E321FC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED98D523EB974300E321FC /* User.swift */; };
 		FCED98D823EB975600E321FC /* Bearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED98D723EB975600E321FC /* Bearer.swift */; };
 /* End PBXBuildFile section */
@@ -122,13 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCCE53A223E9F8470098464D /* NIO in Frameworks */,
-				DCCE53AA23E9F8470098464D /* NIOFoundationCompat in Frameworks */,
 				3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */,
-				DCCE53A823E9F8470098464D /* NIOConcurrencyHelpers in Frameworks */,
-				DCCE53A423E9F8470098464D /* NIOHTTP1 in Frameworks */,
-				DCCE53A623E9F8470098464D /* NIOTLS in Frameworks */,
-				DCCE53AC23E9F8470098464D /* NIOWebSocket in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,12 +322,6 @@
 			);
 			name = DungeonBattleRoyale;
 			packageProductDependencies = (
-				DCCE53A123E9F8470098464D /* NIO */,
-				DCCE53A323E9F8470098464D /* NIOHTTP1 */,
-				DCCE53A523E9F8470098464D /* NIOTLS */,
-				DCCE53A723E9F8470098464D /* NIOConcurrencyHelpers */,
-				DCCE53A923E9F8470098464D /* NIOFoundationCompat */,
-				DCCE53AB23E9F8470098464D /* NIOWebSocket */,
 			);
 			productName = BSVBattleRoyale;
 			productReference = DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */;
@@ -392,7 +374,6 @@
 			);
 			mainGroup = DCCE536223E9F4610098464D;
 			packageReferences = (
-				DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */,
 			);
 			productRefGroup = DCCE536C23E9F4610098464D /* Products */;
 			projectDirPath = "";
@@ -793,50 +774,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-nio.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.9.4;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		DCCE53A123E9F8470098464D /* NIO */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIO;
-		};
-		DCCE53A323E9F8470098464D /* NIOHTTP1 */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIOHTTP1;
-		};
-		DCCE53A523E9F8470098464D /* NIOTLS */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIOTLS;
-		};
-		DCCE53A723E9F8470098464D /* NIOConcurrencyHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIOConcurrencyHelpers;
-		};
-		DCCE53A923E9F8470098464D /* NIOFoundationCompat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIOFoundationCompat;
-		};
-		DCCE53AB23E9F8470098464D /* NIOWebSocket */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DCCE53A023E9F8470098464D /* XCRemoteSwiftPackageReference "swift-nio" */;
-			productName = NIOWebSocket;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DCCE536323E9F4610098464D /* Project object */;
 }
