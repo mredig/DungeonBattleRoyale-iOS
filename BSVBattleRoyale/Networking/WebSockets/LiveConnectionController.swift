@@ -28,8 +28,12 @@ class LiveConnectionController {
 	weak var delegate: LiveConnectionControllerDelegate?
 	weak var liveInteractionDelegate: LiveInteractionDelegate?
 	private let playerID: String
+	private var totalDataSent = 0
+	private var totalDataReceived = 0
 
 	private var latencyPingTimer: Timer?
+
+	private let genesisTime: CFAbsoluteTime
 
 	// MARK: - Lifecycle
 	init?(playerID: String) {
@@ -39,6 +43,7 @@ class LiveConnectionController {
 			.appendingPathComponent(playerID) else { return nil }
 
 		self.playerID = playerID
+		genesisTime = CFAbsoluteTimeGetCurrent()
 
 		webSocketConnection = WebSocketTaskConnection(url: url)
 		webSocketConnection.delegate = self
@@ -60,20 +65,43 @@ class LiveConnectionController {
 	}
 
 	// MARK: - Outgoing messages
+	private var lastCachedPosition: PositionPulseUpdate?
+	private let positionUpdateSendDelta: TimeInterval = 1/15
+	private var lastPositionUpdateSend = TimeInterval(0)
+	private var someTimer: Timer?
 	func updatePlayerPosition(_ position: CGPoint, trajectory: CGVector) {
 		guard connected else { return }
-		let message = WSMessage(messageType: .positionUpdate, payload: PositionPulseUpdate(position: position, trajectory: trajectory))
+		lastCachedPosition = PositionPulseUpdate(position: position, trajectory: trajectory)
+		let currentTime = CFAbsoluteTimeGetCurrent()
+		let nextValidSendTime = lastPositionUpdateSend + positionUpdateSendDelta
 
-		encodeAndSend(binaryMessage: message)
+		guard currentTime > nextValidSendTime else {
+			if someTimer == nil {
+				someTimer = Timer.scheduledTimer(withTimeInterval: nextValidSendTime - currentTime, repeats: false, block: { [weak self] _ in
+					self?.someTimer = nil
+					self?.sendPlayerPositionUpdate()
+				})
+			}
+			return
+		}
+		sendPlayerPositionUpdate()
 	}
 
-	private var lastSend = TimeInterval(0)
-	let sendDelta: TimeInterval = 1/3
+	private func sendPlayerPositionUpdate() {
+		guard let lastPos = lastCachedPosition else { return }
+		let message = WSMessage(messageType: .positionUpdate, payload: lastPos)
+		lastCachedPosition = nil
+		encodeAndSend(binaryMessage: message)
+		lastPositionUpdateSend = CFAbsoluteTimeGetCurrent()
+	}
+
+	private var lastPositionPulseSend = TimeInterval(0)
+	let positionPulseSendDelta: TimeInterval = 1/3
 	func sendPositionPulse(_ position: CGPoint, trajectory: CGVector) {
 		guard connected else { return }
 		let currentTime = CFAbsoluteTimeGetCurrent()
 
-		guard currentTime > lastSend + sendDelta else { return }
+		guard currentTime > lastPositionPulseSend + positionPulseSendDelta else { return }
 		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, trajectory: trajectory))
 
 		encodeAndSend(binaryMessage: message)
@@ -102,9 +130,21 @@ class LiveConnectionController {
 		do {
 			let bin = try message.encode()
 			webSocketConnection.send(data: bin)
+			totalDataSent += bin.count
 		} catch {
 			NSLog("Error encoding message with payload type \(type(of: message.payload)): \(error)")
 		}
+	}
+
+	/// calculates the average connection data rate in KBps
+	private func tabulateDataRate() -> (sendRate: Double, receiveRate: Double) {
+		let currentTime = CFAbsoluteTimeGetCurrent()
+		let elapsed = currentTime - genesisTime
+		let sendbps = Double(totalDataSent) / elapsed
+		let sendkbps = sendbps / 1024
+		let recbps = Double(totalDataReceived) / elapsed
+		let reckbps = recbps / 1024
+		return (sendkbps, reckbps)
 	}
 }
 
@@ -146,6 +186,7 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		} else {
 			print("got data: \(data)")
 		}
+		totalDataReceived += data.count
 	}
 
 	// MARK: - Incoming message handling
@@ -161,7 +202,8 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	private func handleLatencyPingback(from data: Data) {
 		guard let pingTime = extractPayload(of: LatencyPing.self, from: data) else { return }
 		let difference = Date().timeIntervalSince(pingTime.timestamp) * 1000
-		print("latency: \(difference) ms")
+		let dataRate = tabulateDataRate()
+		print("latency: \(difference) ms, datarate: sending \(dataRate.sendRate) kBps | rec \(dataRate.receiveRate) kBps")
 	}
 
 	private func handlePositionPulse(from data: Data) {
