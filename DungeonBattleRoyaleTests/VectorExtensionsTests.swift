@@ -287,9 +287,13 @@ class VectorExtensionsTests: XCTestCase {
 		let rect = CGRect(origin: .zero, size: size)
 		XCTAssertEqual(rect.maxXY, size.point)
 
+		XCTAssertEqual(rect.midPoint, CGPoint(x: 5, y: 25))
+
 		let orig2 = CGPoint(x: 10, y: -10)
-		let rect2 = CGRect(origin: CGPoint(x: 10, y: -10), size: size)
+		let rect2 = CGRect(origin: orig2, size: size)
 		XCTAssertEqual(rect2.maxXY, (size + orig2.size).point)
+
+		XCTAssertEqual(rect2.midPoint, CGPoint(x: 15, y: 15))
 
 		let scalar = CGRect(scalarOrigin: 3.5, scalarSize: 4.5)
 		XCTAssertEqual(scalar, CGRect(x: 3.5, y: 3.5, width: 4.5, height: 4.5))
@@ -324,9 +328,10 @@ class VectorExtensionsTests: XCTestCase {
 
 		let scalar3 = CGSize(scalar: 3)
 		let scalar35 = CGSize(scalar: 3.5)
-
 		XCTAssertEqual(scalar3, CGSize(width: 3, height: 3))
 		XCTAssertEqual(scalar35, CGSize(width: 3.5, height: 3.5))
+
+		XCTAssertEqual(sizeA.midPoint, CGPoint(x: 1.5, y: 2))
 	}
 
 	func testCGAffineTransform() {

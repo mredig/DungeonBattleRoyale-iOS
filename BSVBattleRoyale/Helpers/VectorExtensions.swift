@@ -14,6 +14,10 @@ extension CGSize {
 		CGPoint(x: width, y: height)
 	}
 
+	var midPoint: CGPoint {
+		CGPoint(x: width / 2, y: height / 2)
+	}
+
 	static func * (lhs: CGSize, rhs: CGFloat) -> CGSize {
 		CGSize(width: lhs.width * rhs, height: lhs.height * rhs)
 	}
@@ -209,6 +213,10 @@ extension CGVector {
 extension CGRect {
 	var maxXY: CGPoint {
 		CGPoint(x: maxX, y: maxY)
+	}
+
+	var midPoint: CGPoint {
+		CGPoint(x: midX, y: midY)
 	}
 
 	init<FloatNumber: BinaryFloatingPoint>(scalarOrigin: FloatNumber, scalarSize: FloatNumber) {
