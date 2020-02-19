@@ -64,6 +64,9 @@ class ViewController: UIViewController {
 		// ⬇⬇⬇ Comment out for screengrabs
 //		gameView.showsFPS = true
 //		gameView.showsPhysics = true
+//		gameView.showsDrawCount = true
+//		gameView.showsNodeCount = true
+//		gameView.showsQuadCount = true
         // ⬆⬆⬆ Comment out for screengrabs
 
 		if liveConntroller == nil {

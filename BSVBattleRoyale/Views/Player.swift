@@ -43,6 +43,11 @@ class Player: SKNode {
 	}
 
 	private let playerSprite: SKSpriteNode
+	let touchbox: TouchBox = {
+		let box = TouchBox(size: CGSize(scalar: 60), color: .clear)
+		box.zPosition = 3
+		return box
+	}()
 	private let nameSprite: SKLabelNode
 	private let chatBubbleSprite: ChatBubble
 	var avatar: Avatar {
@@ -77,7 +82,7 @@ class Player: SKNode {
 	var destination: CGPoint?
 
 	// MARK: - Lifecycle
-	init(avatar: Avatar, id: String, username: String = "Player \(Int.random(in: 0...500))", position: CGPoint) {
+	init(avatar: Avatar, id: String, username: String, position: CGPoint) {
 		self.avatar = avatar
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
 		playerSprite = SKSpriteNode(texture: idleAnimation.first)
@@ -205,6 +210,36 @@ class Player: SKNode {
 			SKAction.colorize(with: .red, colorBlendFactor: 0, duration: 0.05)
 		])
 		playerSprite.run(flashRed)
+	}
+
+	func enableTouchBox(_ enable: Bool) {
+		touchbox.delegate = self
+		if enable {
+			if touchbox.parent == nil {
+				playerSprite.addChild(touchbox)
+			}
+		} else {
+			if touchbox.parent != nil {
+				touchbox.removeFromParent()
+			}
+		}
+		addGlow(enable)
+	}
+
+	private func addGlow(_ enable: Bool) {
+		if enable {
+			let uniforms = [SKUniform(name: "u_scale", float: 0.15)]
+			let shader = SKShader(fromFile: "Shine", uniforms: uniforms)
+			playerSprite.shader = shader
+		} else {
+			playerSprite.shader = nil
+		}
+	}
+}
+
+extension Player: TouchBoxDelegate {
+	func touchBegan(on touchBox: TouchBox, at location: CGPoint) {
+		attack()
 	}
 }
 

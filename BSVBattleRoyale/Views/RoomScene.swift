@@ -38,6 +38,7 @@ class RoomScene: SKScene {
 		return sp
 	}()
 
+	// MARK: - Lifecycle
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
 		setupScene()
@@ -57,7 +58,7 @@ class RoomScene: SKScene {
 		addChild(newPlayer)
 		currentPlayer = newPlayer
 		newPlayer.zPosition = 1
-		currentPlayer?.isUserInteractionEnabled = true
+		currentPlayer?.enableTouchBox(true)
 		currentPlayer?.interactionDelegate = self
 
 		loadInfoForPlayer(newPlayer)
@@ -67,6 +68,7 @@ class RoomScene: SKScene {
 		camera = playerCamera
 	}
 
+	// MARK: - User input
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		super.touchesBegan(touches, with: event)
 		touches.forEach { setPlayerTrajectory(towards: $0.location(in: self)) }
@@ -100,6 +102,7 @@ class RoomScene: SKScene {
 		liveController?.updatePlayerPosition(player.position, trajectory: trajectory)
 	}
 
+	// MARK: - game loop
 	override func update(_ currentTime: TimeInterval) {
 		super.update(currentTime)
 
@@ -108,6 +111,7 @@ class RoomScene: SKScene {
 		liveController?.sendPositionPulse(player.position, trajectory: player.trajectory)
 	}
 
+	// MARK: - other player interaction
 	func updateOtherPlayers(updatePlayers: [String: PositionPulseUpdate]) {
 		guard let currentPlayer = currentPlayer else { return }
 		var newPlayers = updatePlayers
@@ -201,6 +205,7 @@ class RoomScene: SKScene {
 	}
 }
 
+// MARK: - Physics
 extension RoomScene: SKPhysicsContactDelegate {
 
 	func didBegin(_ contact: SKPhysicsContact) {
@@ -225,6 +230,7 @@ extension RoomScene: SKPhysicsContactDelegate {
 	}
 }
 
+// MARK: - Network interactions - xmit
 extension RoomScene: PlayerInteractionDelegate {
 	func player(_ player: Player, attackedFacing facing: PlayerDirection) {
 		// this will get the closest players, but theres more to account for like the direction faced, a good distance value to calculate, hitboxes, etc
@@ -233,6 +239,7 @@ extension RoomScene: PlayerInteractionDelegate {
 	}
 }
 
+// MARK: - Network interactions - rec
 extension RoomScene: LiveInteractionDelegate {
 	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
 		DispatchQueue.main.async {
