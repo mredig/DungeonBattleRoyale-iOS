@@ -39,14 +39,33 @@ protocol PlayerInteractionDelegate: AnyObject {
 	func player(_ player: Player, attackedFacing facing: PlayerDirection)
 }
 
+#if DEBUG
+protocol HasColor: AnyObject {
+	var color: UIColor { get set }
+	var colorBlendFactor: CGFloat { get set }
+	var position: CGPoint { get set }
+}
+
+extension SKSpriteNode: HasColor {}
+
+extension Player: HasColor {}
+#endif
+
+
 class Player: SKNode {
-	var direction: PlayerDirection = .right {
+	private(set) var direction: PlayerDirection = .left {
 		didSet {
 			updateFacing()
 		}
 	}
 
 	private let playerSprite: SKSpriteNode
+	private let hitContact: SKSpriteNode = SKSpriteNode(color: .clear, size: CGSize(scalar: 5))
+	/// in parent's space
+	var strikePosition: CGPoint {
+		guard let parent = parent else { return .zero }
+		return parent.convert(.zero, from: hitContact)
+	}
 	let touchbox: TouchBox = {
 		let box = TouchBox(size: CGSize(scalar: 60), color: .clear)
 		box.zPosition = 3
@@ -80,6 +99,17 @@ class Player: SKNode {
 	var movementSpeed: CGFloat = 250
 	var movementSpeedMultiplier: CGFloat = 1
 
+	#if DEBUG
+	var color: UIColor {
+		get { playerSprite.color }
+		set { playerSprite.color = newValue }
+	}
+	var colorBlendFactor: CGFloat {
+		get { playerSprite.colorBlendFactor }
+		set { playerSprite.colorBlendFactor = newValue }
+	}
+	#endif
+
 	weak var interactionDelegate: PlayerInteractionDelegate?
 
 	var trajectory: CGVector
@@ -90,6 +120,8 @@ class Player: SKNode {
 		self.avatar = avatar
 		let idleAnimation = Player.animationTextures(for: avatar, animationTitle: AnimationTitle.idle)
 		playerSprite = SKSpriteNode(texture: idleAnimation.first)
+		playerSprite.addChild(hitContact)
+		hitContact.position = CGPoint(x: -40, y: -10)
 		self.id = id
 
 		nameSprite = SKLabelNode(text: username)

@@ -39,10 +39,12 @@ class RoomScene: SKScene {
 	}()
 
 	#if DEBUG
-	lazy var sampleSprites: [SKSpriteNode] = {
-		(0...1000).map { _ in
+	lazy var sampleSprites: [HasColor] = {
+		(0...10000).map { _ in
 			let sample = SKSpriteNode(color: .green, size: CGSize(scalar: 3))
 			sample.position = CGPoint(x: .random(in: 0...800), y: .random(in: 0...800))
+			sample.alpha = 0.5
+			sample.zPosition = 0.5
 			addChild(sample)
 			return sample
 		}
@@ -111,6 +113,19 @@ class RoomScene: SKScene {
 		currentPlayer?.trajectory = trajectory
 		guard let player = currentPlayer else { return }
 		liveController?.updatePlayerPosition(player.position, trajectory: trajectory)
+	}
+
+	private func didAttackLand(on victim: Player, from strikePosition: CGPoint, facing: CGVector) -> Bool {
+		if victim.position.isInFront(of: strikePosition, facing: facing, withLatitude: 0.75) {
+			let distance = victim.position.distance(to: strikePosition)
+			if distance < 60 {
+				return true
+			} else {
+				return false
+			}
+		} else {
+			return false
+		}
 	}
 
 	// MARK: - game loop
