@@ -254,3 +254,14 @@ extension Double {
 extension CGFloat {
 	var double: Double { Double(self) }
 }
+
+extension ClosedRange where Bound: BinaryFloatingPoint {
+	func interpolated(at point: Double, clipped: Bool = true) -> Bound {
+		let point = clipped ? Swift.max(0, Swift.min(1, point)) : point
+
+		let normalUpper = upperBound - lowerBound
+		let tValue = normalUpper * Bound(point)
+
+		return tValue + lowerBound
+	}
+}
