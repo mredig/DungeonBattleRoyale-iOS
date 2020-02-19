@@ -38,6 +38,17 @@ class RoomScene: SKScene {
 		return sp
 	}()
 
+	#if DEBUG
+	lazy var sampleSprites: [SKSpriteNode] = {
+		(0...1000).map { _ in
+			let sample = SKSpriteNode(color: .green, size: CGSize(scalar: 3))
+			sample.position = CGPoint(x: .random(in: 0...800), y: .random(in: 0...800))
+			addChild(sample)
+			return sample
+		}
+	}()
+	#endif
+
 	// MARK: - Lifecycle
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
@@ -109,6 +120,16 @@ class RoomScene: SKScene {
 		// send player position
 		guard let player = currentPlayer else { return }
 		liveController?.sendPositionPulse(player.position, trajectory: player.trajectory)
+
+		// FIXME: For debugging
+//		for sample in sampleSprites {
+//			if sample.position.isInFront(of: player.position, facing: player.direction.facingVector, withLatitude: 0.9) {
+//				sample.color = .green
+//				sample.colorBlendFactor = 1
+//			} else {
+//				sample.color = .red
+//			}
+//		}
 	}
 
 	// MARK: - other player interaction

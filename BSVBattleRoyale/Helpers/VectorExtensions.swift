@@ -147,6 +147,29 @@ extension CGPoint {
 		let direction = vector.inverted + point.vector
 		return normalize ? direction.normalized : direction
 	}
+
+	/// Determines whether the CGPoint instance is behind the passed in CGPoint,
+	/// `point2`. `facing` is the `direction` that `point2` is facing.
+	/// `latitude` determines angle of cone 'behind' `point2`. `1` means
+	/// everything is behind `point2`, `0` means everything directly beside and
+	/// behind, while `-1` means NOTHING is behind.
+	func isBehind(point2: CGPoint, facing direction: CGVector, withLatitude latitude: CGFloat) -> Bool {
+		let facingSelf = point2.vector(facing: self)
+		let normalDirection = direction.normalized
+
+		let dotProduct = facingSelf.dx * normalDirection.dx + facingSelf.dy * normalDirection.dy
+
+		return dotProduct < latitude
+	}
+
+	/// Determines whether the CGPoint instance is in front of the passed in CGPoint,
+	/// `point2`. `facing` is the `direction` that `point2` is facing.
+	/// `latitude` determines angle of cone 'in front of' `point2`. `-1` means
+	/// everything is in front of `point2`, `0` means everything directly beside and
+	/// behind, while `1` means NOTHING is in front.
+	func isInFront(of point2: CGPoint, facing direction: CGVector, withLatitude latitude: CGFloat) -> Bool {
+		!isBehind(point2: point2, facing: direction, withLatitude: latitude)
+	}
 }
 
 extension CGPoint: Hashable {

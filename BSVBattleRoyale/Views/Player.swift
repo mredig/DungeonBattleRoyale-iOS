@@ -11,6 +11,10 @@ import SpriteKit
 enum PlayerDirection: String {
 	case left
 	case right
+
+	var facingVector: CGVector {
+		CGVector(dx: (self == .left ? -1 : 1), dy: 0)
+	}
 }
 
 enum Avatar: Int, CaseIterable {
