@@ -23,20 +23,6 @@ class VectorExtensionsTests: XCTestCase {
 		let pointA = CGPoint(x: 5, y: 7)
 		let pointB = CGPoint(x: 2.5, y: 5)
 
-		let randomVector = CGVector(dx: 2, dy: 10)
-
-		let pointAB = pointA + pointB
-		XCTAssertEqual(pointAB, CGPoint(x: 7.5, y: 12))
-
-		let pointVec = pointA + randomVector
-		XCTAssertEqual(pointVec, CGPoint(x: 7, y: 17))
-
-		let pointC = pointA * pointB
-		XCTAssertEqual(pointC, CGPoint(x: 12.5, y: 35))
-
-		let pointA2 = pointA * 2
-		XCTAssertEqual(pointA2, CGPoint(x: 10, y: 14))
-
 		let distance = CGPoint.zero.distance(to: pointA)
 		XCTAssertEqual(distance, 8.6023252670, accuracy: 0.00001)
 
@@ -64,6 +50,107 @@ class VectorExtensionsTests: XCTestCase {
 
 		XCTAssertEqual(scalar3, CGPoint(x: 3, y: 3))
 		XCTAssertEqual(scalar35, CGPoint(x: 3.5, y: 3.5))
+	}
+
+	func testCGPointOperands() {
+		let pointA = CGPoint(x: 5, y: 7)
+		let pointB = CGPoint(x: 2.5, y: 5)
+		let pointC = CGPoint(x: -3, y: -2)
+
+		let randomVector = CGVector(dx: 2, dy: 10)
+
+		let pointAB = pointA + pointB
+		XCTAssertEqual(pointAB, CGPoint(x: 7.5, y: 12))
+
+		let pointVec = pointA + randomVector
+		XCTAssertEqual(pointVec, CGPoint(x: 7, y: 17))
+
+		let sub1 = pointA - pointB
+		XCTAssertEqual(sub1, CGPoint(x: 2.5, y: 2))
+		let sub2 = pointA - pointC
+		XCTAssertEqual(sub2, CGPoint(x: 8, y: 9))
+
+		let sub3 = pointA - randomVector
+		XCTAssertEqual(sub3, CGPoint(x: 3, y: -3))
+
+		let pointD = pointA * pointB
+		XCTAssertEqual(pointD, CGPoint(x: 12.5, y: 35))
+
+		let pointA2 = pointA * 2
+		XCTAssertEqual(pointA2, CGPoint(x: 10, y: 14))
+	}
+
+	func testCGPointInterpolation() {
+		let pointA = CGPoint.zero
+		let pointB = CGPoint(x: -100, y: 50)
+		let pointC = CGPoint(x: 20, y: 1)
+
+		XCTAssertEqual(pointA.interpolation(to: pointC, location: 0.5), CGPoint(x: 10, y: 0.5))
+		XCTAssertEqual(pointA.interpolation(to: pointC, location: 1), CGPoint(x: 20, y: 1))
+		XCTAssertEqual(pointA.interpolation(to: pointC, location: 0), CGPoint(x: 0, y: 0))
+		XCTAssertEqual(pointA.interpolation(to: pointC, location: -1), CGPoint(x: 0, y: 0))
+		XCTAssertEqual(pointA.interpolation(to: pointC, location: 2), CGPoint(x: 20, y: 1))
+		XCTAssertEqual(pointA.interpolation(to: pointC, location: 2, clipped: false), CGPoint(x: 40, y: 2))
+		XCTAssertEqual(pointA.interpolation(to: pointC, location: -1, clipped: false), CGPoint(x: -20, y: -1))
+
+		XCTAssertEqual(pointB.interpolation(to: pointC, location: 0.5), CGPoint(x: -40, y: 25.5))
+		XCTAssertEqual(pointB.interpolation(to: pointC, location: 0), CGPoint(x: -100, y: 50))
+		XCTAssertEqual(pointB.interpolation(to: pointC, location: 1), CGPoint(x: 20, y: 1))
+		XCTAssertEqual(pointC.interpolation(to: pointB, location: 0), CGPoint(x: 20, y: 1))
+		XCTAssertEqual(pointC.interpolation(to: pointB, location: 1), CGPoint(x: -100, y: 50))
+	}
+
+	func testCGPointBehindAndFront() {
+		let attacker = CGPoint(x: 5, y: 10)
+		let victim = CGPoint(x: 6, y: 11)
+
+		let vicFacingAway = victim.vector(facing: CGPoint(x: 7, y: 12))
+		let vicFacingTowardAttacker = victim.vector(facing: attacker)
+		let vicFacingLeft = victim.vector(facing: CGPoint(x: 5, y: 12))
+
+		let attackerFacingAway = attacker.vector(facing: CGPoint(x: 4, y: 9))
+		let attackerFacingLeft = attacker.vector(facing: CGPoint(x: 4, y: 11))
+		let attackerTowardVictim = attacker.vector(facing: victim)
+
+		// victim facing directly away
+		XCTAssertTrue(attacker.isBehind(point2: victim, facing: vicFacingAway, withLatitude: 0))
+		XCTAssertTrue(attacker.isBehind(point2: victim, facing: vicFacingAway, withLatitude: 0.5))
+		XCTAssertTrue(attacker.isBehind(point2: victim, facing: vicFacingAway, withLatitude: 1))
+		XCTAssertTrue(attacker.isBehind(point2: victim, facing: vicFacingAway, withLatitude: -0.5))
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingAway, withLatitude: -1))
+		XCTAssertTrue(attacker.isBehind(point2: victim, facing: vicFacingAway, withLatitude: -0.99))
+
+		// attacker facing directly at vic
+		XCTAssertTrue(victim.isInFront(of: attacker, facing: attackerTowardVictim, withLatitude: 0))
+		XCTAssertTrue(victim.isInFront(of: attacker, facing: attackerTowardVictim, withLatitude: 0.5))
+		XCTAssertTrue(victim.isInFront(of: attacker, facing: attackerTowardVictim, withLatitude: 1))
+		XCTAssertTrue(victim.isInFront(of: attacker, facing: attackerTowardVictim, withLatitude: -0.5))
+		XCTAssertFalse(victim.isInFront(of: attacker, facing: attackerTowardVictim, withLatitude: -1))
+		XCTAssertTrue(victim.isInFront(of: attacker, facing: attackerTowardVictim, withLatitude: -0.99))
+
+		// victim facing directly at attacker
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingTowardAttacker, withLatitude: 0))
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingTowardAttacker, withLatitude: 0.5))
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingTowardAttacker, withLatitude: -0.5))
+		XCTAssertTrue(attacker.isBehind(point2: victim, facing: vicFacingTowardAttacker, withLatitude: 1.00001))
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingTowardAttacker, withLatitude: 1))
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingTowardAttacker, withLatitude: 0.99))
+
+		// attacker facing directly away from vic
+		XCTAssertFalse(victim.isInFront(of: attacker, facing: attackerFacingAway, withLatitude: 0))
+		XCTAssertFalse(victim.isInFront(of: attacker, facing: attackerFacingAway, withLatitude: 0.5))
+		XCTAssertFalse(victim.isInFront(of: attacker, facing: attackerFacingAway, withLatitude: -0.5))
+
+		// victim facing to the left
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingLeft, withLatitude: 0))
+		XCTAssertTrue(attacker.isBehind(point2: victim, facing: vicFacingLeft, withLatitude: 0.5))
+		XCTAssertFalse(attacker.isBehind(point2: victim, facing: vicFacingLeft, withLatitude: -0.5))
+
+		// attacker facing to the left
+		XCTAssertFalse(victim.isInFront(of: attacker, facing: attackerFacingLeft, withLatitude: 0))
+		XCTAssertTrue(victim.isInFront(of: attacker, facing: attackerFacingLeft, withLatitude: 0.5))
+		XCTAssertFalse(victim.isInFront(of: attacker, facing: attackerFacingLeft, withLatitude: -0.5))
+
 	}
 
 	func testCGPointHashing() {
@@ -361,6 +448,5 @@ class VectorExtensionsTests: XCTestCase {
 		XCTAssertEqual(rangeC.interpolated(at: 0.5), 5, accuracy: 0.000000001)
 		XCTAssertEqual(rangeC.interpolated(at: -1), -10, accuracy: 0.000000001)
 		XCTAssertEqual(rangeC.interpolated(at: -1, clipped: false), -40, accuracy: 0.000000001)
-
 	}
 }

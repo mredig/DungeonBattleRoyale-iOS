@@ -46,6 +46,7 @@ extension CGSize {
 }
 
 extension CGPoint {
+	// MARK: - Point Conversion Properties
 	var vector: CGVector {
 		CGVector(dx: x, dy: y)
 	}
@@ -54,12 +55,21 @@ extension CGPoint {
 		CGSize(width: x, height: y)
 	}
 
+	// MARK: - Point convenience Operator Overloads
 	static func + (lhs: CGPoint, rhs: CGVector) -> CGPoint {
 		CGPoint(x: lhs.x + rhs.dx, y: lhs.y + rhs.dy)
 	}
 
 	static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
 		lhs + rhs.vector
+	}
+
+	static func - (lhs: CGPoint, rhs: CGVector) -> CGPoint {
+		lhs + rhs.inverted
+	}
+
+	static func - (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+		lhs + rhs.vector.inverted
 	}
 
 	/// multiply two points together
@@ -72,6 +82,7 @@ extension CGPoint {
 		lhs * CGPoint(x: rhs, y: rhs)
 	}
 
+	// MARK: - Point Initialization
 	init<IntNumber: BinaryInteger>(scalar: IntNumber) {
 		let value = CGFloat(scalar)
 		self.init(x: value, y: value)
@@ -82,6 +93,7 @@ extension CGPoint {
 		self.init(x: value, y: value)
 	}
 
+	// MARK: - Point Distance
 	/// calculate the distance between points
 	func distance(to point: CGPoint) -> CGFloat {
 		sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y))
@@ -99,6 +111,7 @@ extension CGPoint {
 		return abs(valueIsh - distanceIsh) <= slop
 	}
 
+	// MARK: - Point Stepping
 	/**
 	returns a point in the direction of the `toward` CGPoint, iterated at a speed of `speed` points per second. `interval`
 	is the duration of time since the last frame was updated
@@ -142,6 +155,7 @@ extension CGPoint {
 		self = stepped(withVector: vector, interval: interval)
 	}
 
+	// MARK: - Point Facing
 	/// Generates a vector in the direction of `facing`, optionally (default) normalized.
 	func vector(facing point: CGPoint, normalized normalize: Bool = true) -> CGVector {
 		let direction = vector.inverted + point.vector
@@ -164,11 +178,23 @@ extension CGPoint {
 
 	/// Determines whether the CGPoint instance is in front of the passed in CGPoint,
 	/// `point2`. `facing` is the `direction` that `point2` is facing.
-	/// `latitude` determines angle of cone 'in front of' `point2`. `-1` means
+	/// `latitude` determines angle of cone 'in front of' `point2`. `1` means
 	/// everything is in front of `point2`, `0` means everything directly beside and
-	/// behind, while `1` means NOTHING is in front.
+	/// behind, while `-1` means NOTHING is in front.
 	func isInFront(of point2: CGPoint, facing direction: CGVector, withLatitude latitude: CGFloat) -> Bool {
-		!isBehind(point2: point2, facing: direction, withLatitude: latitude)
+		let facingSelf = point2.vector(facing: self)
+		let normalDirection = direction.normalized
+
+		let dotProduct = facingSelf.dx * normalDirection.dx + facingSelf.dy * normalDirection.dy
+
+		return dotProduct > -latitude
+	}
+
+	// MARK: - Linear Interpolation
+	func interpolation(to point: CGPoint, location: CGFloat, clipped: Bool = true) -> CGPoint {
+		let location = clipped ? max(0, min(1, location)) : location
+		let difference = (point - self) * location
+		return self + difference
 	}
 }
 
@@ -252,6 +278,9 @@ extension Double {
 }
 
 extension CGFloat {
+	static var degToRadFactor = CGFloat.pi / 180
+	static var radToDegFactor = 180 / CGFloat.pi
+
 	var double: Double { Double(self) }
 }
 
