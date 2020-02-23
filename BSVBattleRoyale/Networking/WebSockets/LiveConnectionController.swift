@@ -35,7 +35,12 @@ class LiveConnectionController {
 
 	private var latencyPingTimer: Timer?
 	private let pingFailThreshold = 10
-	private var pings = Set<LatencyPing>()
+	private let pingQueue = DispatchQueue(label: "PingQueue")
+	private var _pings = Set<LatencyPing>()
+	private var pings: Set<LatencyPing> {
+		get { pingQueue.sync { _pings } }
+		set { pingQueue.sync { _pings = newValue } }
+	}
 
 	private let genesisTime: CFAbsoluteTime
 
