@@ -9,7 +9,7 @@
 void main() {
 	vec4 currentColor = texture2D(u_texture, v_tex_coord);
 
-	if (currentColor.a > 0.0) {
+	if (currentColor.a > 0.0 && (currentColor.r != currentColor.g && currentColor.g != currentColor.b)) {
 		currentColor.rgb += u_scale;
 		currentColor.rgb = min(currentColor.rgb, 1.0);
 	}
