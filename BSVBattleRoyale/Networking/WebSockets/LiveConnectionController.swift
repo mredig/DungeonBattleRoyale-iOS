@@ -34,6 +34,7 @@ class LiveConnectionController {
 	private var totalDataReceived = 0
 
 	private var latencyPingTimer: Timer?
+	private let pingFailThreshold = 10
 	private var pings = Set<LatencyPing>()
 
 	private let genesisTime: CFAbsoluteTime
@@ -136,7 +137,8 @@ class LiveConnectionController {
 		encodeAndSend(binaryMessage: message)
 		pings.insert(ping)
 
-		if pings.count > 10 {
+		removeIrrelevantlyOldPings()
+		if pings.count > pingFailThreshold {
 			NSLog("Too many dropped pings.")
 			disconnect()
 		}
@@ -223,6 +225,12 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		pings.remove(pingTime)
 		print("latency: \(difference) ms, datarate: sending \(dataRate.sendRate) kBps | rec \(dataRate.receiveRate) kBps | awaiting pings: \(pings.count)")
 		delegate?.socketLatencyUpdated(self, latency: difference)
+	}
+
+	private func removeIrrelevantlyOldPings() {
+		guard let pingTimer = latencyPingTimer else { return }
+		let oldestValue = Date(timeIntervalSinceNow: -pingTimer.timeInterval * TimeInterval(pingFailThreshold) * 10)
+		pings = pings.filter { $0.timestamp > oldestValue }
 	}
 
 	private func handlePositionPulse(from data: Data) {
