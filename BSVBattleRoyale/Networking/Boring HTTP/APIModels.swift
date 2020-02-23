@@ -62,7 +62,7 @@ struct PlayerInfo: Content {
 
 struct PlayerAttack: Content {
 	let attacker: String
-	let hits: [AttackContact]
+	let attackContacts: [AttackContact]
 }
 
 struct AttackContact: Content {

@@ -144,6 +144,10 @@ class Player: SKNode {
 		chatBubbleSprite.position = CGPoint(x: 0, y: nameSprite.calculateAccumulatedFrame().size.height + nameSprite.position.y + 30)
 
 		physicsBody = SKPhysicsBody(circleOfRadius: physicsBodyRadius)
+		physicsBody?.allowsRotation = false
+		physicsBody?.linearDamping = 1
+		physicsBody?.friction = 1
+		physicsBody?.mass *= 4
 		physicsBody?.categoryBitMask = playerBitmask
 		physicsBody?.contactTestBitMask = wallBitmask | doorBitmask //| playerBitmask
 		physicsBody?.collisionBitMask = wallBitmask | doorBitmask | playerBitmask
@@ -243,11 +247,23 @@ class Player: SKNode {
 		}
 	}
 
-	func hitAnimation() {
+	func hitAnimation(from direction: CGVector? = nil) {
 		let flashRed = SKAction.sequence([
 			SKAction.colorize(with: .red, colorBlendFactor: 0.5, duration: 0.05),
 			SKAction.colorize(with: .red, colorBlendFactor: 0, duration: 0.05)
 		])
+		guard !currentAnimations.contains(.jump) else { return }
+		let textures = Player.animationTextures(for: avatar, animationTitle: .jump)
+		let duration = TimeInterval(textures.count) * Player.animationFrameSpeed
+		currentAnimations.insert(.jump)
+		DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+			self.currentAnimations.remove(.jump)
+		}
+
+		if let direction = direction {
+			physicsBody?.applyImpulse(direction * 100)
+		}
+
 		playerSprite.run(flashRed)
 	}
 

@@ -219,15 +219,15 @@ class RoomScene: SKScene {
 		}
 	}
 
-	func attackReceived(from playerID: String, hitPlayers: [String]) {
+	func attackReceived(from playerID: String, attackContacts: [AttackContact]) {
 		if let player = otherPlayers[playerID] {
 			player.attack()
 		}
 
-		hitPlayers.forEach {
-			otherPlayers[$0]?.hitAnimation()
-			if currentPlayer?.id == $0 {
-				currentPlayer?.hitAnimation()
+		attackContacts.forEach {
+			otherPlayers[$0.victim]?.hitAnimation(from: $0.vector)
+			if currentPlayer?.id == $0.victim {
+				currentPlayer?.hitAnimation(from: $0.vector)
 			}
 		}
 	}
@@ -314,9 +314,9 @@ extension RoomScene: LiveInteractionDelegate {
 		}
 	}
 
-	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, hitPlayers: [String]) {
+	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, attackContacts: [AttackContact]) {
 		DispatchQueue.main.async {
-			self.attackReceived(from: playerID, hitPlayers: hitPlayers)
+			self.attackReceived(from: playerID, attackContacts: attackContacts)
 		}
 	}
 }

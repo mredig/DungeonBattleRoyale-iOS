@@ -19,7 +19,7 @@ protocol LiveInteractionDelegate: AnyObject {
 	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
 	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionPulseUpdate)
 	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String)
-	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, hitPlayers: [String])
+	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, attackContacts: [AttackContact])
 }
 
 class LiveConnectionController {
@@ -125,7 +125,7 @@ class LiveConnectionController {
 
 	func playerAttacked(facing: PlayerDirection, hits: [AttackContact]) {
 		guard connected else { return }
-		let message = WSMessage(messageType: .playerAttack, payload: PlayerAttack(attacker: playerID, hits: hits))
+		let message = WSMessage(messageType: .playerAttack, payload: PlayerAttack(attacker: playerID, attackContacts: hits))
 		encodeAndSend(binaryMessage: message)
 	}
 
@@ -249,6 +249,6 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 
 	private func handleAttackMessage(from data: Data) {
 		guard let attackMessage = extractPayload(of: PlayerAttack.self, from: data) else { return }
-		liveInteractionDelegate?.attackBroadcastReceived(on: self, from: attackMessage.attacker, hitPlayers: [])
+		liveInteractionDelegate?.attackBroadcastReceived(on: self, from: attackMessage.attacker, attackContacts: attackMessage.attackContacts)
 	}
 }
