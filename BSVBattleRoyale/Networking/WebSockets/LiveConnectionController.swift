@@ -123,10 +123,9 @@ class LiveConnectionController {
 		encodeAndSend(binaryMessage: message)
 	}
 
-	func playerAttacked(facing: PlayerDirection, hit players: [Player]) {
+	func playerAttacked(facing: PlayerDirection, hits: [AttackContact]) {
 		guard connected else { return }
-		let victimIDs = players.map { $0.id }
-		let message = WSMessage(messageType: .playerAttack, payload: PlayerAttack(attacker: playerID, hitPlayers: victimIDs))
+		let message = WSMessage(messageType: .playerAttack, payload: PlayerAttack(attacker: playerID, hits: hits))
 		encodeAndSend(binaryMessage: message)
 	}
 
@@ -250,6 +249,6 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 
 	private func handleAttackMessage(from data: Data) {
 		guard let attackMessage = extractPayload(of: PlayerAttack.self, from: data) else { return }
-		liveInteractionDelegate?.attackBroadcastReceived(on: self, from: attackMessage.attacker, hitPlayers: attackMessage.hitPlayers)
+		liveInteractionDelegate?.attackBroadcastReceived(on: self, from: attackMessage.attacker, hitPlayers: [])
 	}
 }

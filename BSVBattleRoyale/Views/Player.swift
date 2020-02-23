@@ -66,6 +66,9 @@ class Player: SKNode {
 		guard let parent = parent else { return .zero }
 		return parent.convert(.zero, from: hitContact)
 	}
+	var physicsBodyRadius: CGFloat {
+		playerSprite.size.width / 3
+	}
 	let touchbox: TouchBox = {
 		let box = TouchBox(size: CGSize(scalar: 60), color: .clear)
 		box.zPosition = 3
@@ -140,7 +143,7 @@ class Player: SKNode {
 		addChild(chatBubbleSprite)
 		chatBubbleSprite.position = CGPoint(x: 0, y: nameSprite.calculateAccumulatedFrame().size.height + nameSprite.position.y + 30)
 
-		physicsBody = SKPhysicsBody(circleOfRadius: playerSprite.size.width / 3)
+		physicsBody = SKPhysicsBody(circleOfRadius: physicsBodyRadius)
 		physicsBody?.categoryBitMask = playerBitmask
 		physicsBody?.contactTestBitMask = wallBitmask | doorBitmask //| playerBitmask
 		physicsBody?.collisionBitMask = wallBitmask | doorBitmask | playerBitmask

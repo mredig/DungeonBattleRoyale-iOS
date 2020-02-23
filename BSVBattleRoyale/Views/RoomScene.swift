@@ -115,17 +115,35 @@ class RoomScene: SKScene {
 		liveController?.updatePlayerPosition(player.position, trajectory: trajectory)
 	}
 
-	private func didAttackLand(on victim: Player, from strikePosition: CGPoint, facing: CGVector) -> Bool {
+	/// Returns 0 if the attack didn't land
+	private func meleeAttackStrength(on victim: Player, from strikePosition: CGPoint, facing: CGVector) -> CGFloat {
 		if victim.position.isInFront(of: strikePosition, facing: facing, withLatitude: 0.75) {
 			let distance = victim.position.distance(to: strikePosition)
-			if distance < 60 {
-				return true
+			let maxDistance: CGFloat = 65
+			let playerHitboxRadius = victim.physicsBodyRadius
+			if distance < maxDistance {
+				let strength = 1 - CGFloat((0...maxDistance - playerHitboxRadius).linearPoint(of: distance - playerHitboxRadius))
+				return strength
 			} else {
-				return false
+				return 0
 			}
 		} else {
-			return false
+			return 0
 		}
+	}
+
+	private func allMeleeAttackVictims() -> [AttackContact] {
+		guard let player = currentPlayer else { return [] }
+
+		var contacts = [AttackContact]()
+		let strikePos = player.strikePosition
+		for (id, otherPlayer) in otherPlayers {
+			let strength = meleeAttackStrength(on: otherPlayer, from: strikePos, facing: player.direction.facingVector)
+			guard strength > 0 else { continue }
+			let hitVector = strikePos.vector(facing: otherPlayer.position)
+			contacts.append(AttackContact(victim: id, vector: hitVector, strength: strength))
+		}
+		return contacts
 	}
 
 	// MARK: - game loop
@@ -137,14 +155,13 @@ class RoomScene: SKScene {
 		liveController?.sendPositionPulse(player.position, trajectory: player.trajectory)
 
 		// FIXME: For debugging
-//		for sample in sampleSprites {
-//			if sample.position.isInFront(of: player.position, facing: player.direction.facingVector, withLatitude: 0.9) {
-//				sample.color = .green
-//				sample.colorBlendFactor = 1
-//			} else {
-//				sample.color = .red
-//			}
+//		#if DEBUG
+//		let strikePosition = player.strikePosition
+//		for otherPlayer in otherPlayers.values {
+//			otherPlayer.color = meleeAttackStrength(on: otherPlayer, from: strikePosition, facing: player.direction.facingVector) > 0 ? .green : .red
+//			otherPlayer.colorBlendFactor = 1
 //		}
+//		#endif
 	}
 
 	// MARK: - other player interaction
@@ -271,7 +288,8 @@ extension RoomScene: PlayerInteractionDelegate {
 	func player(_ player: Player, attackedFacing facing: PlayerDirection) {
 		// this will get the closest players, but theres more to account for like the direction faced, a good distance value to calculate, hitboxes, etc
 //		let closestPlayers = otherPlayers.filter { $0.value.position.distance(to: player.position, isWithin: 40) }.map { $0.value }
-		liveController?.playerAttacked(facing: facing, hit: [])
+		let hits = allMeleeAttackVictims()
+		liveController?.playerAttacked(facing: facing, hits: hits)
 	}
 }
 

@@ -9,8 +9,10 @@
 import Foundation
 import CoreGraphics
 
+/// makes keeping vapor code and this code synced easier
+fileprivate typealias Content = Codable
 
-struct PlayerInit: Codable {
+struct PlayerInit: Content {
 	let playerID: String
 	let username: String
 	let roomID: Int
@@ -19,7 +21,7 @@ struct PlayerInit: Codable {
 }
 
 
-struct PlayerMove: Codable {
+struct PlayerMove: Content {
 	let currentRoom: Int
 	let spawnLocation: CGPoint
 	let otherPlayersInRoom: [String]
@@ -31,7 +33,7 @@ struct PlayerState {
 	var spawnLocation: CGPoint
 }
 
-struct PositionPulseUpdate: Codable {
+struct PositionPulseUpdate: Content {
 	let position: CGPoint
 	let trajectory: CGVector
 	let playerID: String?
@@ -48,21 +50,27 @@ struct PositionPulseUpdate: Codable {
 	}
 }
 
-struct ChatMessage: Codable {
+struct ChatMessage: Content {
 	let message: String
 	let playerID: String
 }
 
-struct PlayerInfo: Codable {
+struct PlayerInfo: Content {
 	let avatar: Int
 	let username: String
 }
 
-struct PlayerAttack: Codable {
+struct PlayerAttack: Content {
 	let attacker: String
-	let hitPlayers: [String]
+	let hits: [AttackContact]
 }
 
-struct LatencyPing: Codable, Hashable {
+struct AttackContact: Content {
+	let victim: String
+	let vector: CGVector
+	let strength: CGFloat
+}
+
+struct LatencyPing: Content, Hashable {
 	let timestamp: Date
 }
