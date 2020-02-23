@@ -449,4 +449,21 @@ class VectorExtensionsTests: XCTestCase {
 		XCTAssertEqual(rangeC.interpolated(at: -1), -10, accuracy: 0.000000001)
 		XCTAssertEqual(rangeC.interpolated(at: -1, clipped: false), -40, accuracy: 0.000000001)
 	}
+
+	func testRangeLinearPoint() {
+		let rangeA = 0...100.0
+		let rangeB = 20...40.0
+
+		XCTAssertEqual(rangeA.linearPoint(of: 50), 0.5, accuracy: 0.000000001)
+		XCTAssertEqual(rangeA.linearPoint(of: 25), 0.25, accuracy: 0.000000001)
+		XCTAssertEqual(rangeA.linearPoint(of: -10), 0, accuracy: 0.000000001)
+		XCTAssertEqual(rangeA.linearPoint(of: -10, clipped: false), -0.1, accuracy: 0.000000001)
+
+		XCTAssertEqual(rangeB.linearPoint(of: 20), 0, accuracy: 0.000000001)
+		XCTAssertEqual(rangeB.linearPoint(of: 30), 0.5, accuracy: 0.000000001)
+		XCTAssertEqual(rangeB.linearPoint(of: 40), 1, accuracy: 0.000000001)
+		XCTAssertEqual(rangeB.linearPoint(of: 45), 1, accuracy: 0.000000001)
+		XCTAssertEqual(rangeB.linearPoint(of: 45, clipped: false), 1.25, accuracy: 0.000000001)
+
+	}
 }
