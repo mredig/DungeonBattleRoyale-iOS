@@ -27,11 +27,23 @@ extension CGSize {
 	}
 
 	static func + (lhs: CGSize, rhs: CGFloat) -> CGSize {
-		CGSize(width: lhs.width + rhs, height: lhs.height + rhs)
+		lhs + CGSize(scalar: rhs)
 	}
 
 	static func + (lhs: CGSize, rhs: CGSize) -> CGSize {
 		CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
+	}
+
+	static func - (lhs: CGSize, rhs: CGFloat) -> CGSize {
+		lhs - CGSize(scalar: rhs)
+	}
+
+	static func - (lhs: CGSize, rhs: CGSize) -> CGSize {
+		lhs + -rhs
+	}
+
+	static prefix func - (size: CGSize) -> CGSize {
+		CGSize(width: -size.width, height: -size.height)
 	}
 
 	init<IntNumber: BinaryInteger>(scalar: IntNumber) {

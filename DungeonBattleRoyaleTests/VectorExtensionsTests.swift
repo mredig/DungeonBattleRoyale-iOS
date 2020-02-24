@@ -398,14 +398,22 @@ class VectorExtensionsTests: XCTestCase {
 		let sizeA = CGSize(width: 3, height: 4)
 		let sizeB = CGSize(width: 10, height: 15)
 
+		XCTAssertEqual(-sizeA, CGSize(width: -3, height: -4))
+
 		let size2 = sizeA * 2
 		XCTAssertEqual(size2, CGSize(width: 6, height: 8))
 
 		let sizePlus2 = sizeA + 2
 		XCTAssertEqual(sizePlus2, CGSize(width: 5, height: 6))
 
+		let sizeMinus2 = sizeA - 2
+		XCTAssertEqual(sizeMinus2, CGSize(width: 1, height: 2))
+
 		let sizeAB = sizeA + sizeB
 		XCTAssertEqual(sizeAB, CGSize(width: 13, height: 19))
+
+		let sizeAMinusB = sizeA - sizeB
+		XCTAssertEqual(sizeAMinusB, CGSize(width: -7, height: -11))
 
 		let sizeC = sizeA * sizeB
 		XCTAssertEqual(sizeC, CGSize(width: 30, height: 60))
