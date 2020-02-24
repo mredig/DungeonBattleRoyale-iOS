@@ -115,7 +115,9 @@ class Player: SKNode {
 
 	weak var interactionDelegate: PlayerInteractionDelegate?
 
-	var trajectory: CGVector
+	var impactTrajectory: CGVector = .zero
+	var impactVelocity: CGFloat = 0
+	var trajectory: CGVector = .zero
 	var destination: CGPoint?
 
 	// MARK: - Lifecycle
@@ -135,7 +137,6 @@ class Player: SKNode {
 		nameSprite.fontSize = 20
 		nameSprite.fontName = "Verdana"
 		chatBubbleSprite = ChatBubble()
-		trajectory = .zero
 		super.init()
 		self.position = position
 		addChild(playerSprite)
@@ -202,7 +203,7 @@ class Player: SKNode {
 	}
 
 	private func stepInTrajectory(interval: TimeInterval) {
-		if trajectory == .zero {
+		if trajectory == .zero && impactVelocity == 0 {
 			if let destination = destination, destination != position {
 				stepTowardsDestination(interval: interval, destination: destination)
 			} else {
@@ -212,10 +213,18 @@ class Player: SKNode {
 			return
 		}
 
-		direction = trajectory.dx > 0 ? .right : .left
 
-		position.step(withNormalizedVector: trajectory, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
-		currentAnimations.insert(.walk)
+		// test using trajectory and vel now
+		if trajectory != .zero {
+			direction = trajectory.dx > 0 ? .right : .left
+			position.step(withNormalizedVector: trajectory, interval: interval, speed: movementSpeed * movementSpeedMultiplier)
+			currentAnimations.insert(.walk)
+		}
+		if impactVelocity != 0 {
+			position.step(withNormalizedVector: impactTrajectory, interval: interval, speed: impactVelocity)
+			impactVelocity *= 0.85
+			impactVelocity = impactVelocity < 0.05 ? 0 : impactVelocity
+		}
 	}
 
 	private func stepTowardsDestination(interval: TimeInterval, destination: CGPoint) {
@@ -261,7 +270,8 @@ class Player: SKNode {
 		}
 
 		if let direction = direction {
-			physicsBody?.applyImpulse(direction * 100)
+			impactTrajectory = direction
+			impactVelocity = 750
 		}
 
 		playerSprite.run(flashRed)
