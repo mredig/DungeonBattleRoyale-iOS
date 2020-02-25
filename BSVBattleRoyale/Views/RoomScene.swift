@@ -224,10 +224,17 @@ class RoomScene: SKScene {
 			player.attack()
 		}
 
+		let attackClosure = { (victim: Player, hitVector: CGVector) -> Void in
+			victim.hitAnimation(from: hitVector)
+			// FIXME: just temporary until server comm for health works
+			victim.currentHP -= 10
+		}
+
 		attackContacts.forEach {
-			otherPlayers[$0.victim]?.hitAnimation(from: $0.vector)
-			if currentPlayer?.id == $0.victim {
-				currentPlayer?.hitAnimation(from: $0.vector)
+			if let victim = otherPlayers[$0.victim] {
+				attackClosure(victim, $0.vector)
+			} else if currentPlayer?.id == $0.victim, let victim = currentPlayer {
+				attackClosure(victim, $0.vector)
 			}
 		}
 	}
