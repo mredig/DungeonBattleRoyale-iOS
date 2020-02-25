@@ -36,6 +36,7 @@
 		33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */; };
 		33D3AFD123FCDBEC00B91D03 /* Shine.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 33D3AFD023FCDBEC00B91D03 /* Shine.fsh */; };
 		33D3AFD323FCDD8900B91D03 /* SKShader+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3AFD223FCDD8900B91D03 /* SKShader+Convenience.swift */; };
+		33EBF864240399D700A96CE6 /* HealthBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EBF863240399D700A96CE6 /* HealthBar.swift */; };
 		33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBB23EA2C6700953583 /* RoomSprite.swift */; };
 		33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */; };
 		33FB437C23EA35C800D1DDC8 /* VectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */; };
@@ -95,6 +96,7 @@
 		33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = YellowMonster.atlas; sourceTree = "<group>"; };
 		33D3AFD023FCDBEC00B91D03 /* Shine.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shine.fsh; sourceTree = "<group>"; };
 		33D3AFD223FCDD8900B91D03 /* SKShader+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKShader+Convenience.swift"; sourceTree = "<group>"; };
+		33EBF863240399D700A96CE6 /* HealthBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthBar.swift; sourceTree = "<group>"; };
 		33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorSprite.swift; sourceTree = "<group>"; };
 		33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensions.swift; sourceTree = "<group>"; };
 		33FB437E23EA35D000D1DDC8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				3366ECB523EA2BB400953583 /* Player.swift */,
+				33EBF863240399D700A96CE6 /* HealthBar.swift */,
 				3325404523FCAEE600B528BE /* Touchbox.swift */,
 				331B868E23ECD75A00B45F18 /* ChatBubble.swift */,
 				3366ECBB23EA2C6700953583 /* RoomSprite.swift */,
@@ -474,6 +477,7 @@
 				3301028723EAAC3D00400F34 /* Constants.swift in Sources */,
 				33FB437F23EA35D000D1DDC8 /* MapController.swift in Sources */,
 				331B869723ED194800B45F18 /* AvatarSelectionContainer.swift in Sources */,
+				33EBF864240399D700A96CE6 /* HealthBar.swift in Sources */,
 				331B869323ED043A00B45F18 /* AvatarCollectionViewCell.swift in Sources */,
 				3301028D23EB3ACC00400F34 /* APIModels.swift in Sources */,
 				33FB438123EA362100D1DDC8 /* RoomCollection.swift in Sources */,

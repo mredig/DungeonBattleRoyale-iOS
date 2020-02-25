@@ -74,8 +74,9 @@ class Player: SKNode {
 		box.zPosition = 3
 		return box
 	}()
+	private let healthBar = HealthBar(hp: 100, size: CGSize(width: 100, height: 10), borderWidth: 3)
 	private let nameSprite: SKLabelNode
-	private let chatBubbleSprite: ChatBubble
+	private let chatBubbleSprite = ChatBubble()
 	var avatar: Avatar {
 		didSet {
 			updateAvatar()
@@ -120,6 +121,15 @@ class Player: SKNode {
 	var trajectory: CGVector = .zero
 	var destination: CGPoint?
 
+	var currentHP: Int {
+		get { healthBar.currentHP }
+		set { healthBar.currentHP = newValue }
+	}
+	var maxHP: Int {
+		get { healthBar.maxHP }
+		set { healthBar.maxHP = newValue }
+	}
+
 	// MARK: - Lifecycle
 	init(avatar: Avatar, id: String, username: String, position: CGPoint) {
 		self.avatar = avatar
@@ -136,12 +146,13 @@ class Player: SKNode {
 		nameSprite.position = CGPoint(x: 0, y: playerSprite.size.height / 2)
 		nameSprite.fontSize = 20
 		nameSprite.fontName = "Verdana"
-		chatBubbleSprite = ChatBubble()
+		healthBar.position = nameSprite.position + CGPoint(x: 0, y: 20)
 		super.init()
 		self.position = position
 		addChild(playerSprite)
 		addChild(nameSprite)
 		addChild(chatBubbleSprite)
+		addChild(healthBar)
 		chatBubbleSprite.position = CGPoint(x: 0, y: nameSprite.calculateAccumulatedFrame().size.height + nameSprite.position.y + 30)
 
 		physicsBody = SKPhysicsBody(circleOfRadius: physicsBodyRadius)
@@ -212,7 +223,6 @@ class Player: SKNode {
 			}
 			return
 		}
-
 
 		// test using trajectory and vel now
 		if trajectory != .zero {
