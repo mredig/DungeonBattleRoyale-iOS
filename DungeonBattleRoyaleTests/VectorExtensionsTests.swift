@@ -369,6 +369,20 @@ class VectorExtensionsTests: XCTestCase {
 		XCTAssertEqual(scalar35, CGVector(dx: 3.5, dy: 3.5))
 	}
 
+	func testCGVectorHashing() {
+		let point0 = CGVector.zero
+		let point1 = CGVector(dx: 1, dy: 0)
+		let point2 = CGVector(dx: 0, dy: 1)
+
+		let hash0 = point0.hashValue
+		let hash1 = point1.hashValue
+		let hash2 = point2.hashValue
+
+		XCTAssertNotEqual(hash0, hash1)
+		XCTAssertNotEqual(hash0, hash2)
+		XCTAssertNotEqual(hash1, hash2)
+	}
+
 	func testRectUtilities() {
 		let size = CGSize(width: 10, height: 50)
 		let rect = CGRect(origin: .zero, size: size)

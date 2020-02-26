@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if os(macOS) || os(watchOS) || os(iOS) || os(tvOS)
 import CoreGraphics
+#endif
 
 extension CGSize {
 	var point: CGPoint {
@@ -217,11 +219,32 @@ extension CGPoint: Hashable {
 	}
 }
 
+#if !os(Linux)
 extension CGAffineTransform {
 	var offset: CGPoint {
 		CGPoint(x: tx, y: ty)
 	}
 }
+#endif
+
+#if os(Linux)
+typealias CGVector = CGPoint
+
+extension CGPoint {
+	var dx: CGFloat {
+		get { x }
+		set { x = newValue }
+	}
+	var dy: CGFloat {
+		get { y }
+		set { y = newValue }
+	}
+
+	init(dx: CGFloat, dy: CGFloat) {
+		self.init(x: dx, y: dy)
+	}
+}
+#endif
 
 extension CGVector {
 	var normalized: CGVector {
@@ -242,6 +265,7 @@ extension CGVector {
 		CGPoint.zero.distance(to: self.point, is: 1.0)
 	}
 
+	#if !os(Linux)
 	static func + (lhs: CGVector, rhs: CGVector) -> CGVector {
 		CGVector(dx: lhs.dx + rhs.dx, dy: lhs.dy + rhs.dy)
 	}
@@ -249,6 +273,7 @@ extension CGVector {
 	static func * (lhs: CGVector, rhs: CGFloat) -> CGVector {
 		CGVector(dx: lhs.dx * rhs, dy: lhs.dy * rhs)
 	}
+	#endif
 
 	/// 0 is facing right. Moves CCW
 	init(fromRadian radian: CGFloat) {
@@ -270,6 +295,15 @@ extension CGVector {
 		self.init(dx: value, dy: value)
 	}
 }
+
+#if !os(Linux)
+extension CGVector: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(dx)
+		hasher.combine(dy)
+	}
+}
+#endif
 
 extension CGRect {
 	var maxXY: CGPoint {
