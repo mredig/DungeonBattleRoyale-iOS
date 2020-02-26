@@ -123,11 +123,17 @@ class Player: SKNode {
 
 	var currentHP: Int {
 		get { healthBar.currentHP }
-		set { healthBar.currentHP = newValue }
+		set {
+			healthBar.currentHP = newValue
+			updateDeathAnimationPriority()
+		}
 	}
 	var maxHP: Int {
 		get { healthBar.maxHP }
 		set { healthBar.maxHP = newValue }
+	}
+	var isAlive: Bool {
+		currentHP > 0
 	}
 
 	// MARK: - Lifecycle
@@ -195,6 +201,14 @@ class Player: SKNode {
 	private func updateAvatar() {
 		AnimationTitle.allCases.forEach { playerSprite.removeAction(forKey: "animation\($0.rawValue)") }
 		updateCurrentAnimation()
+	}
+
+	private func updateDeathAnimationPriority() {
+		if isAlive {
+			currentAnimations.remove(.die)
+		} else {
+			currentAnimations.insert(.die)
+		}
 	}
 
 	private func updateCurrentAnimation() {
@@ -314,6 +328,7 @@ class Player: SKNode {
 
 extension Player: TouchBoxDelegate {
 	func touchBegan(on touchBox: TouchBox, at location: CGPoint) {
+		guard isAlive else { return }
 		attack()
 	}
 }
@@ -352,11 +367,15 @@ extension Player {
 	}
 
 	static func animationAction(for avatar: Avatar, animationTitle: AnimationTitle) -> SKAction {
-		animationAction(with: animationTextures(for: avatar, animationTitle: animationTitle))
+		animationAction(with: animationTextures(for: avatar, animationTitle: animationTitle), holdLastFrame: animationTitle == .die)
 	}
 
-	static func animationAction(with textures: [SKTexture]) -> SKAction {
-		let animation = SKAction.animate(with: textures, timePerFrame: animationFrameSpeed)
-		return SKAction.repeatForever(animation)
+	static func animationAction(with textures: [SKTexture], holdLastFrame: Bool) -> SKAction {
+		var animation = SKAction.animate(with: textures, timePerFrame: animationFrameSpeed)
+		if holdLastFrame, let last = textures.last {
+			let repeatLastForever = SKAction.repeatForever(SKAction.animate(with: [last], timePerFrame: 1))
+			animation = SKAction.sequence([animation, repeatLastForever])
+		}
+		return animation
 	}
 }

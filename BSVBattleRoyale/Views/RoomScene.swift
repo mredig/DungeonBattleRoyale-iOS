@@ -104,9 +104,9 @@ class RoomScene: SKScene {
 	}
 
 	private func setPlayerTrajectory(towards location: CGPoint) {
-		guard let trajectory = currentPlayer?.position.vector(facing: location) else { return }
+		guard let player = currentPlayer, player.isAlive else { return }
+		let trajectory = player.position.vector(facing: location)
 		currentPlayer?.trajectory = trajectory
-		guard let player = currentPlayer else { return }
 		liveController?.updatePlayerPosition(player.position, trajectory: trajectory)
 	}
 
