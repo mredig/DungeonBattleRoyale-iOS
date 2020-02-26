@@ -217,7 +217,11 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		do {
 			return try data.extractPayload(payloadType: type)
 		} catch {
+			let (_, extractedData) = data.separateMagicAndData()
 			NSLog("Error decoding payload of type \(type): \(error)")
+			if let plist = try? PropertyListSerialization.propertyList(from: extractedData, options: [], format: nil) {
+				print("Extracted data: \(plist)")
+			}
 			return nil
 		}
 	}

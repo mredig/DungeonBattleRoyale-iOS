@@ -49,8 +49,20 @@ extension Data {
 		return WSMessageType(rawValue: stringValue)
 	}
 
+	func separateMagicAndData() -> (payloadType: WSMessageType?, data: Data) {
+		let magic = self.getMagic()
+		let data: Data
+		if let magic = magic {
+			data = self.subdata(in: (magic.rawValue.count + 1)..<self.count)
+		} else {
+			data = self
+		}
+		return (magic, data)
+	}
+
 	func extractPayload<Payload: Codable>(payloadType: Payload.Type) throws -> Payload {
 		guard let magic = self.getMagic() else {
+			// include the first 20 bytes (or fewer if data is shorter) in the error
 			let high = Swift.min(self.count, 20)
 			throw WSMessageError.cantDecodeMagicString(bytes: Array(self[0..<high]))
 		}
