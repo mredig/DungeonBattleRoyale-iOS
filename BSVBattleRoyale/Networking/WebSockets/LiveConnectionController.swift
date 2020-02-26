@@ -16,8 +16,8 @@ protocol LiveConnectionControllerDelegate: AnyObject {
 }
 
 protocol LiveInteractionDelegate: AnyObject {
-	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String: PositionPulseUpdate])
-	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionPulseUpdate)
+	func pulseUpdates(on controller: LiveConnectionController, updates: Set<PulseUpdate>)
+	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionUpdate)
 	func chatReceived(on controller: LiveConnectionController, message: String, playerID: String)
 	func attackBroadcastReceived(on controller: LiveConnectionController, from playerID: String, attackContacts: [AttackContact])
 }
@@ -79,13 +79,13 @@ class LiveConnectionController {
 	}
 
 	// MARK: - Outgoing messages
-	private var lastCachedPosition: PositionPulseUpdate?
+	private var lastCachedPosition: PositionUpdate?
 	private let positionUpdateSendDelta: TimeInterval = 1/15
 	private var lastPositionUpdateSend = TimeInterval(0)
 	private var someTimer: Timer?
 	func updatePlayerPosition(_ position: CGPoint, trajectory: CGVector) {
 		guard connected else { return }
-		lastCachedPosition = PositionPulseUpdate(position: position, trajectory: trajectory)
+		lastCachedPosition = PositionUpdate(position: position, trajectory: trajectory)
 		let currentTime = CFAbsoluteTimeGetCurrent()
 		let nextValidSendTime = lastPositionUpdateSend + positionUpdateSendDelta
 
@@ -116,7 +116,7 @@ class LiveConnectionController {
 		let currentTime = CFAbsoluteTimeGetCurrent()
 
 		guard currentTime > lastPositionPulseSend + positionPulseSendDelta else { return }
-		let message = WSMessage(messageType: .positionPulse, payload: PositionPulseUpdate(position: position, trajectory: trajectory))
+		let message = WSMessage(messageType: .positionPulse, payload: PositionUpdate(position: position, trajectory: trajectory))
 
 		encodeAndSend(binaryMessage: message)
 		lastPositionPulseSend = currentTime
@@ -238,12 +238,12 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 	}
 
 	private func handlePositionPulse(from data: Data) {
-		guard let playerPositions = extractPayload(of: [String: PositionPulseUpdate].self, from: data) else { return }
-		liveInteractionDelegate?.positionPulse(on: self, updatedPositions: playerPositions)
+		guard let updates = extractPayload(of: Set<PulseUpdate>.self, from: data) else { return }
+		liveInteractionDelegate?.pulseUpdates(on: self, updates: updates)
 	}
 
 	private func handlePlayerPositionUpdate(from data: Data) {
-		guard let playerPosition = extractPayload(of: PositionPulseUpdate.self, from: data) else { return }
+		guard let playerPosition = extractPayload(of: PositionUpdate.self, from: data) else { return }
 		liveInteractionDelegate?.otherPlayerMoved(on: self, update: playerPosition)
 	}
 

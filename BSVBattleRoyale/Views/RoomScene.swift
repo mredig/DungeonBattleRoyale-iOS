@@ -15,7 +15,7 @@ protocol RoomSceneDelegate: AnyObject {
 
 class RoomScene: SKScene {
 
-	var otherPlayers = [String: Player]()
+	var allPlayers = [String: Player]()
 
 	let background = RoomSprite()
 	var currentPlayer: Player?
@@ -74,6 +74,7 @@ class RoomScene: SKScene {
 		currentPlayer?.enableTouchBox(true)
 		currentPlayer?.interactionDelegate = self
 
+		allPlayers[newPlayer.id] = newPlayer
 		loadInfoForPlayer(newPlayer)
 
 		let playerCamera = SKCameraNode()
@@ -137,7 +138,8 @@ class RoomScene: SKScene {
 
 		var contacts = [AttackContact]()
 		let strikePos = player.strikePosition
-		for (id, otherPlayer) in otherPlayers {
+		for (id, otherPlayer) in allPlayers {
+			guard otherPlayer != player else { continue }
 			let strength = meleeAttackStrength(on: otherPlayer, from: strikePos, facing: player.direction.facingVector)
 			guard strength > 0 else { continue }
 			let hitVector = strikePos.vector(facing: otherPlayer.position)
@@ -165,76 +167,66 @@ class RoomScene: SKScene {
 	}
 
 	// MARK: - other player interaction
-	func updateOtherPlayers(updatePlayers: [String: PositionPulseUpdate]) {
-		guard let currentPlayer = currentPlayer else { return }
-		var newPlayers = updatePlayers
-		var expiredPlayers = [Player]()
-		// dont track current player
-		newPlayers[currentPlayer.id] = nil
-
-		for (id, updatedPlayer) in otherPlayers {
-			guard let update = updatePlayers[id] else {
-				// if this player isn't in this update, mark them as expired
-				expiredPlayers.append(updatedPlayer)
-				continue
+	func updateFromPulse(updates: Set<PulseUpdate>) {
+		var extraPlayers = allPlayers
+		for update in updates {
+			// other or current player, already in scene
+			if let player = allPlayers[update.playerID] {
+				updateExistingPlayerHealth(player, healthUpdate: update.health)
+				if player != currentPlayer {
+					updateExistingPlayerPosition(player, positionUpdate: update.positionUpdate)
+				}
+			} else {
+				// new player - add to scene and initialize position
+				let positionUpdate = update.positionUpdate
+				let addtlPlayer = Player(avatar: .yellowMonster, id: update.playerID, username: "", position: positionUpdate.position)
+				addChild(addtlPlayer)
+				allPlayers[update.playerID] = addtlPlayer
+				addtlPlayer.setPosition(to: positionUpdate.position)
+				updateExistingPlayerHealth(addtlPlayer, healthUpdate: update.health)
+				loadInfoForPlayer(addtlPlayer)
 			}
-			// update any other consistent player's position
-			updateExistingPlayer(updatedPlayer, pulseInfo: update)
-			// unmark this player as a new player
-			newPlayers[id] = nil
+			extraPlayers[update.playerID] = nil
 		}
 
-		// add all new players to the scene and track them
-		for (id, newPlayer) in newPlayers {
-			let addtlPlayer = Player(avatar: .yellowMonster, id: id, username: "", position: newPlayer.position)
-			addChild(addtlPlayer)
-			otherPlayers[id] = addtlPlayer
-			addtlPlayer.setPosition(to: newPlayer.position)
-			loadInfoForPlayer(addtlPlayer)
-		}
-
-		// remove expired players
-		for delete in expiredPlayers {
-			otherPlayers[delete.id] = nil
-			RoomScene._playerInfo[delete.id] = nil
-			delete.removeFromParent()
+		for (id, deletePlayer) in extraPlayers {
+			allPlayers[id] = nil
+			RoomScene._playerInfo[id] = nil
+			deletePlayer.removeFromParent()
 		}
 	}
 
-	private func updateExistingPlayer(_ player: Player, pulseInfo: PositionPulseUpdate) {
+	private func updateExistingPlayerPosition(_ player: Player, positionUpdate: PositionUpdate) {
+		// don't change current player's position
+		guard player != currentPlayer else { return }
 		// update any other consistent player's position
-		if player.position.distance(to: pulseInfo.position, isWithin: 50) {
-			player.trajectory = pulseInfo.trajectory
-			player.destination = pulseInfo.position
+		if player.position.distance(to: positionUpdate.position, isWithin: 50) {
+			player.trajectory = positionUpdate.trajectory
+			player.destination = positionUpdate.position
 		} else {
-			player.setPosition(to: pulseInfo.position)
+			player.setPosition(to: positionUpdate.position)
 		}
+	}
+
+	private func updateExistingPlayerHealth(_ player: Player, healthUpdate: PlayerHealthUpdate) {
+		player.maxHP = healthUpdate.maxHP
+		player.currentHP = healthUpdate.currentHP
 	}
 
 	func chatReceived(from playerID: String, message: String) {
-		if let player = otherPlayers[playerID] {
+		if let player = allPlayers[playerID] {
 			player.say(message: message)
-		} else if currentPlayer?.id == playerID {
-			currentPlayer?.say(message: message)
 		}
 	}
 
 	func attackReceived(from playerID: String, attackContacts: [AttackContact]) {
-		if let player = otherPlayers[playerID] {
+		if let player = allPlayers[playerID] {
 			player.attack()
 		}
 
-		let attackClosure = { (victim: Player, hitVector: CGVector) -> Void in
-			victim.hitAnimation(from: hitVector)
-			// FIXME: just temporary until server comm for health works
-			victim.currentHP -= 10
-		}
-
 		attackContacts.forEach {
-			if let victim = otherPlayers[$0.victim] {
-				attackClosure(victim, $0.vector)
-			} else if currentPlayer?.id == $0.victim, let victim = currentPlayer {
-				attackClosure(victim, $0.vector)
+			if let victim = allPlayers[$0.victim] {
+				victim.hitAnimation(from: $0.vector)
 			}
 		}
 	}
@@ -293,8 +285,6 @@ extension RoomScene: SKPhysicsContactDelegate {
 // MARK: - Network interactions - xmit
 extension RoomScene: PlayerInteractionDelegate {
 	func player(_ player: Player, attackedFacing facing: PlayerDirection) {
-		// this will get the closest players, but theres more to account for like the direction faced, a good distance value to calculate, hitboxes, etc
-//		let closestPlayers = otherPlayers.filter { $0.value.position.distance(to: player.position, isWithin: 40) }.map { $0.value }
 		let hits = allMeleeAttackVictims()
 		liveController?.playerAttacked(facing: facing, hits: hits)
 	}
@@ -302,16 +292,16 @@ extension RoomScene: PlayerInteractionDelegate {
 
 // MARK: - Network interactions - rec
 extension RoomScene: LiveInteractionDelegate {
-	func positionPulse(on controller: LiveConnectionController, updatedPositions: [String : PositionPulseUpdate]) {
+	func pulseUpdates(on controller: LiveConnectionController, updates: Set<PulseUpdate>) {
 		DispatchQueue.main.async {
-			self.updateOtherPlayers(updatePlayers: updatedPositions)
+			self.updateFromPulse(updates: updates)
 		}
 	}
 
-	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionPulseUpdate) {
-		guard let updateID = update.playerID, updateID != currentPlayer?.id, let player = otherPlayers[updateID] else { return }
+	func otherPlayerMoved(on controller: LiveConnectionController, update: PositionUpdate) {
+		guard let updateID = update.playerID, updateID != currentPlayer?.id, let player = allPlayers[updateID] else { return }
 		DispatchQueue.main.async {
-			self.updateExistingPlayer(player, pulseInfo: update)
+			self.updateExistingPlayerPosition(player, positionUpdate: update)
 		}
 	}
 
