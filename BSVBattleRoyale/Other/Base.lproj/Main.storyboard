@@ -82,6 +82,16 @@
                                     <action selector="disconnectButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DzO-S4-hkc"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fcj-i4-TrZ">
+                                <rect key="frame" x="176" y="530.5" width="62" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="9Se-pN-dka"/>
+                                </constraints>
+                                <state key="normal" title="Respawn"/>
+                                <connections>
+                                    <action selector="respawnButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Oew-z7-0Iv"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Plg-SQ-GXv">
                                 <rect key="frame" x="20" y="824" width="374" height="38"/>
                                 <subviews>
@@ -107,8 +117,10 @@
                             <constraint firstAttribute="bottom" secondItem="hdR-J4-3VW" secondAttribute="bottom" id="3MX-1P-l1R"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="leading" secondItem="hdR-J4-3VW" secondAttribute="leading" id="3Od-hb-3vq"/>
                             <constraint firstItem="bB5-Jp-Yw5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="28" id="6oB-WQ-nYM"/>
+                            <constraint firstItem="Fcj-i4-TrZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8CM-PW-jm0"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="bottom" secondItem="hdR-J4-3VW" secondAttribute="bottom" id="8Rj-tA-lSd"/>
                             <constraint firstItem="hdR-J4-3VW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="A0r-1F-rEZ"/>
+                            <constraint firstItem="Fcj-i4-TrZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="100" id="CdG-Bc-nRN"/>
                             <constraint firstItem="Plg-SQ-GXv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ckc-s1-Yjf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Plg-SQ-GXv" secondAttribute="bottom" id="Kgd-0C-I1X"/>
                             <constraint firstItem="E8G-Au-edL" firstAttribute="top" secondItem="hdR-J4-3VW" secondAttribute="top" id="S8y-7E-bPz"/>
@@ -133,6 +145,7 @@
                         <outlet property="latencyLabel" destination="Rjk-ID-gz0" id="zrN-j4-6wV"/>
                         <outlet property="mapGroup" destination="E8G-Au-edL" id="nKX-6N-iOq"/>
                         <outlet property="mapImage" destination="r9A-6E-UFe" id="qbZ-GB-I6w"/>
+                        <outlet property="respawnButton" destination="Fcj-i4-TrZ" id="hJM-7C-LDI"/>
                         <outlet property="textFieldInputConstraint" destination="Kgd-0C-I1X" id="byt-ZI-aZw"/>
                     </connections>
                 </viewController>

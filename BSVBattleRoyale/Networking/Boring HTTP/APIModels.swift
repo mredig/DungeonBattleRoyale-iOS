@@ -20,7 +20,10 @@ struct PlayerInit: Content {
 	let avatar: Int
 }
 
-
+struct PlayerInitRepresentation: Content {
+	let playerAvatar: Int
+	let respawn: Bool
+}
 struct PlayerMove: Content {
 	let currentRoom: Int
 	let spawnLocation: CGPoint

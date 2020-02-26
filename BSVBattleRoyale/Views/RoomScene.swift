@@ -11,6 +11,7 @@ import SpriteKit
 
 protocol RoomSceneDelegate: AnyObject {
 	func player(_ currentPlayer: Player, enteredDoor: DoorSprite)
+	func playerDied(_ currentPlayer: Player)
 }
 
 class RoomScene: SKScene {
@@ -211,6 +212,10 @@ class RoomScene: SKScene {
 	private func updateExistingPlayerHealth(_ player: Player, healthUpdate: PlayerHealthUpdate) {
 		player.maxHP = healthUpdate.maxHP
 		player.currentHP = healthUpdate.currentHP
+
+		if player.currentHP == 0 && player == currentPlayer {
+			roomDelegate?.playerDied(player)
+		}
 	}
 
 	func chatReceived(from playerID: String, message: String) {

@@ -35,6 +35,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var mapGroup: UIView!
 	@IBOutlet weak var mapImage: UIImageView!
 	@IBOutlet weak var currentRoomMapImage: UIImageView!
+	@IBOutlet weak var respawnButton: UIButton!
 
 	@IBOutlet weak var chatTextField: UITextField!
 	@IBOutlet weak var chatSendButton: UIButton!
@@ -90,21 +91,19 @@ class ViewController: UIViewController {
 			case .success(let rooms):
 				let mc = MapController(roomCollection: rooms)
 				self.mapController = mc
-				self.initializePlayer()
+				self.initializePlayer(respawn: false)
+				DispatchQueue.main.async {
+					mc.scale = self.view.frame.width / max(mc.unscaledSize.width, mc.unscaledSize.height)
+					self.mapImage.image = self.mapController?.generateOverworldMap()
+				}
 			case .failure(let error):
 				NSLog("Failed getting world map: \(error)")
 			}
 		}
 	}
 
-	func initializePlayer() {
-		DispatchQueue.main.async {
-			if let mc = self.mapController {
-				mc.scale = self.view.frame.width / max(mc.unscaledSize.width, mc.unscaledSize.height)
-			}
-			self.mapImage.image = self.mapController?.generateOverworldMap()
-		}
-		apiController?.initializePlayer { [weak self] result in
+	func initializePlayer(respawn: Bool) {
+		apiController?.initializePlayer(respawn: respawn) { [weak self] result in
 			guard let self = self else { return }
 			switch result {
 			case .success(let playerInit):
@@ -134,6 +133,11 @@ class ViewController: UIViewController {
 			self.textFieldInputConstraint.constant = height
 			self.view.layoutSubviews()
 		}
+	}
+
+	@IBAction func respawnButtonPressed(_ sender: UIButton) {
+		initializePlayer(respawn: true)
+		respawnButton.isHidden = true
 	}
 
 	@IBAction func mapButtonPressed(_ sender: UIButton) {
@@ -234,5 +238,9 @@ extension ViewController: RoomSceneDelegate {
                 NSLog("Failed moving player: \(error)")
 			}
 		}
+	}
+
+	func playerDied(_ currentPlayer: Player) {
+		respawnButton.isHidden = false
 	}
 }

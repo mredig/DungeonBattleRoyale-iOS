@@ -65,7 +65,7 @@ class APIController {
 		}
 	}
 
-	func initializePlayer(completion: @escaping ((Result<PlayerInit, NetworkError>) -> Void)) {
+	func initializePlayer(respawn: Bool, completion: @escaping ((Result<PlayerInit, NetworkError>) -> Void)) {
 		guard let url = backendBaseURL?.appendingPathComponent("initialize"),
 			let token = token else { return }
 
@@ -74,8 +74,8 @@ class APIController {
 		request.addValue(.other(value: "Bearer \(token.token)"), forHTTPHeaderField: .commonKey(key: .authorization))
 		request.addValue(.contentType(type: .json), forHTTPHeaderField: .commonKey(key: .contentType))
 
-		let toServer = ["playerAvatar": selectedAvatar.rawValue]
-		request.encodeData(toServer)
+		let initRep = PlayerInitRepresentation(playerAvatar: selectedAvatar.rawValue, respawn: respawn)
+		request.encodeData(initRep)
 
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
