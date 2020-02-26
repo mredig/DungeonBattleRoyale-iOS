@@ -107,7 +107,8 @@ class ViewController: UIViewController {
 			guard let self = self else { return }
 			switch result {
 			case .success(let playerInit):
-				self.mapController?.currentRoom = self.mapController?.room(for: playerInit.roomID)
+				guard let room = self.mapController?.room(for: playerInit.roomID) else { return }
+				self.mapController?.changeRoom(room: room)
 				self.playerInfo = PlayerState(playerID: playerInit.playerID, spawnLocation: playerInit.spawnLocation)
 			case .failure(let error):
 				NSLog("Failed initing player: \(error)")
@@ -223,8 +224,14 @@ extension ViewController: RoomSceneDelegate {
 			guard let self = self else { return }
 			switch result {
 			case .success(let playerMove):
-				self.mapController?.currentRoom = self.mapController?.room(for: playerMove.currentRoom)
+				guard let room = self.mapController?.room(for: playerMove.currentRoom) else { return }
+				self.mapController?.changeRoom(room: room)
 				self.playerInfo.spawnLocation = playerMove.spawnLocation
+				if self.mapController?.enableFog == true {
+					DispatchQueue.main.async {
+						self.mapImage.image = self.mapController?.generateOverworldMap()
+					}
+				}
 			case .failure(let error):
                 if let terror = error as NetworkError? {
 					switch terror {

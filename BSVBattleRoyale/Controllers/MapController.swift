@@ -12,7 +12,14 @@ class MapController {
 	let rooms: RoomCollection
 	var scale: CGFloat
 
-	var currentRoom: Room? {
+	var enableFog = false
+
+	private var _visitedRooms = Set<Int>([0])
+	var visitedRooms: Set<Int> {
+		enableFog ? _visitedRooms : Set(rooms.rooms.keys)
+	}
+
+	private(set) var currentRoom: Room? {
 		didSet {
 			// FIXME: remove if no more problems with not finding room on server
 //			print(currentRoom)
@@ -69,6 +76,7 @@ class MapController {
 
 	func changeRoom(room: Room) {
 		currentRoom = room
+		_visitedRooms.insert(room.id)
 	}
 
 	private func drawRoom(_ room: Room, onContext context: UIGraphicsImageRendererContext, offset: CGVector, color: UIColor) {
@@ -114,8 +122,9 @@ class MapController {
 			context.cgContext.translateBy(x: 0, y: imageSize.height)
 			context.cgContext.scaleBy(x: 1, y: -1)
 
-			for (_, room) in rooms.rooms {
-				let color = room.position == .zero ? UIColor.darkGray : UIColor.lightGray
+			for roomID in visitedRooms {
+				guard let room = rooms.rooms[roomID] else { continue }
+				let color = room.position == .zero ? UIColor.black : UIColor.white
 				drawRoom(room, onContext: context, offset: unscaledOffset, color: color)
 			}
 		}

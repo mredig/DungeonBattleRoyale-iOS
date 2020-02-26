@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-struct Room: Codable {
+struct Room: Codable, Hashable {
 	let name: String
 	let position: CGPoint
 	let id: Int
