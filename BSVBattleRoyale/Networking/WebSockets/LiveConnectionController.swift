@@ -170,6 +170,22 @@ class LiveConnectionController {
 	}
 }
 
+// MARK: - Static
+extension LiveConnectionController {
+	private static let twoPlaceDecFormatter: NumberFormatter = {
+		let formatter = NumberFormatter()
+		formatter.numberStyle = .currency
+		formatter.currencySymbol = ""
+		formatter.locale = .current
+		return formatter
+	}()
+
+	static func formatNumber(_ number: Double) -> String {
+		let nsnum = NSNumber(value: number)
+		return twoPlaceDecFormatter.string(from: nsnum) ?? "0.0"
+	}
+}
+
 // MARK: - Delegate
 extension LiveConnectionController: WebSocketConnectionDelegate {
 	func onConnected(connection: WebSocketConnection) {
@@ -231,7 +247,8 @@ extension LiveConnectionController: WebSocketConnectionDelegate {
 		let difference = Date().timeIntervalSince(pingTime.timestamp) * 1000
 		let dataRate = tabulateDataRate()
 		pings.remove(pingTime)
-		print("latency: \(difference) ms, datarate: sending \(dataRate.sendRate) kBps | rec \(dataRate.receiveRate) kBps | awaiting pings: \(pings.count)")
+		let format = LiveConnectionController.formatNumber
+		print("latency: \(format(difference)) ms, datarate: sending \(format(dataRate.sendRate)) kBps | rec \(format(dataRate.receiveRate)) kBps | awaiting pings: \(pings.count)")
 		delegate?.socketLatencyUpdated(self, latency: difference)
 	}
 
