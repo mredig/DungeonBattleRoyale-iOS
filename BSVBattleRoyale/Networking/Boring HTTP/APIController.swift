@@ -80,7 +80,7 @@ class APIController {
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 
-	func fetchPlayerInfo(for id: String, completion: @escaping ((Result<PlayerInfo, NetworkError>) -> Void)) -> URLSessionDataTask? {
+	func fetchPlayerInfo(for id: String, completion: @escaping ((Result<PlayerInfo, NetworkError>) -> Void)) -> NetworkLoadingTask? {
 		guard let url = backendBaseURL?.appendingPathComponent("playerinfo"),
 			let token = token else { return nil }
 

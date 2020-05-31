@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import NetworkHandler
 
 
 protocol RoomSceneDelegate: AnyObject {
@@ -28,7 +29,7 @@ class RoomScene: SKScene {
 	var apiController: APIController?
 	weak var roomDelegate: RoomSceneDelegate?
 
-	private static var _playerInfoFetchTasks = [String: URLSessionDataTask]()
+	private static var _playerInfoFetchTasks = [String: NetworkLoadingTask]()
 	private static var _playerInfo = [String: PlayerInfo]()
 
 

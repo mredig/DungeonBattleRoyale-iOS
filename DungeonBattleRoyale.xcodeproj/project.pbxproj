@@ -12,10 +12,6 @@
 		3301028723EAAC3D00400F34 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028623EAAC3D00400F34 /* Constants.swift */; };
 		3301028B23EB3A9D00400F34 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028A23EB3A9D00400F34 /* APIController.swift */; };
 		3301028D23EB3ACC00400F34 /* APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3301028C23EB3ACB00400F34 /* APIModels.swift */; };
-		3301028F23EB3CE700400F34 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 3301028E23EB3CE700400F34 /* Cartfile */; };
-		3301029323EB3D0C00400F34 /* input.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029123EB3D0C00400F34 /* input.xcfilelist */; };
-		3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */ = {isa = PBXBuildFile; fileRef = 3301029223EB3D0C00400F34 /* output.xcfilelist */; };
-		3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3301029723EB3DE200400F34 /* NetworkHandler.framework */; };
 		3318AEF423FA4FCB001E1BC5 /* VectorExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3318AEF323FA4FCB001E1BC5 /* VectorExtensionsTests.swift */; };
 		331B868F23ECD75B00B45F18 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B868E23ECD75A00B45F18 /* ChatBubble.swift */; };
 		331B869323ED043A00B45F18 /* AvatarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B869223ED043900B45F18 /* AvatarCollectionViewCell.swift */; };
@@ -36,6 +32,8 @@
 		33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */; };
 		33D3AFD123FCDBEC00B91D03 /* Shine.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 33D3AFD023FCDBEC00B91D03 /* Shine.fsh */; };
 		33D3AFD323FCDD8900B91D03 /* SKShader+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3AFD223FCDD8900B91D03 /* SKShader+Convenience.swift */; };
+		33E4D019248371DD00CC0838 /* NetworkHandler in Frameworks */ = {isa = PBXBuildFile; productRef = 33E4D018248371DD00CC0838 /* NetworkHandler */; };
+		33E4D72B2408F7C100BD6C52 /* Doodads.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33E4D72A2408F7C100BD6C52 /* Doodads.atlas */; };
 		33EBF864240399D700A96CE6 /* HealthBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EBF863240399D700A96CE6 /* HealthBar.swift */; };
 		33FB437423EA2F2F00D1DDC8 /* RoomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366ECBB23EA2C6700953583 /* RoomSprite.swift */; };
 		33FB437623EA2F7700D1DDC8 /* DoorSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */; };
@@ -71,9 +69,6 @@
 		3301028623EAAC3D00400F34 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3301028A23EB3A9D00400F34 /* APIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		3301028C23EB3ACB00400F34 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
-		3301028E23EB3CE700400F34 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
-		3301029123EB3D0C00400F34 /* input.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = input.xcfilelist; sourceTree = "<group>"; };
-		3301029223EB3D0C00400F34 /* output.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = output.xcfilelist; sourceTree = "<group>"; };
 		3301029723EB3DE200400F34 /* NetworkHandler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkHandler.framework; path = Carthage/Build/iOS/NetworkHandler.framework; sourceTree = "<group>"; };
 		3318AEF323FA4FCB001E1BC5 /* VectorExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensionsTests.swift; sourceTree = "<group>"; };
 		331B868E23ECD75A00B45F18 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatBubble.swift; path = BSVBattleRoyale/Views/ChatBubble.swift; sourceTree = SOURCE_ROOT; };
@@ -96,6 +91,7 @@
 		33D2805E23EA422F00DE0E4C /* YellowMonster.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = YellowMonster.atlas; sourceTree = "<group>"; };
 		33D3AFD023FCDBEC00B91D03 /* Shine.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shine.fsh; sourceTree = "<group>"; };
 		33D3AFD223FCDD8900B91D03 /* SKShader+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKShader+Convenience.swift"; sourceTree = "<group>"; };
+		33E4D72A2408F7C100BD6C52 /* Doodads.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Doodads.atlas; sourceTree = "<group>"; };
 		33EBF863240399D700A96CE6 /* HealthBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthBar.swift; sourceTree = "<group>"; };
 		33FB437523EA2F7700D1DDC8 /* DoorSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorSprite.swift; sourceTree = "<group>"; };
 		33FB437A23EA35C800D1DDC8 /* VectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorExtensions.swift; sourceTree = "<group>"; };
@@ -123,7 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3301029823EB3DE200400F34 /* NetworkHandler.framework in Frameworks */,
+				33E4D019248371DD00CC0838 /* NetworkHandler in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +175,7 @@
 		33D2806023EA44C400DE0E4C /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
+				33E4D72A2408F7C100BD6C52 /* Doodads.atlas */,
 				334FA62F23EC025000CAEDC4 /* GreenMonster.atlas */,
 				334FA63023EC025000CAEDC4 /* PinkMonster.atlas */,
 				334FA63123EC025000CAEDC4 /* PurpleMonster.atlas */,
@@ -212,9 +209,6 @@
 			isa = PBXGroup;
 			children = (
 				331E7E5B23FA17430091026F /* README.md */,
-				3301028E23EB3CE700400F34 /* Cartfile */,
-				3301029123EB3D0C00400F34 /* input.xcfilelist */,
-				3301029223EB3D0C00400F34 /* output.xcfilelist */,
 				DCCE536D23E9F4610098464D /* BSVBattleRoyale */,
 				DCCE538423E9F4630098464D /* DungeonBattleRoyaleTests */,
 				DCCE536C23E9F4610098464D /* Products */,
@@ -323,7 +317,6 @@
 				DCCE536723E9F4610098464D /* Sources */,
 				DCCE536823E9F4610098464D /* Frameworks */,
 				DCCE536923E9F4610098464D /* Resources */,
-				3301029523EB3D1C00400F34 /* Run Script - Carthage */,
 				331E7E5D23FA220E0091026F /* Run Script - Increment Build Script */,
 			);
 			buildRules = (
@@ -332,6 +325,7 @@
 			);
 			name = DungeonBattleRoyale;
 			packageProductDependencies = (
+				33E4D018248371DD00CC0838 /* NetworkHandler */,
 			);
 			productName = BSVBattleRoyale;
 			productReference = DCCE536B23E9F4610098464D /* DungeonBattleRoyale.app */;
@@ -384,6 +378,7 @@
 			);
 			mainGroup = DCCE536223E9F4610098464D;
 			packageReferences = (
+				33E4D017248371DD00CC0838 /* XCRemoteSwiftPackageReference "NetworkHandler" */,
 			);
 			productRefGroup = DCCE536C23E9F4610098464D /* Products */;
 			projectDirPath = "";
@@ -401,7 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				334FA63223EC025000CAEDC4 /* GreenMonster.atlas in Resources */,
-				3301028F23EB3CE700400F34 /* Cartfile in Resources */,
+				33E4D72B2408F7C100BD6C52 /* Doodads.atlas in Resources */,
 				3366ECB023EA22EF00953583 /* Login.storyboard in Resources */,
 				DCCE537B23E9F4630098464D /* LaunchScreen.storyboard in Resources */,
 				331E7E5C23FA17430091026F /* README.md in Resources */,
@@ -411,8 +406,6 @@
 				334FA63423EC025000CAEDC4 /* PurpleMonster.atlas in Resources */,
 				33D2805F23EA422F00DE0E4C /* YellowMonster.atlas in Resources */,
 				DCCE537623E9F4610098464D /* Main.storyboard in Resources */,
-				3301029323EB3D0C00400F34 /* input.xcfilelist in Resources */,
-				3301029423EB3D0C00400F34 /* output.xcfilelist in Resources */,
 				334FA63323EC025000CAEDC4 /* PinkMonster.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,26 +420,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3301029523EB3D1C00400F34 /* Run Script - Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/input.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "Run Script - Carthage";
-			outputFileListPaths = (
-				"$(SRCROOT)/output.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n#/usr/local/bin/carthage outdated --xcode-warnings\n";
-		};
 		331E7E5D23FA220E0091026F /* Run Script - Increment Build Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -788,6 +761,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		33E4D017248371DD00CC0838 /* XCRemoteSwiftPackageReference "NetworkHandler" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mredig/NetworkHandler";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.12;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		33E4D018248371DD00CC0838 /* NetworkHandler */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33E4D017248371DD00CC0838 /* XCRemoteSwiftPackageReference "NetworkHandler" */;
+			productName = NetworkHandler;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DCCE536323E9F4610098464D /* Project object */;
 }
